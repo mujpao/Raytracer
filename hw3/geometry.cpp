@@ -528,8 +528,8 @@ Image Raytracer::raytrace(Camera cam, Scene scene) {
 	BYTE black[] = { 0, 0, 0 };
 	BYTE color[3];
 
-	float t;
-	LocalGeo local;
+	//float t;
+	//LocalGeo local;
 
 	Vec pixel_color;
 
@@ -537,31 +537,51 @@ Image Raytracer::raytrace(Camera cam, Scene scene) {
 		for (j = 0; j < cam.w; ++j) {
 
 			Ray ray(cam, i, j);
-			if (ray.intersect(scene, t, local)) {
+			
+			pixel_color = trace(ray, cam, scene, 0); // TODO start at 0 or 1?
 
-				//cout << i << ", " << j << ": " << t << endl;
-
-				pixel_color = local.shape_hit->ambient + local.shape_hit->emission;
-				for (auto & light : scene.lights) {
-					pixel_color = pixel_color + light->calc_lighting(cam.eye, scene, local); // TODO implement += for Vec
-				}
-
-				for (k = 0; k < 3; ++k) {
-					// change pixel_color to range 0 to 255
-					// make sure new values are not greater than 255
-					int new_color = (int)(pixel_color[k] * 255.0f);
-					if (new_color > 255)
-						new_color = 255;
-					color[k] = (BYTE)new_color;
-				}
-
-				image.color_pixel(i, j, color);
+			for (k = 0; k < 3; ++k) {
+				// change pixel_color to range 0 to 255
+				// make sure new values are not greater than 255
+				int new_color = (int)(pixel_color[k] * 255.0f);
+				if (new_color > 255)
+					new_color = 255;
+				color[k] = (BYTE)new_color;
 			}
-			else {
-				image.color_pixel(i, j, black);
-			}
+
+			image.color_pixel(i, j, color);
 		}
 	}
 
 	return image;
+}
+
+Raytracer::Raytracer(int max_depth) : max_depth(max_depth) {}
+
+Vec Raytracer::trace(Ray r, Camera cam, Scene scene, int num_recs) {
+	Vec color(0.0f, 0.0f, 0.0f);
+
+	if (num_recs > max_depth)
+		return color;
+
+	float t;
+	LocalGeo local;
+
+	if (!r.intersect(scene, t, local))
+		return color;
+
+	
+	// Illumination model
+	color = local.shape_hit->ambient + local.shape_hit->emission;
+	for (auto & light : scene.lights) {
+		color = color + light->calc_lighting(cam.eye, scene, local); // TODO implement += for Vec
+	}
+
+	// Reflected ray
+	Vec reflected_dir = r.dir - 2 * Transform::dot(r.dir, local.normal) * local.normal;
+	Ray reflected_ray(local.pos, reflected_dir, EPSILON);
+
+	color = color + local.shape_hit->specular * trace(reflected_ray, cam, scene, num_recs + 1);
+
+	return color;
 }

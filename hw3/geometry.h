@@ -190,5 +190,9 @@ public:
 class Raytracer {
 public:
 	Image raytrace(Camera cam, Scene scene);
+	Raytracer(int max_depth);
+private:
+	Vec trace(Ray r, Camera cam, Scene scene, int num_recs); // recursively determines the color of the intersection of ray with the scene
+	int max_depth;
 };
 #endif
