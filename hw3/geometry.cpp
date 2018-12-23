@@ -468,9 +468,9 @@ Camera::Camera(Vec eye, Vec center, Vec up, float fov, int w, int h)
 : eye(eye), center(center), up(up), w(w), h(h), fovy(fov)
 {
 	// convert fov to radians, store in fovy
-	fovy = fov * M_PI / 180;
+	fovy = fov * (float)(M_PI / 180.0);
 	// calculate fovx in radians
-	fovx = 2.0f * atan((double)w / (double)h) * tan(fovy / 2.0f);
+	fovx = 2.0f * atan(tan(fovy / 2.0f) * ((float)w / (float)h));
 
 	// construct coord frame (u_vec, v_vec, and w_vec)
 	Vec a = eye - center;
