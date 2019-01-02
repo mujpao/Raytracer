@@ -19,7 +19,7 @@ std::string outfile("output.png");
 int main(int argc, char * argv[]) {
 	//run_tests();
 	if (argc < 2) {
-		cerr << "Usage: not enough arguments\n";
+		cerr << "not enough arguments\n";
 		exit(-1);
 	}
 

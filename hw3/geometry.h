@@ -20,6 +20,8 @@ public:
 	Vec operator+(const Vec & v); // return type?
 	Vec operator-(const Vec & v);
 	friend std::ostream& operator<<(std::ostream& os, const Point& p);
+	Vec to_vec();
+
 	float x, y, z;
 	float w = 1; // w?
 };
@@ -37,6 +39,7 @@ public:
 	friend Vec operator*(const float & scalar, Vec v);
 	Vec operator/(const float & scalar);
 	friend std::ostream& operator<<(std::ostream& os, const Vec& v);
+	Point to_point();
 
 	float &operator[](int idx);
 	static Vec normalize(Vec & v);
@@ -82,12 +85,19 @@ public:
 	Mat4(float m[4][4]);
 	Mat4(float val); // sets diagonal to value, sets m[3][3] to 1.0f
 	Mat4(); // initializes all elements to 0, sets m[3][3] to 1.0f
-	Mat4(Mat3 other); // initializes with 3x3 matrix, sets m[3][3] to 1.0f
+	Mat4(Mat3 other); // initializes with 3x3 matrix, sets fourth row and column to 0 0 0 1
 
+	Mat4 operator+(const Mat4& other);
+	Mat4 operator-(const Mat4& other);
 	Mat4 operator*(const Mat4& other);
+
+	Mat4 operator*(const float & scalar);
+	friend Mat4 operator*(const float & scalar, Mat4 m);
+
 	friend Point operator*(const Mat4 & m, const Point & p);
 	friend Vec operator*(const Mat4 & m, const Vec & v);
 	friend Ray operator*(const Mat4 & m, const Ray & r);
+		friend Mat3 operator*(const float & scalar, Mat3 m);
 
 
 	float mat[4][4];
@@ -142,14 +152,21 @@ public:
 	float shininess;
 };
 
-/*class Triangle : public Shape {
+class Triangle : public Shape {
+public:
+	bool intersect(Ray& ray, float& thit, LocalGeo& local) override;
+	bool intersectP(Ray& ray) override;
+	Triangle(Point p1, Point p2, Point p3, Mat4 t, Vec d, Vec s, Vec e, Vec a, float shiny);
 
-};*/
+private:
+	void barycentric(Point p, float &u, float &v, float &w);
+	Point v1, v2, v3; // vertices
+};
 
 class Sphere : public Shape {
 public:
-	bool intersect(Ray& ray, float& thit, LocalGeo& local);
-	bool intersectP(Ray& ray);
+	bool intersect(Ray& ray, float& thit, LocalGeo& local)override ;
+	bool intersectP(Ray& ray) override;
 	Sphere(float cx, float cy, float cz, float r, Mat4 t, Vec d, Vec s, Vec e, Vec a, float shiny);
 	Vec center;
 	float radius;

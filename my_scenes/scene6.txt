@@ -1,0 +1,26 @@
+#testing transformations
+
+size 500 500
+
+camera 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 60.0
+
+# lights
+directional 0.6 0 0.1 1 0.5 0
+
+#directional 0.0 0 0.1 1 0.5 0
+# no attenuation
+point 0 -0.6 0.1 0.5 0.5 1
+
+
+# objects
+
+# materials
+ambient 1 0 0
+
+# just one sphere
+pushTransform
+
+translate 1 -1 -2
+scale 0.4 0.4 0.4
+sphere 0.0 0.0 -2.0 1.0
+popTransform

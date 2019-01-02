@@ -26,6 +26,9 @@ std::ostream& operator<<(std::ostream& os, const Point& p) {
 	return os;
 }
 
+Vec Point::to_vec() {
+	return Vec(x, y, z, 0);
+}
 
 Vec::Vec() : x(0.0f), y(0.0f), z(0.0f) {}
 
@@ -73,6 +76,10 @@ Vec Vec::operator/(const float & scalar) {
 std::ostream& operator<<(std::ostream& os, const Vec& v) {
 	os << "<" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ">";
 	return os;
+}
+
+Point Vec::to_point() {
+	return Point(x, y, z);
 }
 
 float & Vec::operator[](int idx) {
@@ -261,7 +268,38 @@ Mat4::Mat4(Mat3 other) {
 			mat[i][j] = other.mat[i][j];
 	}
 
+	// set fourth row and column
+	for (i = 0; i < 3; ++i) {
+		mat[i][3] = 0.0f;
+		mat[3][i] = 0.0f;
+	}
+
 	mat[3][3] = 1.0f;
+}
+
+Mat4 Mat4::operator+(const Mat4 & other) {
+	Mat4 result;
+
+	int i, j;
+	for (i = 0; i < 4; ++i) {
+		for (j = 0; j < 4; ++j) {
+			result.mat[i][j] = mat[i][j] + other.mat[i][j];
+		}
+	}
+
+	return result;
+}
+Mat4 Mat4::operator-(const Mat4 & other) {
+	Mat4 result;
+
+	int i, j;
+	for (i = 0; i < 4; ++i) {
+		for (j = 0; j < 4; ++j) {
+			result.mat[i][j] = mat[i][j] - other.mat[i][j];
+		}
+	}
+
+	return result;
 }
 
 Mat4 Mat4::operator*(const Mat4& other) {
@@ -277,6 +315,24 @@ Mat4 Mat4::operator*(const Mat4& other) {
 		}
 	}
 	return result;
+}
+
+
+Mat4 Mat4::operator*(const float & scalar) {
+	Mat4 result;
+
+	int i, j;
+	for (i = 0; i < 4; ++i) {
+		for (j = 0; j < 4; ++j) {
+			result.mat[i][j] = mat[i][j] * scalar;
+		}
+	}
+
+	return result;
+}
+
+Mat4 operator*(const float & scalar, Mat4 m) {
+	return m * scalar;
 }
 
 Point operator*(const Mat4 & m, const Point & p) {
@@ -388,8 +444,90 @@ DirLight::DirLight(Vec col, Vec dir)
 : Light(col), dir(Vec::normalize(dir)) {}
 
 Shape::Shape(Vec d, Vec s, Vec e, Vec a, float shiny)
-: diffuse(d), specular(s), emission(e), ambient(a), shininess(shiny)
+:  diffuse(d), specular(s), emission(e), ambient(a), shininess(shiny)
 {}
+
+bool Triangle::intersect(Ray& ray, float& thit, LocalGeo& local) {
+	Vec a = v1.to_vec();
+	Vec b = v2.to_vec();
+	Vec c = v3.to_vec();
+
+	Vec n = Vec::normalize(Transform::cross(b - a, c - a));
+	
+	float denom = Transform::dot(ray.dir, n);
+	if (denom == 0)
+		return false;
+
+	thit = (Transform::dot(a, n) - Transform::dot(ray.origin.to_vec(), n)) / denom;
+
+	// TODO inside triangle?
+
+	local.pos = ray.evaluate(thit).to_point();
+	local.normal = n;
+	local.shape_hit = this;
+
+	float alpha, beta, gamma;
+	barycentric(local.pos, alpha, beta, gamma);
+
+	if (alpha >= 0 && alpha <= 1 &&
+		beta >= 0 && beta <= 1 &&
+		gamma >= 0 && gamma <= 1)
+		return true;
+
+
+	return false;
+}
+
+
+bool Triangle::intersectP(Ray& ray) {
+	Vec a = v1.to_vec();
+	Vec b = v2.to_vec();
+	Vec c = v3.to_vec();
+
+	Vec n = Vec::normalize(Transform::cross(b - a, c - a));
+
+	float denom = Transform::dot(ray.dir, n);
+	if (denom == 0)
+		return false;
+
+	float thit;
+	thit = (Transform::dot(a, n) - Transform::dot(ray.origin.to_vec(), n)) / denom;
+
+
+	Point pos = ray.evaluate(thit).to_point();
+
+	float alpha, beta, gamma;
+	barycentric(pos, alpha, beta, gamma);
+
+	if (alpha >= 0 && alpha <= 1 &&
+		beta >= 0 && beta <= 1 &&
+		gamma >= 0 && gamma <= 1)
+		return true;
+
+
+	return false;
+}
+
+Triangle::Triangle(Point p1, Point p2, Point p3, Mat4 t, Vec d, Vec s, Vec e, Vec a, float shiny)
+: Shape(d, s, e, a, shiny), v1(t * p1), v2(t * p2), v3(t * p3) // apply transformation to vertices
+{}
+
+// from Real-Time Collision Detection
+void Triangle::barycentric(Point p, float &u, float &v, float &w)
+{
+	Vec a = v2.to_vec() - v1.to_vec();
+	Vec b = v3.to_vec() - v1.to_vec();
+	Vec c = p - v1.to_vec();
+	float d00 = Transform::dot(a, a);
+	float d01 = Transform::dot(a, b);
+	float d11 = Transform::dot(b, b);
+	float d20 = Transform::dot(c, a);
+	float d21 = Transform::dot(c, b);
+	float denom = d00 * d11 - d01 * d01;
+	v = (d11 * d20 - d01 * d21) / denom;
+	w = (d00 * d21 - d01 * d20) / denom;
+	u = 1.0f - v - w;
+}
 
 bool Sphere::intersect(Ray& ray, float& thit, LocalGeo& local) {
 	float a, b, c, disc;
@@ -434,7 +572,7 @@ bool Sphere::intersect(Ray& ray, float& thit, LocalGeo& local) {
 	Vec untransformed_normal = Vec::normalize(ray_tip - center);
 
 	local.pos = transformation * untransformed_point;
-	local.normal = Transform::transpose(Transform::inverse(transformation)) * untransformed_normal;
+	local.normal = Transform::transpose3x3(Transform::inverse3x3(transformation)) * untransformed_normal;
 	local.shape_hit = this;
 
 	return true;
@@ -455,14 +593,8 @@ bool Sphere::intersectP(Ray& ray) {
 }
 
 Sphere::Sphere(float cx, float cy, float cz, float r, Mat4 t, Vec d, Vec s, Vec e, Vec a, float shiny)
-: Shape(d, s, e, a, shiny)
-{
-	center.x = cx;
-	center.y = cy;
-	center.z = cz;
-	radius = r;
-	transformation = t;
-}
+: Shape(d, s, e, a, shiny), center(cx, cy, cz), radius(r), transformation(t)
+{}
 
 Camera::Camera(Vec eye, Vec center, Vec up, float fov, int w, int h)
 : eye(eye), center(center), up(up), w(w), h(h), fovy(fov)

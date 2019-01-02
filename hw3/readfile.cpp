@@ -81,10 +81,12 @@ void readfile(const char* filename)
 	Vec diffuse, specular, emission;
 	Vec color, direction;
 	Point light_location;
-	float shininess;
+	float shininess = 0; // default shininess value of 0
 	int i;
 	Vec attenuation = atten_default;
 	Vec ambient = ambient_default;
+
+	std::vector<Point> vertices;
 
 	in.open(filename);
 	if (in.is_open()) {
@@ -136,7 +138,7 @@ void readfile(const char* filename)
 						scene.lights.push_back(new PointLight(attenuation, color, light_location));
 					}
 					// reset attenuation regardless of whether input was valid
-					attenuation = atten_default;
+					//attenuation = atten_default;
 
 				}
 				else if (cmd == "attenuation") {
@@ -226,9 +228,20 @@ void readfile(const char* filename)
 					}
 				}
 
-				// I've left the code for loading objects in the skeleton, so 
-				// you can get a sense of how this works.  
-				// Also look at demo.txt to get a sense of why things are done this way.
+				else if (cmd == "maxverts") {
+					validinput = readvals(s, 1, values);
+
+					if (validinput) {
+						vertices.reserve(values[0]);
+					}
+				}
+				else if (cmd == "vertex") {
+					validinput = readvals(s, 3, values);
+
+					if (validinput) {
+						vertices.emplace_back(values[0], values[1], values[2]);
+					}
+				}
 				else if (cmd == "sphere" || cmd == "tri") {
 					
 						
@@ -238,14 +251,19 @@ void readfile(const char* filename)
 						if (validinput) {
 							// TODO free memory or use smart pointer
 							scene.objects.push_back(new Sphere(values[0], values[1], values[2], values[3], transfstack.top(), diffuse, specular, emission, ambient, shininess));
-							// TODO reset ambient to default
 						}
 					}
-					/*else if (cmd == "tri") {
-					}*/
+					else if (cmd == "tri") {
+						validinput = readvals(s, 3, values);
+
+						if (validinput) {
+							// TODO free memory or use smart pointer
+							scene.objects.push_back(new Triangle(vertices[values[0]], vertices[values[1]], vertices[values[2]], transfstack.top(), diffuse, specular, emission, ambient, shininess));
+						}
+					}
 					
 					// reset ambient to default
-					ambient = ambient_default;
+					//ambient = ambient_default;
 				}
 
 				else if (cmd == "translate") {

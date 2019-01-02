@@ -11,15 +11,21 @@ size 640 480
 #camera -4 0 1 0 0 1 0 0 1 45
 camera -4 -4 4 1 0 0 0 1 0 30
 
+# lights
+directional 0.6 0 0.1 1 0.5 0
+
+#directional 0.0 0 0.1 1 0.5 0
+# no attenuation
+point 0 -0.6 0.1 0.5 0.5 1
+
 # lighting/material definitions
 # for initial testing, you should get the geometry right
 # you may want to use dummy (constant) shading, ignoring these lines
 
-ambient .1 .1 .1
-directional 0 0 1 .5 .5 .5 
-point 4 0 4 .5 .5 .5
-diffuse 1 0 0 
-specular 0 0 0
+ambient 0 0 0
+diffuse 1 .25 0.25
+specular 1 1 1
+shininess 100
 
 # Now specify the geometry 
 # Again, for initial testing, maybe you want to implement a dummy 
