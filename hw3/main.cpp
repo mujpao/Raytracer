@@ -22,13 +22,13 @@ void run_grader() {
 								"scene7"
 								};*/
 
-	/*vector<string> filenames{ "scene4-ambient",
+	vector<string> filenames{ "scene4-ambient",
 		"scene4-diffuse",
 		"scene4-emission",
 		"scene4-specular"
-		};*/
+		};
 
-	vector<string> filenames{ "scene4-specular" };
+	//vector<string> filenames{ "scene4-specular" };
 
 	for (auto & filename : filenames) {
 		string infile = "..\\hw3-submissionscenes\\" + filename + ".test";
