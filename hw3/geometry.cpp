@@ -682,7 +682,7 @@ Image Raytracer::raytrace(Camera cam, Scene scene) {
 			Ray ray(cam, i, j);
 
 			
-			pixel_color = trace(ray, cam, scene, 0); // TODO start at 0 or 1?
+			pixel_color = trace(ray, scene, 0); // TODO start at 0 or 1?
 
 			for (k = 0; k < 3; ++k) {
 				// change pixel_color to range 0 to 255
@@ -702,7 +702,7 @@ Image Raytracer::raytrace(Camera cam, Scene scene) {
 
 Raytracer::Raytracer(int max_depth) : max_depth(max_depth) {}
 
-Vec Raytracer::trace(Ray r, Camera cam, Scene scene, int num_recs) {
+Vec Raytracer::trace(Ray r, Scene scene, int num_recs) {
 	Vec color(0.0f, 0.0f, 0.0f);
 
 	if (num_recs > max_depth)
@@ -718,14 +718,14 @@ Vec Raytracer::trace(Ray r, Camera cam, Scene scene, int num_recs) {
 	// Illumination model
 	color = local.shape_hit->ambient + local.shape_hit->emission;
 	for (auto & light : scene.lights) {
-		color = color + light->calc_lighting(cam.eye, scene, local); // TODO implement += for Vec
+		color = color + light->calc_lighting(r.origin.to_vec(), scene, local); // TODO implement += for Vec
 	}
 
 	// Reflected ray
 	Vec reflected_dir = r.dir - 2.0f * Transform::dot(r.dir, local.normal) * local.normal;
 	Ray reflected_ray(local.pos, reflected_dir, EPSILON);
 
-	color = color + local.shape_hit->specular * trace(reflected_ray, cam, scene, num_recs + 1);
+	color = color + local.shape_hit->specular * trace(reflected_ray, scene, num_recs + 1);
 
 	return color;
 }

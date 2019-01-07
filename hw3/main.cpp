@@ -9,7 +9,7 @@ using namespace std;
 #include "variables.h"
 
 
-//#define GRADING
+#define GRADING
 
 
 void run_grader() {
