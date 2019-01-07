@@ -679,8 +679,6 @@ Image Raytracer::raytrace(Camera cam, Scene scene) {
 	for (i = 0; i < cam.h; ++i) {
 		for (j = 0; j < cam.w; ++j) {
 
-			if (i == 147 && j == 298)
- 				cout << "here" << endl;
 			Ray ray(cam, i, j);
 
 			

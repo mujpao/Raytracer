@@ -19,6 +19,7 @@ public:
 	//static Mat4 transpose(Mat4 & m);
 	static Mat4 transpose3x3(Mat4 & m); // applied to upper left 3x3 only
 	static float trace(Mat4 & m);
+	static float trace3x3(Mat4 & m);
 };
 
 

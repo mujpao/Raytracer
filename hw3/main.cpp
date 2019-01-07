@@ -9,7 +9,7 @@ using namespace std;
 #include "variables.h"
 
 
-#define GRADING
+//#define GRADING
 
 
 void run_grader() {
@@ -28,7 +28,7 @@ void run_grader() {
 		"scene4-specular"
 		};*/
 
-	vector<string> filenames{ "scene4-diffuse" };
+	vector<string> filenames{ "scene4-specular" };
 
 	for (auto & filename : filenames) {
 		string infile = "..\\hw3-submissionscenes\\" + filename + ".test";

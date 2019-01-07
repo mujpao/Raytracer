@@ -112,9 +112,19 @@ Mat4 Transform::inverse(Mat4 & m) {
 Mat4 Transform::inverse3x3(Mat4 & m) {
 	float d = det3x3(m);
 	
-	Mat4 result = (1.0f / d) * Transform::transpose3x3(m);
+	Mat4 result;
 
-	return result;
+	result.mat[0][0] = m.mat[1][1] * m.mat[2][2] - m.mat[2][1] * m.mat[1][2];
+	result.mat[0][1] = m.mat[0][2] * m.mat[2][1] - m.mat[0][1] * m.mat[2][2];
+	result.mat[0][2] = m.mat[0][1] * m.mat[1][2] - m.mat[0][2] * m.mat[1][1];
+	result.mat[1][0] = m.mat[1][2] * m.mat[2][0] - m.mat[1][0] * m.mat[2][2];
+	result.mat[1][1] = m.mat[0][0] * m.mat[2][2] - m.mat[0][2] * m.mat[2][0];
+	result.mat[1][2] = m.mat[1][0] * m.mat[0][2] - m.mat[0][0] * m.mat[1][2];
+	result.mat[2][0] = m.mat[1][0] * m.mat[2][1] - m.mat[2][0] * m.mat[1][1];
+	result.mat[2][1] = m.mat[2][0] * m.mat[0][1] - m.mat[0][0] * m.mat[2][1];
+	result.mat[2][2] = m.mat[0][0] * m.mat[1][1] - m.mat[1][0] * m.mat[0][1];
+
+	return (1.0f / d) * result;
 }
 
 /*Mat4 Transform::transpose(Mat4 & m) {
@@ -138,6 +148,16 @@ float Transform::trace(Mat4 & m) {
 	int i;
 	float sum = 0.0f;
 	for (i = 0; i < 4; ++i) {
+		sum += m.mat[i][i];
+	}
+
+	return sum;
+}
+
+float Transform::trace3x3(Mat4 & m) {
+	int i;
+	float sum = 0.0f;
+	for (i = 0; i < 3; ++i) {
 		sum += m.mat[i][i];
 	}
 
