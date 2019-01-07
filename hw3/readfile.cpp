@@ -33,13 +33,6 @@ using namespace std;
 #include "readfile.h"
 #include "transform.h"
 
-extern Camera * cam;
-extern Scene scene;
-extern int max_depth;
-extern Vec atten_default;
-extern Vec ambient_default;
-extern std::string outfile;
-
 // The function below applies the appropriate transform to a 4-vector
 void matransform(stack<Mat4> &transfstack, float* values)
 {
@@ -69,7 +62,7 @@ bool readvals(stringstream &s, const int numvals, float* values)
 	return true;
 }
 
-void readfile(const char* filename)
+void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth, string & outfile)
 {
 	string str, cmd;
 	ifstream in;
@@ -81,10 +74,17 @@ void readfile(const char* filename)
 	Vec diffuse, specular, emission;
 	Vec color, direction;
 	Point light_location;
-	float shininess = 0; // default shininess value of 0
 	int i;
-	Vec attenuation = atten_default;
-	Vec ambient = ambient_default;
+
+	
+
+	// set values to defaults
+	max_depth = 5;
+	Vec attenuation(1.0f, 0.0f, 0.0f);
+	Vec ambient(0.2f, 0.2f, 0.2f);
+	outfile = "output.png";
+	float shininess = 0; // default shininess value of 0
+
 
 	std::vector<Point> vertices;
 
@@ -333,7 +333,7 @@ void readfile(const char* filename)
 
 		// initialize camera
 
-		cam = new Camera(eye, center, up, fov, w, h);
+		cam.init(eye, center, up, fov, w, h);
 
 	}
 	else {

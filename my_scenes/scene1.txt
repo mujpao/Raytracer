@@ -5,6 +5,7 @@ camera 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 60.0
 # lights
 directional 0.6 0 0.1 1 0.5 0
 
+
 #directional 0.0 0 0.1 1 0.5 0
 # no attenuation
 point 0 -0.6 0.1 0.5 0.5 1
@@ -15,10 +16,14 @@ point 0 -0.6 0.1 0.5 0.5 1
 # materials
 ambient 0 0 0
 diffuse 1 .25 0.25
-specular 1 1 1
+specular 0 0 0
+#specular 1 1 1
 shininess 100
 
 # just one sphere
 pushTransform
+#translate  0 0 0.5
+#rotate 0 0 1 45
+scale 1.0 0.25 0.25
 sphere 0.0 0.0 -2.0 1.0
 popTransform

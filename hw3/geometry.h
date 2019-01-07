@@ -56,7 +56,7 @@ class Ray {
 public:
 	Ray(Point origin, Vec dir, float t_min); //TODO should t_min and max be different depending on whether this is shadow ray?
 	Ray();
-	Ray(Camera cam, int i, int j); //ray through pixel i, j
+	Ray(Camera cam, int i, int j); //ray through center of pixel i, j
 
 	Vec evaluate(float t);
 	bool intersect(Scene &s, float & t_closest, LocalGeo & closest_hit_geo);
@@ -170,7 +170,7 @@ public:
 	Sphere(float cx, float cy, float cz, float r, Mat4 t, Vec d, Vec s, Vec e, Vec a, float shiny);
 	Vec center;
 	float radius;
-	Mat4 transformation;
+	Mat4 transformation, inverse, inverse_transpose;
 };
 
 
@@ -190,7 +190,8 @@ public:
 	Vec w_vec;
 	int w, h;
 	float fovx, fovy; // stored in radians
-	Camera(Vec eye, Vec center, Vec up, float fov, int w, int h); // assume fov input is in degrees
+	Camera();
+	void init(Vec new_eye, Vec new_center, Vec new_up, float fov, int new_w, int new_h); // assume fov input is in degrees
 };
 
 class Image {

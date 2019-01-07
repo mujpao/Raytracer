@@ -74,7 +74,7 @@ Vec Transform::cross(Vec &a, Vec &b) {
 }
 
 float Transform::det3x3(Mat4 & m) {
-	float d = 0;
+	float d = 0.0f;
 	d += m.mat[0][0] * m.mat[1][1] * m.mat[2][2];
 	d += m.mat[0][1] * m.mat[1][2] * m.mat[2][0];
 	d += m.mat[0][2] * m.mat[1][0] * m.mat[2][1];
@@ -103,26 +103,18 @@ float Transform::det(Mat4 & m) {
 
 Mat4 Transform::inverse(Mat4 & m) {
 	Mat4 result = (1.0f / 6.0f) * (pow(trace(m), 3.0f) - 3.0f * trace(m) * trace(m * m) + 2.0f * trace(m * m * m)) * Mat4(1.0f);
-	result = result - 0.5f * m * (pow(trace(m), 2) - trace(m * m));
+	result = result - 0.5f * m * (pow(trace(m), 2.0f) - trace(m * m));
 	result = result + m * m * trace(m) - m * m * m;
 
-	return (1 / det(m)) * result;
+	return (1.0f / det(m)) * result;
 }
 
-// TODO invert 4x4
 Mat4 Transform::inverse3x3(Mat4 & m) {
 	float d = det3x3(m);
 	
-	Mat4 m2 = m;
+	Mat4 result = (1.0f / d) * Transform::transpose3x3(m);
 
-	int i, j;
-	for (i = 0; i < 3; ++i) {
-		for (j = 0; j < 3; ++j) {
-			m2.mat[i][j] = (1 / d) * m.mat[j][i];
-		}
-	}
-
-	return m2;
+	return result;
 }
 
 /*Mat4 Transform::transpose(Mat4 & m) {

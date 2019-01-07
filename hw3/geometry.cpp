@@ -126,8 +126,8 @@ Ray::Ray(Camera cam, int i, int j)
 	origin.y = cam.eye.y;
 	origin.z = cam.eye.z;
 
-	float alpha = tan(cam.fovx / 2.0f) * ((j - (cam.w / 2.0f)) / (cam.w / 2.0f));
-	float beta = tan(cam.fovy / 2.0f) * (((cam.h/ 2.0f) - i) / (cam.h / 2.0f));
+	float alpha = tan(cam.fovx / 2.0f) * ((j + 0.5f - (cam.w / 2.0f)) / (cam.w / 2.0f));
+	float beta = tan(cam.fovy / 2.0f) * (((cam.h/ 2.0f) - (i + 0.5f)) / (cam.h / 2.0f));
 
 	dir = Vec::normalize(alpha * cam.u_vec + beta * cam.v_vec - cam.w_vec);
 	t_min = 0.0f;
@@ -362,7 +362,8 @@ Ray operator*(const Mat4 & m, const Ray & r) {
 
 	r2.origin = m * r.origin;
 	r2.dir = m * r.dir;
-
+	r2.t_max = r.t_max; // TODO  is this right?
+	r2.t_min = r.t_min;
 	return r2;
 	return r;
 }
@@ -531,7 +532,7 @@ void Triangle::barycentric(Point p, float &u, float &v, float &w)
 
 bool Sphere::intersect(Ray& ray, float& thit, LocalGeo& local) {
 	float a, b, c, disc;
-	Ray r2 = Transform::inverse(transformation) * ray;
+	Ray r2 = inverse * ray;
 
 	a = Transform::dot(r2.dir, r2.dir);
 	b = 2 * Transform::dot(r2.dir, r2.origin - center);
@@ -568,11 +569,11 @@ bool Sphere::intersect(Ray& ray, float& thit, LocalGeo& local) {
 	}
 
 	Vec ray_tip = r2.evaluate(thit);
-	Point untransformed_point(ray_tip.x, ray_tip.y, ray_tip.z);
+	Point untransformed_point = ray_tip.to_point();
 	Vec untransformed_normal = Vec::normalize(ray_tip - center);
 
 	local.pos = transformation * untransformed_point;
-	local.normal = Transform::transpose3x3(Transform::inverse3x3(transformation)) * untransformed_normal;
+	local.normal = Vec::normalize(inverse_transpose * untransformed_normal);
 	local.shape_hit = this;
 
 	return true;
@@ -594,11 +595,21 @@ bool Sphere::intersectP(Ray& ray) {
 
 Sphere::Sphere(float cx, float cy, float cz, float r, Mat4 t, Vec d, Vec s, Vec e, Vec a, float shiny)
 : Shape(d, s, e, a, shiny), center(cx, cy, cz), radius(r), transformation(t)
-{}
-
-Camera::Camera(Vec eye, Vec center, Vec up, float fov, int w, int h)
-: eye(eye), center(center), up(up), w(w), h(h), fovy(fov)
 {
+	inverse = Transform::inverse(transformation);
+	inverse_transpose = Transform::transpose3x3(Transform::inverse3x3(transformation));
+}
+
+Camera::Camera()
+: w(0), h(0), fovx(0.0f), fovy(0.0f) {}
+
+void Camera::init(Vec new_eye, Vec new_center, Vec new_up, float fov, int new_w, int new_h) {
+	eye = new_eye;
+	center = new_center;
+	up = new_up;
+	w = new_w;
+	h = new_h;
+
 	// convert fov to radians, store in fovy
 	fovy = fov * (float)(M_PI / 180.0);
 	// calculate fovx in radians
@@ -668,7 +679,10 @@ Image Raytracer::raytrace(Camera cam, Scene scene) {
 	for (i = 0; i < cam.h; ++i) {
 		for (j = 0; j < cam.w; ++j) {
 
+			if (i == 147 && j == 298)
+ 				cout << "here" << endl;
 			Ray ray(cam, i, j);
+
 			
 			pixel_color = trace(ray, cam, scene, 0); // TODO start at 0 or 1?
 
@@ -710,7 +724,7 @@ Vec Raytracer::trace(Ray r, Camera cam, Scene scene, int num_recs) {
 	}
 
 	// Reflected ray
-	Vec reflected_dir = r.dir - 2 * Transform::dot(r.dir, local.normal) * local.normal;
+	Vec reflected_dir = r.dir - 2.0f * Transform::dot(r.dir, local.normal) * local.normal;
 	Ray reflected_ray(local.pos, reflected_dir, EPSILON);
 
 	color = color + local.shape_hit->specular * trace(reflected_ray, cam, scene, num_recs + 1);
