@@ -400,7 +400,7 @@ Vec PointLight::calc_lighting(Vec & eye, Scene & s, LocalGeo & local) {
 	// check if view to light is blocked
 	float t, v;
 	LocalGeo local2;
-	if (r.intersect(s, t, local2) && local2.shape_hit != local.shape_hit && t < d) // TODO what if light is between objects?
+	if (r.intersect(s, t, local2) && t < d) // TODO what if light is between objects?
 		v = 0.0f;
 	else
 		v = 1.0f;
@@ -427,7 +427,7 @@ Vec DirLight::calc_lighting(Vec & eye, Scene & s, LocalGeo & local) {
 	// check if view to light is blocked
 	float t, v;
 	LocalGeo local2;
-	if (r.intersect(s, t, local2) && local2.shape_hit != local.shape_hit)
+	if (r.intersect(s, t, local2))
 		v = 0.0f;
 	else
 		v = 1.0f;

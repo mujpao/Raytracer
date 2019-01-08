@@ -13,14 +13,14 @@ using namespace std;
 
 
 void run_grader() {
-	/*vector<string> filenames{ "scene4-ambient",
+	vector<string> filenames{ "scene4-ambient",
 								"scene4-diffuse",
 								"scene4-emission",
 								"scene4-specular",
 								"scene5",
 								"scene6",
 								"scene7"
-								};*/
+								};
 
 	/*vector<string> filenames{ "scene4-ambient",
 		"scene4-diffuse",
@@ -28,7 +28,7 @@ void run_grader() {
 		"scene4-specular"
 		};*/
 
-	vector<string> filenames{ "scene6" };
+	//vector<string> filenames{ "scene6" };
 
 	for (auto & filename : filenames) {
 		string infile = "..\\hw3-submissionscenes\\" + filename + ".test";
