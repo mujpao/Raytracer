@@ -400,7 +400,7 @@ Vec PointLight::calc_lighting(Vec & eye, Scene & s, LocalGeo & local) {
 	// check if view to light is blocked
 	float t, v;
 	LocalGeo local2;
-	if (r.intersect(s, t, local2) && local2.shape_hit != local.shape_hit)
+	if (r.intersect(s, t, local2) && local2.shape_hit != local.shape_hit && t < d) // TODO what if light is between objects?
 		v = 0.0f;
 	else
 		v = 1.0f;
@@ -680,7 +680,6 @@ Image Raytracer::raytrace(Camera cam, Scene scene) {
 		for (j = 0; j < cam.w; ++j) {
 
 			Ray ray(cam, i, j);
-
 			
 			pixel_color = trace(ray, scene, 0); // TODO start at 0 or 1?
 
