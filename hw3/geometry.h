@@ -7,6 +7,7 @@
 #include <FreeImage.h>
 #include <vector>
 #include <iostream>
+#include <memory>
 
 const float EPSILON = 1.0f / 1000.0f;
 
@@ -176,8 +177,8 @@ public:
 
 class Scene {
 public:
-	std::vector<Shape*> objects;
-	std::vector<Light*> lights;
+	std::vector<std::shared_ptr<Shape>> objects;
+	std::vector<std::shared_ptr<Light>> lights;
 };
 
 class Camera {

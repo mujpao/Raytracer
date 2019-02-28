@@ -20,13 +20,13 @@
 
 /*****************************************************************************/
 
-// Basic includes to get this file to work.  
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <deque>
 #include <stack>
+#include <memory>
 
 using namespace std;
 #include "variables.h" 
@@ -119,8 +119,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						color.y = values[4];
 						color.z = values[5];						
 
-						// TODO delete dynamic memory
-						scene.lights.push_back(new DirLight(color, direction));
+						scene.lights.push_back(std::make_shared<DirLight>(color, direction));
 					}
 					
 				}
@@ -134,8 +133,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						color.y = values[4];
 						color.z = values[5];
 
-						// TODO delete dynamic memory
-						scene.lights.push_back(new PointLight(attenuation, color, light_location));
+						scene.lights.push_back(std::make_shared<PointLight>(attenuation, color, light_location));
 					}
 					// reset attenuation regardless of whether input was valid
 					//attenuation = atten_default;
@@ -249,16 +247,14 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						validinput = readvals(s, 4, values);
 
 						if (validinput) {
-							// TODO free memory or use smart pointer
-							scene.objects.push_back(new Sphere(values[0], values[1], values[2], values[3], transfstack.top(), diffuse, specular, emission, ambient, shininess));
+							scene.objects.push_back(std::make_shared<Sphere>(values[0], values[1], values[2], values[3], transfstack.top(), diffuse, specular, emission, ambient, shininess));
 						}
 					}
 					else if (cmd == "tri") {
 						validinput = readvals(s, 3, values);
 
 						if (validinput) {
-							// TODO free memory or use smart pointer
-							scene.objects.push_back(new Triangle(vertices[values[0]], vertices[values[1]], vertices[values[2]], transfstack.top(), diffuse, specular, emission, ambient, shininess));
+							scene.objects.push_back(std::make_shared<Triangle>(vertices[values[0]], vertices[values[1]], vertices[values[2]], transfstack.top(), diffuse, specular, emission, ambient, shininess));
 						}
 					}
 					
