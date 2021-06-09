@@ -1,5 +1,5 @@
 objects = main.o geometry.o readfile.o transform.o
-cc = g++ -std=c++11 -Wall
+cc = g++ -std=c++17 -Wall
 
 all : $(objects)
 	$(cc) -o raytracer $(objects)
