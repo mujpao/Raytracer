@@ -3,7 +3,7 @@
 #include "transform.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
+#include "thirdparty/stb_image_write.h"
 
 #include <algorithm>
 #include <iostream>
@@ -797,13 +797,7 @@ Image::~Image() {
 }
 
 void Image::color_pixel(int i, int j, const unsigned char color[]) {
-	// find the byte this pixel's color starts at
 	int starting_byte = 3 * (i * w + j);
-
-	// color in rgb for this pixel
-	// bytes[starting_byte + FI_RGBA_RED] = color[0];
-	// bytes[starting_byte + FI_RGBA_GREEN] = color[1];
-	// bytes[starting_byte + FI_RGBA_BLUE] = color[2];
 
 	for (int idx = 0; idx < 3; ++idx) {
 		bytes[starting_byte + idx] = color[idx];
@@ -812,20 +806,16 @@ void Image::color_pixel(int i, int j, const unsigned char color[]) {
 }
 
 void Image::save(std::string file) {
-	// rgb order
-	// FIBITMAP *img = FreeImage_ConvertFromRawBits(bytes, w, h, w * 3, 24, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, true);
-	// FreeImage_Save(FIF_PNG, img, file.c_str(), 0);
-
 	stbi_write_png(file.c_str(), w, h, 3, (const void *)bytes, w * 3);
 }
 
 Image Raytracer::raytrace(Camera cam, Scene scene) {
 	Image image(cam.w, cam.h);
 	int i, j, k;
-	const unsigned char red[] = { 255, 0, 0 };
-	const unsigned char green[] = { 0, 255, 0 };
-	const unsigned char blue[] = { 0, 0, 255 };
-	const unsigned char black[] = { 0, 0, 0 };
+	// const unsigned char red[] = { 255, 0, 0 };
+	// const unsigned char green[] = { 0, 255, 0 };
+	// const unsigned char blue[] = { 0, 0, 255 };
+	// const unsigned char black[] = { 0, 0, 0 };
 	unsigned char color[3];
 
 	//float t;
