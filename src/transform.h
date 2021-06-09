@@ -1,6 +1,8 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
-#include "geometry.h"
+
+class Vec;
+class Mat4;
 
 class Transform
 {

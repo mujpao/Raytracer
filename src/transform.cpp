@@ -1,5 +1,10 @@
 #include "transform.h"
 
+#include "geometry.h"
+
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 Mat4 Transform::rotate(float degrees, const Vec& axis)
 {
 	const float theta = (M_PI * degrees) / 180.0f;

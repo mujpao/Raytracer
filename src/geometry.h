@@ -1,16 +1,11 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
 
-#define _USE_MATH_DEFINES
-#include <cmath>
-
-// #include <FreeImage.h>
 #include <vector>
-#include <iostream>
 #include <memory>
+#include <iosfwd>
 
 const float EPSILON = 1.0f / 1000.0f;
-
 
 class Vec;
 

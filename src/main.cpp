@@ -1,8 +1,8 @@
-#include <cassert>
-
 #include "geometry.h"
 #include "readfile.h"
 
+#include <cassert>
+#include <iostream>
 
 // void run_grader() {
 // 	std::vector<std::string> filenames{ "scene4-ambient",

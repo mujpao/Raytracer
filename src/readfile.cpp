@@ -20,17 +20,15 @@
 
 /*****************************************************************************/
 
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <deque>
-#include <stack>
-#include <memory>
+#include "readfile.h"
 
 #include "variables.h" 
-#include "readfile.h"
 #include "transform.h"
+#include "geometry.h"
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 // The function below applies the appropriate transform to a 4-vector
 void matransform(std::stack<Mat4> &transfstack, float* values)
