@@ -8,9 +8,6 @@
 #include "variables.h"
 
 
-#define GRADING
-
-
 void run_grader() {
 	/*vector<string> filenames{ "scene4-ambient",
 								"scene4-diffuse",
@@ -48,7 +45,7 @@ int main(int argc, char * argv[]) {
 	run_grader();
 #else
 	if (argc < 2) {
-		cerr << "not enough arguments\n";
+		std::cerr << "not enough arguments\n";
 		exit(-1);
 	}
 

@@ -344,3 +344,6 @@ healthchecksdb
 *.zip
 
 .vscode/
+*.a
+*.o
+raytracer
