@@ -342,3 +342,5 @@ healthchecksdb
 
 *.png
 *.zip
+
+.vscode/
