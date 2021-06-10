@@ -165,7 +165,7 @@ public:
 // Point Lights
 class PointLight : public Light {
 public:
-	Vec calc_lighting(const Vec & eye, Scene & s, LocalGeo & local);
+	Vec calc_lighting(const Vec & eye, Scene & s, LocalGeo & local) override;
 	Point p;
 	float atten_const = 1, atten_lin = 0, atten_quad = 0;
 	PointLight(Vec atten, Vec col, Point p);
@@ -174,7 +174,7 @@ public:
 // Directional Lights
 class DirLight : public Light {
 public:
-	Vec calc_lighting(const Vec & eye, Scene & s, LocalGeo & local);
+	Vec calc_lighting(const Vec & eye, Scene & s, LocalGeo & local) override;
 	Vec dir;
 	DirLight(Vec col, Vec dir);
 };
@@ -203,7 +203,7 @@ private:
 
 class Sphere : public Shape {
 public:
-	bool intersect(Ray& ray, float& thit, LocalGeo& local)override ;
+	bool intersect(Ray& ray, float& thit, LocalGeo& local) override;
 	bool intersectP(Ray& ray) override;
 	Sphere(float cx, float cy, float cz, float r, Mat4 t, Vec d, Vec s, Vec e, Vec a, float shiny);
 	Vec center;
@@ -238,7 +238,7 @@ public:
 	Image(int w, int h);
 	Image(const Image & i);
 	~Image();
-	void color_pixel(int i, int j, const unsigned char color[]); // color[] is an array of size 3
+	void color_pixel(int i, int j, const unsigned char color[]);
 	void save(std::string file);
 	unsigned char * bytes;
 };

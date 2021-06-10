@@ -22,7 +22,6 @@
 
 #include "readfile.h"
 
-#include "variables.h" 
 #include "transform.h"
 #include "geometry.h"
 
@@ -73,7 +72,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 	Point light_location;
 	int i;
 
-	
+
 
 	// set values to defaults
 	max_depth = 5;
