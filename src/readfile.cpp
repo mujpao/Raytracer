@@ -69,7 +69,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 	float fov;
 	Vec diffuse, specular, emission;
 	Vec color, direction;
-	Point light_location;
+	Vec light_location;
 	int i;
 
 
@@ -82,7 +82,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 	float shininess = 0; // default shininess value of 0
 
 
-	std::vector<Point> vertices;
+	std::vector<Vec> vertices;
 
 	in.open(filename);
 	if (in.is_open()) {
@@ -108,12 +108,12 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 				if (cmd == "directional") {
 					validinput = readvals(s, 6, values); // Position/color for lts.
 					if (validinput) {
-						direction.x = values[0];
-						direction.y = values[1];
-						direction.z = values[2];
-						color.x = values[3];
-						color.y = values[4];
-						color.z = values[5];						
+						direction[0] = values[0];
+						direction[1] = values[1];
+						direction[2] = values[2];
+						color[0] = values[3];
+						color[1] = values[4];
+						color[2] = values[5];						
 
 						scene.lights.push_back(std::make_shared<DirLight>(color, direction));
 					}
@@ -122,12 +122,12 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 				else if (cmd == "point") {
 					validinput = readvals(s, 6, values); // Position/color for lts.
 					if (validinput) {
-						light_location.x = values[0];
-						light_location.y = values[1];
-						light_location.z = values[2];
-						color.x = values[3];
-						color.y = values[4];
-						color.z = values[5];
+						light_location[0] = values[0];
+						light_location[1] = values[1];
+						light_location[2] = values[2];
+						color[0] = values[3];
+						color[1] = values[4];
+						color[2] = values[5];
 
 						scene.lights.push_back(std::make_shared<PointLight>(attenuation, color, light_location));
 					}
@@ -138,9 +138,9 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 				else if (cmd == "attenuation") {
 					validinput = readvals(s, 3, values); // Position/color for lts.
 					if (validinput) {
-						attenuation.x = values[0];
-						attenuation.y = values[1];
-						attenuation.z = values[2];
+						attenuation[0] = values[0];
+						attenuation[1] = values[1];
+						attenuation[2] = values[2];
 					}
 				}
 
@@ -208,15 +208,15 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 					validinput = readvals(s, 10, values); // 10 values eye cen up fov
 					if (validinput) {
 
-						eye.x = values[0];
-						eye.y = values[1];
-						eye.z = values[2];
-						center.x = values[3];
-						center.y = values[4];
-						center.z = values[5];
-						up.x = values[6];
-						up.y = values[7];
-						up.z = values[8];
+						eye[0] = values[0];
+						eye[1] = values[1];
+						eye[2] = values[2];
+						center[0] = values[3];
+						center[1] = values[4];
+						center[2] = values[5];
+						up[0] = values[6];
+						up[1] = values[7];
+						up[2] = values[8];
 						fov = values[9];
 
 					}

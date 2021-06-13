@@ -16,7 +16,7 @@ target_compile_options(CompilerFlags INTERFACE
 
 add_subdirectory(src)
 
-#add_subdirectory(tests)
+add_subdirectory(tests)
 
 add_executable(RayTracer
     src/main.cpp

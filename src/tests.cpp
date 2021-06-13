@@ -1,6 +1,8 @@
 #include <cassert>
 #include "tests.h"
 
+// TODO remove
+
 void test_point() {
 	Point p1(1.0f, 2.0f, 3.0f);
 	assert(p1.x == 1.0f);
