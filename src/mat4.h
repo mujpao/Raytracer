@@ -11,7 +11,7 @@ class Mat4 {
 public:
 	Mat4(double m[4][4]);
 	Mat4(double val); // sets diagonal to value, sets m[3][3] to 1.0f
-	Mat4(); // initializes all elements to 0, sets m[3][3] to 1.0f
+	Mat4(); // initializes all elements to 0
 	Mat4(const Mat3 &other); // initializes with 3x3 matrix, sets fourth row and column to 0 0 0 1
 
 	double& operator()(unsigned int i, unsigned int j);

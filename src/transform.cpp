@@ -8,6 +8,7 @@
 
 Mat4 Transform::rotate(double degrees, const Vec& axis)
 {
+	Vec axis_normalized = Vec::normalize(axis);
 	const double theta = (M_PI * degrees) / 180.0;
 	Mat3 I(1.0);
 	Mat3 result;
@@ -16,20 +17,20 @@ Mat4 Transform::rotate(double degrees, const Vec& axis)
 
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			multiply_by_transpose(i, j) = axis[i] * axis[j];
+			multiply_by_transpose(i, j) = axis_normalized[i] * axis_normalized[j];
 		}
 	}
 
-	// dual matrix of axis
+	// dual matrix of normalized axis
 	Mat3 axis_dual;
 	axis_dual(0, 0) = 0;
-	axis_dual(0, 1) = -axis.z();
-	axis_dual(0, 2) = axis.y();
-	axis_dual(1, 0) = axis.z();
+	axis_dual(0, 1) = -axis_normalized.z();
+	axis_dual(0, 2) = axis_normalized.y();
+	axis_dual(1, 0) = axis_normalized.z();
 	axis_dual(1, 1) = 0;
-	axis_dual(1, 2) = -axis.x();
-	axis_dual(2, 0) = -axis.y();
-	axis_dual(2, 1) = axis.x();
+	axis_dual(1, 2) = -axis_normalized.x();
+	axis_dual(2, 0) = -axis_normalized.y();
+	axis_dual(2, 1) = axis_normalized.x();
 	axis_dual(2, 2) = 0;
 
 
@@ -46,6 +47,7 @@ Mat4 Transform::scale(double sx, double sy, double sz)
 	result(0, 0) = sx;
 	result(1, 1) = sy;
 	result(2, 2) = sz;
+	result(3, 3) = 1.0;
 	return result;
 }
 
@@ -55,6 +57,7 @@ Mat4 Transform::translate(double tx, double ty, double tz)
 	result(0, 3) = tx;
 	result(1, 3) = ty;
 	result(2, 3) = tz;
+	result(3, 3) = 1.0;
 	return result;
 }
 

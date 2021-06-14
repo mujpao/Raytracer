@@ -4,190 +4,200 @@
 #include "transform.h"
 #include "mat4.h"
 #include "vec.h"
+#include "testutils.h"
 
-BOOST_AUTO_TEST_CASE(test_rotate)
+namespace utf = boost::unit_test;
+
+BOOST_AUTO_TEST_CASE(test_rotate, * utf::tolerance(TestUtils::TOLERANCE))
 {
     Mat4 rotated1 = Transform::rotate(90.0, Vec(1.0, 0.0, 0.0));
 
-    BOOST_REQUIRE_EQUAL(rotated1(0, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(rotated1(0, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(0, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(0, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(1, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(1, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(1, 2), -1.0);
-    BOOST_REQUIRE_EQUAL(rotated1(1, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(2, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(2, 1), 1.0);
-    BOOST_REQUIRE_EQUAL(rotated1(2, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(2, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(3, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(3, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(3, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated1(3, 3), 1.0);
-    BOOST_REQUIRE_EQUAL(Transform::det3x3(rotated1), 1.0);
+    BOOST_TEST(rotated1(0, 0) == 1.0 );
+    BOOST_TEST(rotated1(0, 1) == 0.0 );
+    BOOST_TEST(rotated1(0, 2) == 0.0 );
+    BOOST_TEST(rotated1(0, 3) == 0.0 );
+    BOOST_TEST(rotated1(1, 0) == 0.0 );
+    BOOST_TEST(rotated1(1, 1) == 0.0 );
+    BOOST_TEST(rotated1(1, 2) == -1.0);
+    BOOST_TEST(rotated1(1, 3) == 0.0);
+    BOOST_TEST(rotated1(2, 0) == 0.0);
+    BOOST_TEST(rotated1(2, 1) == 1.0);
+    BOOST_TEST(rotated1(2, 2) == 0.0);
+    BOOST_TEST(rotated1(2, 3) == 0.0);
+    BOOST_TEST(rotated1(3, 0) == 0.0);
+    BOOST_TEST(rotated1(3, 1) == 0.0);
+    BOOST_TEST(rotated1(3, 2) == 0.0);
+    BOOST_TEST(rotated1(3, 3) == 1.0);
+    BOOST_TEST(Transform::det3x3(rotated1) == 1.0);
 
     Mat4 rotated2 = Transform::rotate(90.0, Vec(0.0, 1.0, 0.0));
 
-    BOOST_REQUIRE_EQUAL(rotated2(0, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(rotated2(0, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(0, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(0, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(1, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(1, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(1, 2), -1.0);
-    BOOST_REQUIRE_EQUAL(rotated2(1, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(2, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(2, 1), 1.0);
-    BOOST_REQUIRE_EQUAL(rotated2(2, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(2, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(3, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(3, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(3, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated2(3, 3), 1.0);
-    BOOST_REQUIRE_EQUAL(Transform::det3x3(rotated2), 1.0);
+    BOOST_TEST(rotated2(0, 0) == 0.0);
+    BOOST_TEST(rotated2(0, 1) == 0.0);
+    BOOST_TEST(rotated2(0, 2) == 1.0);
+    BOOST_TEST(rotated2(0, 3) == 0.0);
+    BOOST_TEST(rotated2(1, 0) == 0.0);
+    BOOST_TEST(rotated2(1, 1) == 1.0);
+    BOOST_TEST(rotated2(1, 2) == 0.0);
+    BOOST_TEST(rotated2(1, 3) == 0.0);
+    BOOST_TEST(rotated2(2, 0) == -1.0);
+    BOOST_TEST(rotated2(2, 1) == 0.0);
+    BOOST_TEST(rotated2(2, 2) == 0.0);
+    BOOST_TEST(rotated2(2, 3) == 0.0);
+    BOOST_TEST(rotated2(3, 0) == 0.0);
+    BOOST_TEST(rotated2(3, 1) == 0.0);
+    BOOST_TEST(rotated2(3, 2) == 0.0);
+    BOOST_TEST(rotated2(3, 3) == 1.0);
+    BOOST_TEST(Transform::det3x3(rotated2) == 1.0);
 
     Mat4 rotated3 = Transform::rotate(90.0, Vec(0.0, 0.0, 1.0));
 
-    BOOST_REQUIRE_EQUAL(rotated3(0, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(0, 1), 1.0);
-    BOOST_REQUIRE_EQUAL(rotated3(0, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(0, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(1, 0), -1.0);
-    BOOST_REQUIRE_EQUAL(rotated3(1, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(1, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(1, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(2, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(2, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(2, 2), 1.0);
-    BOOST_REQUIRE_EQUAL(rotated3(2, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(3, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(3, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(3, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated3(3, 3), 1.0);
-    BOOST_REQUIRE_EQUAL(Transform::det3x3(rotated3), 1.0);
+    BOOST_TEST(rotated3(0, 0) == 0.0);
+    BOOST_TEST(rotated3(0, 1) == -1.0);
+    BOOST_TEST(rotated3(0, 2) == 0.0);
+    BOOST_TEST(rotated3(0, 3) == 0.0);
+    BOOST_TEST(rotated3(1, 0) == 1.0);
+    BOOST_TEST(rotated3(1, 1) == 0.0);
+    BOOST_TEST(rotated3(1, 2) == 0.0);
+    BOOST_TEST(rotated3(1, 3) == 0.0);
+    BOOST_TEST(rotated3(2, 0) == 0.0);
+    BOOST_TEST(rotated3(2, 1) == 0.0);
+    BOOST_TEST(rotated3(2, 2) == 1.0);
+    BOOST_TEST(rotated3(2, 3) == 0.0);
+    BOOST_TEST(rotated3(3, 0) == 0.0);
+    BOOST_TEST(rotated3(3, 1) == 0.0);
+    BOOST_TEST(rotated3(3, 2) == 0.0);
+    BOOST_TEST(rotated3(3, 3) == 1.0);
+    BOOST_TEST(Transform::det3x3(rotated3) == 1.0);
 
     Mat4 rotated4 = Transform::rotate(70.0, Vec(10.0, -20.0, 3.0));
 
-    BOOST_REQUIRE_EQUAL(rotated4(0, 0), 0.471289270373671);
-    BOOST_REQUIRE_EQUAL(rotated4(0, 1), -0.133584824704215);
-    BOOST_REQUIRE_EQUAL(rotated4(0, 2), 0.871803600726332);
-    BOOST_REQUIRE_EQUAL(rotated4(0, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated4(1, 0), -0.383491683487794);
-    BOOST_REQUIRE_EQUAL(rotated4(1, 1), 0.859096651517678);
-    BOOST_REQUIRE_EQUAL(rotated4(1, 2), 0.338949955077164);
-    BOOST_REQUIRE_EQUAL(rotated4(1, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated4(2, 0), -0.794242124497530);
-    BOOST_REQUIRE_EQUAL(rotated4(2, 1), -0.494072907534767);
-    BOOST_REQUIRE_EQUAL(rotated4(2, 2), 0.353654364759989);
-    BOOST_REQUIRE_EQUAL(rotated4(2, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated4(3, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated4(3, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated4(3, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(rotated4(3, 3), 1.0);
-    BOOST_REQUIRE_EQUAL(Transform::det3x3(rotated4), 1.0);
+    BOOST_TEST(rotated4(0, 0) == 0.471289270373671);
+    BOOST_TEST(rotated4(0, 1) == -0.383491683487794);
+    BOOST_TEST(rotated4(0, 2) == -0.794242124497530);
+    BOOST_TEST(rotated4(0, 3) == 0.0);
+    BOOST_TEST(rotated4(1, 0) == -0.133584824704215);
+    BOOST_TEST(rotated4(1, 1) == 0.859096651517677);
+    BOOST_TEST(rotated4(1, 2) == -0.494072907534767);
+    BOOST_TEST(rotated4(1, 3) == 0.0);
+    BOOST_TEST(rotated4(2, 0) == 0.871803600726332);
+    BOOST_TEST(rotated4(2, 1) == 0.338949955077164);
+    BOOST_TEST(rotated4(2, 2) == 0.353654364759989);
+    BOOST_TEST(rotated4(2, 3) == 0.0);
+    BOOST_TEST(rotated4(3, 0) == 0.0);
+    BOOST_TEST(rotated4(3, 1) == 0.0);
+    BOOST_TEST(rotated4(3, 2) == 0.0);
+    BOOST_TEST(rotated4(3, 3) == 1.0);
+    BOOST_TEST(Transform::det3x3(rotated4) == 1.0);
+
+    Vec v = Vec(1.0, 2.0, 3.0, 0.0);
+    v = rotated4 * v;
+    BOOST_TEST(v[0] == -2.678420470094508);
+    BOOST_TEST(v[1] == 0.102389755726840);
+    BOOST_TEST(v[2] == 2.610666605160627);
+    BOOST_TEST(v[3] == 0.0);
 }
 
-BOOST_AUTO_TEST_CASE(test_scale)
+BOOST_AUTO_TEST_CASE(test_scale, * utf::tolerance(TestUtils::TOLERANCE))
 {
     Mat4 scale1 = Transform::scale(1.0, 1.0, 1.0);
 
-    BOOST_REQUIRE_EQUAL(scale1(0, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(scale1(0, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(0, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(0, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(1, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(scale1(1, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(1, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(1, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(2, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(scale1(2, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(2, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(2, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(3, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(3, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(3, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(scale1(3, 3), 1.0);
+    BOOST_TEST(scale1(0, 0) == 1.0);
+    BOOST_TEST(scale1(0, 1) == 0.0);
+    BOOST_TEST(scale1(0, 2) == 0.0);
+    BOOST_TEST(scale1(0, 3) == 0.0);
+    BOOST_TEST(scale1(1, 0) == 0.0);
+    BOOST_TEST(scale1(1, 1) == 1.0);
+    BOOST_TEST(scale1(1, 2) == 0.0);
+    BOOST_TEST(scale1(1, 3) == 0.0);
+    BOOST_TEST(scale1(2, 0) == 0.0);
+    BOOST_TEST(scale1(2, 1) == 0.0);
+    BOOST_TEST(scale1(2, 2) == 1.0);
+    BOOST_TEST(scale1(2, 3) == 0.0);
+    BOOST_TEST(scale1(3, 0) == 0.0);
+    BOOST_TEST(scale1(3, 1) == 0.0);
+    BOOST_TEST(scale1(3, 2) == 0.0);
+    BOOST_TEST(scale1(3, 3) == 1.0);
 
     Mat4 scale2 = Transform::scale(5.0, -3.432, 21.3);
 
-    BOOST_REQUIRE_EQUAL(scale2(0, 0), 5.0);
-    BOOST_REQUIRE_EQUAL(scale2(0, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(0, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(0, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(1, 0), -3.432);
-    BOOST_REQUIRE_EQUAL(scale2(1, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(1, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(1, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(2, 0), 21.3);
-    BOOST_REQUIRE_EQUAL(scale2(2, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(2, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(2, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(3, 0), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(3, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(3, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(scale2(3, 3), 1.0);
+    BOOST_TEST(scale2(0, 0) == 5.0);
+    BOOST_TEST(scale2(0, 1) == 0.0);
+    BOOST_TEST(scale2(0, 2) == 0.0);
+    BOOST_TEST(scale2(0, 3) == 0.0);
+    BOOST_TEST(scale2(1, 0) == 0.0);
+    BOOST_TEST(scale2(1, 1) == -3.432);
+    BOOST_TEST(scale2(1, 2) == 0.0);
+    BOOST_TEST(scale2(1, 3) == 0.0);
+    BOOST_TEST(scale2(2, 0) == 0.0);
+    BOOST_TEST(scale2(2, 1) == 0.0);
+    BOOST_TEST(scale2(2, 2) == 21.3);
+    BOOST_TEST(scale2(2, 3) == 0.0);
+    BOOST_TEST(scale2(3, 0) == 0.0);
+    BOOST_TEST(scale2(3, 1) == 0.0);
+    BOOST_TEST(scale2(3, 2) == 0.0);
+    BOOST_TEST(scale2(3, 3) == 1.0);
 }
 
-BOOST_AUTO_TEST_CASE(test_translate)
+BOOST_AUTO_TEST_CASE(test_translate, * utf::tolerance(TestUtils::TOLERANCE))
 {
     Mat4 translated1 = Transform::translate(1.0, 1.0, 1.0);
 
-    BOOST_REQUIRE_EQUAL(translated1(0, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(translated1(0, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(translated1(0, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(translated1(0, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(translated1(1, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(translated1(1, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(translated1(1, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(translated1(1, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(translated1(2, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(translated1(2, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(translated1(2, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(translated1(2, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(translated1(3, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(translated1(3, 1), 1.0);
-    BOOST_REQUIRE_EQUAL(translated1(3, 2), 1.0);
-    BOOST_REQUIRE_EQUAL(translated1(3, 3), 1.0);
+    BOOST_TEST(translated1(0, 0) == 1.0);
+    BOOST_TEST(translated1(0, 1) == 0.0);
+    BOOST_TEST(translated1(0, 2) == 0.0);
+    BOOST_TEST(translated1(0, 3) == 1.0);
+    BOOST_TEST(translated1(1, 0) == 0.0);
+    BOOST_TEST(translated1(1, 1) == 1.0);
+    BOOST_TEST(translated1(1, 2) == 0.0);
+    BOOST_TEST(translated1(1, 3) == 1.0);
+    BOOST_TEST(translated1(2, 0) == 0.0);
+    BOOST_TEST(translated1(2, 1) == 0.0);
+    BOOST_TEST(translated1(2, 2) == 1.0);
+    BOOST_TEST(translated1(2, 3) == 1.0);
+    BOOST_TEST(translated1(3, 0) == 0.0);
+    BOOST_TEST(translated1(3, 1) == 0.0);
+    BOOST_TEST(translated1(3, 2) == 0.0);
+    BOOST_TEST(translated1(3, 3) == 1.0);
 
     Mat4 translated2 = Transform::translate(5.0, -3.432, 21.3);
 
-    BOOST_REQUIRE_EQUAL(translated2(0, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(translated2(0, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(translated2(0, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(translated2(0, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(translated2(1, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(translated2(1, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(translated2(1, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(translated2(1, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(translated2(2, 0), 1.0);
-    BOOST_REQUIRE_EQUAL(translated2(2, 1), 0.0);
-    BOOST_REQUIRE_EQUAL(translated2(2, 2), 0.0);
-    BOOST_REQUIRE_EQUAL(translated2(2, 3), 0.0);
-    BOOST_REQUIRE_EQUAL(translated2(3, 0), 5.0);
-    BOOST_REQUIRE_EQUAL(translated2(3, 1), -3.432);
-    BOOST_REQUIRE_EQUAL(translated2(3, 2), 21.3);
-    BOOST_REQUIRE_EQUAL(translated2(3, 3), 1.0);
+    BOOST_TEST(translated2(0, 0) == 1.0);
+    BOOST_TEST(translated2(0, 1) == 0.0);
+    BOOST_TEST(translated2(0, 2) == 0.0);
+    BOOST_TEST(translated2(0, 3) == 5.0);
+    BOOST_TEST(translated2(1, 0) == 0.0);
+    BOOST_TEST(translated2(1, 1) == 1.0);
+    BOOST_TEST(translated2(1, 2) == 0.0);
+    BOOST_TEST(translated2(1, 3) == -3.432);
+    BOOST_TEST(translated2(2, 0) == 0.0);
+    BOOST_TEST(translated2(2, 1) == 0.0);
+    BOOST_TEST(translated2(2, 2) == 1.0);
+    BOOST_TEST(translated2(2, 3) == 21.3);
+    BOOST_TEST(translated2(3, 0) == 0.0);
+    BOOST_TEST(translated2(3, 1) == 0.0);
+    BOOST_TEST(translated2(3, 2) == 0.0);
+    BOOST_TEST(translated2(3, 3) == 1.0);
 }
 
-BOOST_AUTO_TEST_CASE(test_dot)
+BOOST_AUTO_TEST_CASE(test_dot, * utf::tolerance(TestUtils::TOLERANCE))
 {
     Vec a(1.0, 0.0, 0.0);
     Vec b(1.0, 0.0, 0.0);
 
-    BOOST_REQUIRE_EQUAL(Transform::dot(a, b), 1.0);
+    BOOST_TEST(Transform::dot(a, b) == 1.0);
 
     Vec c(0.0, 1.0, 0.0);
 
-    BOOST_REQUIRE_EQUAL(Transform::dot(a, c), 0.0);
+    BOOST_TEST(Transform::dot(a, c) == 0.0);
 
     Vec d(0.375570427299602, 0.781683132211818, 0.318763245329810);
     Vec e(0.842963855279980, 0.751121346931999, 0.135462999234790);
 
-    BOOST_REQUIRE_EQUAL(Transform::dot(d, e), 0.946911807724777);
+    BOOST_TEST(Transform::dot(d, e) == 0.946911807724777);
 }
 
-BOOST_AUTO_TEST_CASE(test_cross)
+BOOST_AUTO_TEST_CASE(test_cross, * utf::tolerance(TestUtils::TOLERANCE))
 {
     Vec a(1.0, 0.0, 0.0);
     Vec b(0.0, 1.0, 0.0);
@@ -203,7 +213,7 @@ BOOST_AUTO_TEST_CASE(test_cross)
     BOOST_REQUIRE_EQUAL(Transform::cross(d, c), Vec(0.133540736643884, -0.217829997698879, 0.376831661515501));
 }
 
-BOOST_AUTO_TEST_CASE(test_det3x3)
+BOOST_AUTO_TEST_CASE(test_det3x3, * utf::tolerance(TestUtils::TOLERANCE))
 {
     double m1[4][4] = {
 		1.0, 2.0, 3.0, 0.0,
@@ -214,7 +224,7 @@ BOOST_AUTO_TEST_CASE(test_det3x3)
 
     Mat4 a(m1);
 
-    BOOST_REQUIRE_EQUAL(Transform::det3x3(a), 0.0);
+    BOOST_TEST(Transform::det3x3(a) == 0.0);
 
     double m2[4][4] = {
 		1.0, 4.0, 7.0, 0.0,
@@ -225,11 +235,11 @@ BOOST_AUTO_TEST_CASE(test_det3x3)
 
     Mat4 b(m2);
 
-    BOOST_REQUIRE_EQUAL(Transform::det3x3(b), 0.0);
+    BOOST_TEST(Transform::det3x3(b) == 0.0);
 
     Mat4 c(1.0);
 
-    BOOST_REQUIRE_EQUAL(Transform::det3x3(c), 1.0);
+    BOOST_TEST(Transform::det3x3(c) == 1.0);
 
     double m3[4][4] = {
 		8.426716313562338,   2.262987866030466,   2.800791359248318, 0.0,
@@ -239,10 +249,10 @@ BOOST_AUTO_TEST_CASE(test_det3x3)
 	};
 
     Mat4 d(m3);
-    BOOST_REQUIRE_EQUAL(Transform::det3x3(d), -186.9311036497346);
+    BOOST_TEST(Transform::det3x3(d) == -186.9311036497346);
 }
 
-BOOST_AUTO_TEST_CASE(test_det)
+BOOST_AUTO_TEST_CASE(test_det, * utf::tolerance(TestUtils::TOLERANCE))
 {
     double m1[4][4] = {
 		1.0, 2.0, 3.0, 4.0,
@@ -253,7 +263,7 @@ BOOST_AUTO_TEST_CASE(test_det)
 
     Mat4 a(m1);
 
-    BOOST_REQUIRE_EQUAL(Transform::det(a), 0.0);
+    BOOST_TEST(Transform::det(a) == 0.0);
 
     double m2[4][4] = {
 		1.0, 5.0, 9.0, 13.0,
@@ -264,11 +274,11 @@ BOOST_AUTO_TEST_CASE(test_det)
 
     Mat4 b(m2);
 
-    BOOST_REQUIRE_EQUAL(Transform::det(b), 0.0);
+    BOOST_TEST(Transform::det(b) == 0.0);
 
     Mat4 c(1.0);
 
-    BOOST_REQUIRE_EQUAL(Transform::det(c), 1.0);
+    BOOST_TEST(Transform::det(c) == 1.0);
 
     double m3[4][4] = {
         6.089890454058282,   8.821876541024963,   0.842936802020632,   1.156350542365741,
@@ -278,10 +288,10 @@ BOOST_AUTO_TEST_CASE(test_det)
 	};
 
     Mat4 d(m3);
-    BOOST_REQUIRE_EQUAL(Transform::det(d), -1131.813224140513);
+    BOOST_TEST(Transform::det(d) == -1131.813224140513);
 }
 
-BOOST_AUTO_TEST_CASE(test_inverse3x3)
+BOOST_AUTO_TEST_CASE(test_inverse3x3, * utf::tolerance(TestUtils::TOLERANCE))
 {
     Mat4 a(1.0);
 
@@ -308,7 +318,7 @@ BOOST_AUTO_TEST_CASE(test_inverse3x3)
     BOOST_REQUIRE_EQUAL(Transform::inverse3x3(c), b);
 }
 
-BOOST_AUTO_TEST_CASE(test_transpose3x3)
+BOOST_AUTO_TEST_CASE(test_transpose3x3, * utf::tolerance(TestUtils::TOLERANCE))
 {
     double m1[4][4] = {
         1.0, 2.0, 3.0, 0.0,
@@ -331,7 +341,7 @@ BOOST_AUTO_TEST_CASE(test_transpose3x3)
     BOOST_REQUIRE_EQUAL(Transform::transpose3x3(b), a);
 }
 
-BOOST_AUTO_TEST_CASE(test_trace3x3)
+BOOST_AUTO_TEST_CASE(test_trace3x3, * utf::tolerance(TestUtils::TOLERANCE))
 {
     double m1[4][4] = {
 		1.0, 2.0, 3.0, 4.0,
@@ -342,7 +352,7 @@ BOOST_AUTO_TEST_CASE(test_trace3x3)
 
     Mat4 a(m1);
 
-    BOOST_REQUIRE_EQUAL(Transform::trace3x3(a), 18.0);
+    BOOST_TEST(Transform::trace3x3(a) == 18.0);
 
     double m2[4][4] = {
 		1.0, 5.0, 9.0, 13.0,
@@ -353,10 +363,10 @@ BOOST_AUTO_TEST_CASE(test_trace3x3)
 
     Mat4 b(m2);
 
-    BOOST_REQUIRE_EQUAL(Transform::trace3x3(b), 18.0);
+    BOOST_TEST(Transform::trace3x3(b) == 18.0);
 }
 
-BOOST_AUTO_TEST_CASE(test_trace)
+BOOST_AUTO_TEST_CASE(test_trace, * utf::tolerance(TestUtils::TOLERANCE))
 {
     double m1[4][4] = {
 		1.0, 2.0, 3.0, 4.0,
@@ -367,7 +377,7 @@ BOOST_AUTO_TEST_CASE(test_trace)
 
     Mat4 a(m1);
 
-    BOOST_REQUIRE_EQUAL(Transform::trace3x3(a), 34.0);
+    BOOST_TEST(Transform::trace(a) == 34.0);
 
     double m2[4][4] = {
 		1.0, 5.0, 9.0, 13.0,
@@ -378,5 +388,5 @@ BOOST_AUTO_TEST_CASE(test_trace)
 
     Mat4 b(m2);
 
-    BOOST_REQUIRE_EQUAL(Transform::trace3x3(b), 34.0);
+    BOOST_TEST(Transform::trace(b) == 34.0);
 }

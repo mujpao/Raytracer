@@ -4,7 +4,7 @@
 namespace Utils {
     bool is_equal(double lhs, double rhs);
 
-    const double EPSILON = 0.000001;
+    const double EPSILON = 0.0000000001;
 }
 
 #endif
