@@ -39,14 +39,16 @@ int main(int argc, char * argv[]) {
 		exit(-1);
 	}
 
-	std::string outfile;
-	int max_depth = 5;
-	Camera cam;
-	Scene scene;
-	readfile(argv[1], cam, scene, max_depth, outfile);
-	Raytracer r(max_depth);
-	Image i = r.raytrace(cam, scene);
-	i.save(outfile);
-	
+	for (int i = 1; i < argc; ++i) {
+		std::string outfile;
+		int max_depth = 5;
+		Camera cam;
+		Scene scene;
+		readfile(argv[i], cam, scene, max_depth, outfile);
+		Raytracer r(max_depth);
+		Image image = r.raytrace(cam, scene);
+		image.save(outfile);
+	}
+
 	return 0;
 }
