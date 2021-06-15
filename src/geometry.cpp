@@ -10,8 +10,12 @@
 #include <iostream>
 
 Ray::Ray(Vec origin, Vec dir, double t_min)
-: m_origin(origin), m_direction(Vec::normalize(dir)), m_t_min(t_min)
-{}
+: m_origin(origin), m_direction(dir), m_t_min(t_min)
+{
+	if (!Utils::is_equal(m_origin[3] , 1.0)) {
+		std::cout << "here";
+	}
+}
 
 Ray::Ray()
 : m_origin(Vec(0.0f, 0.0f, 0.0f, 0.0f)), m_direction(Vec(0.0f, 0.0f, 0.0f))
@@ -20,6 +24,7 @@ Ray::Ray()
 Ray::Ray(Camera cam, int i, int j)
 {
 	m_origin = cam.eye;
+	m_origin[3] = 1.0;
 
 	float alpha = tan(cam.fovx / 2.0f) * ((j + 0.5f - (cam.w / 2.0f)) / (cam.w / 2.0f));
 	float beta = tan(cam.fovy / 2.0f) * (((cam.h/ 2.0f) - (i + 0.5f)) / (cam.h / 2.0f));
@@ -28,7 +33,9 @@ Ray::Ray(Camera cam, int i, int j)
 }
 
 Vec Ray::evaluate(double t) {
-	return m_origin + m_direction * t;
+	Vec result = m_origin + m_direction * t;
+	result[3] = 1.0;
+	return result;
 }
 
 bool Ray::intersect(Scene &s, float & t_closest, LocalGeo & closest_hit_geo) {
@@ -36,14 +43,27 @@ bool Ray::intersect(Scene &s, float & t_closest, LocalGeo & closest_hit_geo) {
 	float t;
 	bool has_intersect = false;
 	t_closest = m_t_max;
+	// int num_intersects = 0;
+	// bool intersects_sphere = false;
 	for (auto & obj : s.objects) {
 		if (obj->intersect(*this, t, local)) {
+			
 			// make sure intersection is a certain distance past object surface
 			if (t > m_t_min && t < t_closest) {
 				t_closest = t;
 				closest_hit_geo = local;
 				has_intersect = true;
 			}
+			// ++num_intersects;
+			// if (dynamic_cast<Sphere*>(obj.get())) {
+			// 	intersects_sphere = true;
+			// 	std::cout << "sphere hit: " << t << "\n";
+			// } else {
+			// 	std::cout << "tri hit: " << t << "\n";
+			// }
+			// if (num_intersects > 1 && intersects_sphere) {
+			// 	std::cout << "here";
+			// }
 		}
 	}
 	return has_intersect;
@@ -136,6 +156,8 @@ Vec Light::compute_light(float visible, Vec light_color, Vec dir, Vec normal,
 
 	float ndotl = Transform::dot(dir, normal);
 	float hdotn = Transform::dot(half, normal);
+	// Vec result = visible * light_color * (diffuse * std::max(ndotl, 0.0f));
+	// Vec result = visible * light_color * (specular * pow(std::max(hdotn, 0.0f), shininess));
 
 	Vec result = visible * light_color * (diffuse * std::max(ndotl, 0.0f) + specular * pow(std::max(hdotn, 0.0f), shininess));
 	return result;
@@ -146,10 +168,13 @@ Light::Light(Vec col)
 
 Vec PointLight::calc_lighting(const Vec & eye, Scene & s, LocalGeo & local) {
 	// dist from light to pixel
+	// TODO vector dist function
 	float d = sqrt(pow(local.pos.x() - p.x(), 2) + pow(local.pos.y() - p.y(), 2) + pow(local.pos.z() - p.z(), 2));
 
 	// create ray from pixel to light source
-	Ray r(Vec(local.pos.x(), local.pos.y(), local.pos.z()), Vec(p.x() - local.pos.x(), p.y() - local.pos.y(), p.z() - local.pos.z()), Utils::EPSILON);
+	// Ray r(Vec(local.pos.x(), local.pos.y(), local.pos.z(), 1.0), Vec(p.x() - local.pos.x(), p.y() - local.pos.y(), p.z() - local.pos.z()), Utils::EPSILON);
+	Ray r(local.pos, Vec::normalize(p - local.pos), Utils::EPSILON);
+
 	// calculate attenuation
 	Vec atten_light_color = light_color / (atten_const + atten_lin * d + atten_quad * pow(d, 2));
 
@@ -163,7 +188,7 @@ Vec PointLight::calc_lighting(const Vec & eye, Scene & s, LocalGeo & local) {
 
 
 	Vec dir = r.direction();
-	Vec pos_vector(local.pos.x(), local.pos.y(), local.pos.z());
+	Vec pos_vector(local.pos.x(), local.pos.y(), local.pos.z(), 1.0);
 	Vec eyedirn = Vec::normalize(eye - pos_vector);
 	Vec half = Vec::normalize(dir + eyedirn);
 
@@ -178,7 +203,7 @@ PointLight::PointLight(Vec atten, Vec col, Vec p)
 Vec DirLight::calc_lighting(const Vec & eye, Scene & s, LocalGeo & local) {
 
 	// create ray starting at pixel in dir of light source
-	Ray r(Vec(local.pos.x(), local.pos.y(), local.pos.z()), dir, Utils::EPSILON);
+	Ray r(Vec(local.pos.x(), local.pos.y(), local.pos.z(), 1.0), Vec::normalize(dir), Utils::EPSILON);
 
 	// check if view to light is blocked
 	float t, v;
@@ -324,9 +349,8 @@ bool Sphere::intersect(Ray& ray, float& thit, LocalGeo& local) {
 		return false;
 	}
 
-	Vec ray_tip = r2.evaluate(thit);
-	Vec untransformed_point = ray_tip;
-	Vec untransformed_normal = Vec::normalize(ray_tip - center);
+	Vec untransformed_point = r2.evaluate(thit);
+	Vec untransformed_normal = Vec::normalize(untransformed_point - center);
 
 	local.pos = transformation * untransformed_point;
 	local.normal = Vec::normalize(inverse_transpose * untransformed_normal);
@@ -350,7 +374,7 @@ bool Sphere::intersectP(Ray& ray) {
 }
 
 Sphere::Sphere(float cx, float cy, float cz, float r, Mat4 t, Vec d, Vec s, Vec e, Vec a, float shiny)
-: Shape(d, s, e, a, shiny), center(cx, cy, cz), radius(r), transformation(t)
+: Shape(d, s, e, a, shiny), center(cx, cy, cz, 1.0), radius(r), transformation(t)
 {
 	inverse = Transform::inverse(transformation);
 	inverse_transpose = Transform::transpose3x3(Transform::inverse3x3(transformation));
@@ -470,14 +494,14 @@ Vec Raytracer::trace(Ray r, Scene scene, int num_recs) {
 	// Illumination model
 	color = local.shape_hit->ambient + local.shape_hit->emission;
 	for (auto & light : scene.lights) {
-		color = color + light->calc_lighting(r.origin(), scene, local); // TODO implement += for Vec
+		color += light->calc_lighting(r.origin(), scene, local);
 	}
 
 	// Reflected ray
-	Vec reflected_dir = r.direction() - 2.0f * Transform::dot(r.direction(), local.normal) * local.normal;
-	Ray reflected_ray(local.pos, reflected_dir, Utils::EPSILON);
+	// Vec reflected_dir = r.direction() - 2.0f * Transform::dot(r.direction(), local.normal) * local.normal;
+	// Ray reflected_ray(local.pos, reflected_dir, Utils::EPSILON);
 
-	color = color + local.shape_hit->specular * trace(reflected_ray, scene, num_recs + 1);
+	// color = color + local.shape_hit->specular * trace(reflected_ray, scene, num_recs + 1);
 
 	return color;
 }

@@ -113,7 +113,8 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						direction[2] = values[2];
 						color[0] = values[3];
 						color[1] = values[4];
-						color[2] = values[5];						
+						color[2] = values[5];
+						color[3] = 1.0;						
 
 						scene.lights.push_back(std::make_shared<DirLight>(color, direction));
 					}
@@ -125,9 +126,11 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						light_location[0] = values[0];
 						light_location[1] = values[1];
 						light_location[2] = values[2];
+						light_location[3] = 1.0;
 						color[0] = values[3];
 						color[1] = values[4];
 						color[2] = values[5];
+						color[3] = 1.0;						
 
 						scene.lights.push_back(std::make_shared<PointLight>(attenuation, color, light_location));
 					}
@@ -156,6 +159,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						for (i = 0; i < 3; i++) {
 							ambient[i] = values[i];
 						}
+						ambient[3] = 1.0;
 					}
 				}
 				else if (cmd == "diffuse") {
@@ -164,6 +168,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						for (i = 0; i < 3; i++) {
 							diffuse[i] = values[i];
 						}
+						diffuse[3] = 1.0;
 					}
 				}
 				else if (cmd == "specular") {
@@ -172,6 +177,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						for (i = 0; i < 3; i++) {
 							specular[i] = values[i];
 						}
+						specular[3] = 1.0;
 					}
 				}
 				else if (cmd == "emission") {
@@ -180,6 +186,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						for (i = 0; i < 3; i++) {
 							emission[i] = values[i];
 						}
+						emission[3] = 1.0;
 					}
 				}
 				else if (cmd == "shininess") {
@@ -214,6 +221,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						center[0] = values[3];
 						center[1] = values[4];
 						center[2] = values[5];
+						center[3] = 1.0;
 						up[0] = values[6];
 						up[1] = values[7];
 						up[2] = values[8];
@@ -233,7 +241,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 					validinput = readvals(s, 3, values);
 
 					if (validinput) {
-						vertices.emplace_back(values[0], values[1], values[2]);
+						vertices.emplace_back(values[0], values[1], values[2], 1.0);
 					}
 				}
 				else if (cmd == "sphere" || cmd == "tri") {

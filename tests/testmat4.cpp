@@ -340,7 +340,7 @@ BOOST_AUTO_TEST_CASE(test_multiply_ray, * utf::tolerance(TestUtils::TOLERANCE))
     
     Ray r2 = a * r1;
     BOOST_REQUIRE_EQUAL(r2.origin(), a * r1.origin());
-    BOOST_REQUIRE_EQUAL(r2.direction(), Vec::normalize(a * r1.direction()));
+    BOOST_REQUIRE_EQUAL(r2.direction(), a * r1.direction());
 }
 
 BOOST_AUTO_TEST_CASE(test_assign, * utf::tolerance(TestUtils::TOLERANCE))
