@@ -13,7 +13,7 @@ Ray::Ray(Vec origin, Vec dir, double t_min)
 : m_origin(origin), m_direction(dir), m_t_min(t_min)
 {
 	if (!Utils::is_equal(m_origin[3] , 1.0)) {
-		std::cout << "here";
+		std::cout << "here"; // TODO warning
 	}
 }
 
@@ -43,8 +43,6 @@ bool Ray::intersect(Scene &s, float & t_closest, LocalGeo & closest_hit_geo) {
 	float t;
 	bool has_intersect = false;
 	t_closest = m_t_max;
-	// int num_intersects = 0;
-	// bool intersects_sphere = false;
 	for (auto & obj : s.objects) {
 		if (obj->intersect(*this, t, local)) {
 			
@@ -54,16 +52,6 @@ bool Ray::intersect(Scene &s, float & t_closest, LocalGeo & closest_hit_geo) {
 				closest_hit_geo = local;
 				has_intersect = true;
 			}
-			// ++num_intersects;
-			// if (dynamic_cast<Sphere*>(obj.get())) {
-			// 	intersects_sphere = true;
-			// 	std::cout << "sphere hit: " << t << "\n";
-			// } else {
-			// 	std::cout << "tri hit: " << t << "\n";
-			// }
-			// if (num_intersects > 1 && intersects_sphere) {
-			// 	std::cout << "here";
-			// }
 		}
 	}
 	return has_intersect;
@@ -173,7 +161,9 @@ Vec PointLight::calc_lighting(const Vec & eye, Scene & s, LocalGeo & local) {
 
 	// create ray from pixel to light source
 	// Ray r(Vec(local.pos.x(), local.pos.y(), local.pos.z(), 1.0), Vec(p.x() - local.pos.x(), p.y() - local.pos.y(), p.z() - local.pos.z()), Utils::EPSILON);
-	Ray r(local.pos, Vec::normalize(p - local.pos), Utils::EPSILON);
+	Vec ray_dir = Vec::normalize(p - local.pos);
+	ray_dir[3] = 0.0;
+	Ray r(local.pos, ray_dir, Utils::EPSILON);
 
 	// calculate attenuation
 	Vec atten_light_color = light_color / (atten_const + atten_lin * d + atten_quad * pow(d, 2));

@@ -35,7 +35,7 @@ private:
 	Vec m_direction;
 	
 	double m_t_min = 0.0;
-	double m_t_max = 10000.0;
+	const double m_t_max = 10000.0;
 };
 
 class Shape;
