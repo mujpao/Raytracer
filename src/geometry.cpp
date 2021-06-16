@@ -506,10 +506,10 @@ Vec Raytracer::trace(Ray r, Scene scene, int num_recs) {
 	}
 
 	// Reflected ray
-	// Vec reflected_dir = r.direction() - 2.0f * Transform::dot(r.direction(), local.normal) * local.normal;
-	// Ray reflected_ray(local.pos, reflected_dir, Utils::EPSILON);
+	Vec reflected_dir = r.direction() - 2.0f * Transform::dot(r.direction(), local.normal) * local.normal;
+	Ray reflected_ray(local.pos, reflected_dir, Utils::EPSILON);
 
-	// color = color + local.shape_hit->specular * trace(reflected_ray, scene, num_recs + 1);
+	color = color + local.shape_hit->specular * trace(reflected_ray, scene, num_recs + 1);
 
 	return color;
 }

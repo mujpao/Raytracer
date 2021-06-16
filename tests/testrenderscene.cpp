@@ -10,7 +10,7 @@
 #include "configure.h"
 
 struct CompareImagesFixture {
-    CompareImagesFixture(const std::string &scene_name)
+    CompareImagesFixture(const std::string &scene_name, const char *extension = ".jpg", double tolerance = 0.1)
      : m_scene_dir(std::string(SOURCE_DIR) + "/scenes/testscenes/"), m_scene_name(scene_name)
     {
         std::string infile(m_scene_dir + m_scene_name + ".test");
@@ -22,7 +22,7 @@ struct CompareImagesFixture {
         Raytracer r(max_depth);
         Image rendered_image = r.raytrace(cam, scene);
 
-        std::string compare_to_file(m_scene_dir + m_scene_name + ".jpg");
+        std::string compare_to_file(m_scene_dir + m_scene_name + extension);
 
         int x,y,n;
         unsigned char *data = stbi_load(compare_to_file.c_str(), &x, &y, &n, 0);
@@ -55,7 +55,7 @@ struct CompareImagesFixture {
         double total_pixels = (double)rendered_image.width() * rendered_image.height();
 
         double pct_different = (double)num_diff / total_pixels;
-        BOOST_REQUIRE_SMALL(pct_different, 0.1);
+        BOOST_REQUIRE_SMALL(pct_different, tolerance);
     }
 
     ~CompareImagesFixture() {}
@@ -103,4 +103,24 @@ BOOST_AUTO_TEST_CASE(test_render_scene2_camera3)
 BOOST_AUTO_TEST_CASE(test_render_scene3)
 {
     CompareImagesFixture f("scene3");
+}
+
+BOOST_AUTO_TEST_CASE(test_render_scene4_ambient)
+{
+    CompareImagesFixture f("scene4-ambient", ".png", 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(test_render_scene4_diffuse)
+{
+    CompareImagesFixture f("scene4-diffuse", ".png", 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(test_render_scene4_emission)
+{
+    CompareImagesFixture f("scene4-emission", ".png", 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(test_render_scene4_specular)
+{
+    CompareImagesFixture f("scene4-specular", ".png", 0.01);
 }
