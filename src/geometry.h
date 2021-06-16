@@ -137,14 +137,24 @@ public:
 
 class Image {
 public:
-	int w, h;
-	Image(int w, int h);
-	Image(const Image & i);
-	~Image();
-	// TODO change name to set_pixel_color()?
-	void color_pixel(int i, int j, const unsigned char color[]);
-	void save(std::string file); // TODO
-	unsigned char * bytes;
+	Image(unsigned int width, unsigned int height);
+	// Makes a copy of data
+	Image(const unsigned char *data, unsigned int width, unsigned int height);
+	Image(const Image &other);
+	virtual ~Image();
+
+	inline unsigned int width() const { return m_width; }
+	inline unsigned int height() const { return m_height; }
+
+	void save(const std::string &file) const;
+
+	void set_pixel_color(unsigned int i, unsigned int j, const unsigned char color[]);
+	std::vector<unsigned char> pixel_color(unsigned int i, unsigned int j) const;
+
+private:
+	unsigned int m_width, m_height;
+	
+	unsigned char * m_bytes;
 };
 
 class Raytracer {

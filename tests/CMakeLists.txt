@@ -6,6 +6,10 @@ find_package(Boost REQUIRED COMPONENTS unit_test_framework)
 
 SET(TEST_LIBRARIES RayTracerSrc CompilerFlags Boost::unit_test_framework)
 
+set(SOURCE_DIR ${CMAKE_SOURCE_DIR})
+set(CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+configure_file(configure.h.in configure.h @ONLY)
+
 enable_testing(true)
 
 function(make_test name file)

@@ -403,39 +403,57 @@ void Camera::init(Vec new_eye, Vec new_center, Vec new_up, float fov, int new_w,
 	v_vec = Transform::cross(w_vec, u_vec);
 }
 
-Image::Image(int w, int h)
-: w(w), h(h)
+Image::Image(unsigned int width, unsigned int height)
+: m_width(width), m_height(height)
 {
-	bytes = new unsigned char[3 * w * h]; // 3 bytes for each pixel
+	m_bytes = new unsigned char[3 * m_width * m_height]; // 3 bytes for each pixel
 }
 
-Image::Image(const Image & other)
-: w(other.w), h(other.h)
+Image::Image(const unsigned char *data, unsigned int width, unsigned int height)
+: m_width(width), m_height(height)
 {
-	bytes = new unsigned char[3 * w * h];
-	// copy bytes into this image
-	int i;
-	for (i = 0; i < 3 * w * h; ++i) {
-		bytes[i] = other.bytes[i];
+	m_bytes = new unsigned char[3 * m_width * m_height];
+	for (std::size_t i = 0; i < 3 * m_width * m_height; ++i) {
+		m_bytes[i] = data[i];
 	}
 }
 
+
+Image::Image(const Image &other)
+: m_width(other.m_width), m_height(other.m_height)
+{
+	m_bytes = new unsigned char[3 * m_width * m_height];
+	// copy bytes into this image
+	for (std::size_t i = 0; i < 3 * m_width * m_height; ++i) {
+		m_bytes[i] = other.m_bytes[i];
+	}
+}
 
 Image::~Image() {
-	delete[] bytes;
+	delete[] m_bytes;
 }
 
-void Image::color_pixel(int i, int j, const unsigned char color[]) {
-	int starting_byte = 3 * (i * w + j);
+void Image::save(const std::string &file) const {
+	stbi_write_png(file.c_str(), m_width, m_height, 3, (const void *)m_bytes, m_width * 3);
+}
 
-	for (int idx = 0; idx < 3; ++idx) {
-		bytes[starting_byte + idx] = color[idx];
+void Image::set_pixel_color(unsigned int i, unsigned int j, const unsigned char color[]) {
+	// TODO check indices
+	std::size_t starting_byte = (std::size_t)3 * ((std::size_t)i * m_width + j);
+
+	for (std::size_t idx = 0; idx < 3; ++idx) {
+		m_bytes[starting_byte + idx] = color[idx];
 	}
-
 }
 
-void Image::save(std::string file) {
-	stbi_write_png(file.c_str(), w, h, 3, (const void *)bytes, w * 3);
+std::vector<unsigned char> Image::pixel_color(unsigned int i, unsigned int j) const {
+	// TODO check indices
+	std::size_t starting_byte = (std::size_t)3 * ((std::size_t)i * m_width + j);
+	std::vector<unsigned char> result(3, 0);
+	for (std::size_t idx = 0; idx < 3; ++idx) {
+		result[idx] = m_bytes[starting_byte + idx];
+	}
+	return result;
 }
 
 Image Raytracer::raytrace(Camera cam, Scene scene) {
@@ -468,7 +486,7 @@ Image Raytracer::raytrace(Camera cam, Scene scene) {
 				color[k] = (unsigned char)new_color;
 			}
 
-			image.color_pixel(i, j, color);
+			image.set_pixel_color(i, j, color);
 		}
 	}
 
