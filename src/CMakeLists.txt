@@ -1,14 +1,18 @@
 set(PROJECT_SOURCES
+        math/mat3.h
+        math/mat3.cpp
+        math/mat4.h
+        math/mat4.cpp
+        math/transform.h
+        math/transform.cpp
+        math/vec.h
+        math/vec.cpp
         camera.h
         camera.cpp
         image.h
         image.cpp
         light.h
         light.cpp
-        mat3.h
-        mat3.cpp
-        mat4.h
-        mat4.cpp
         ray.h
         ray.cpp
         raytracer.h
@@ -19,18 +23,14 @@ set(PROJECT_SOURCES
         scene.cpp
         shape.h
         shape.cpp
-        transform.h
-        transform.cpp
         utils.h
         utils.cpp
-        vec.h
-        vec.cpp
 )
 
 add_library(RayTracerSrc STATIC ${PROJECT_SOURCES})
 
 target_include_directories(RayTracerSrc
-          INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+          PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
           )
 
 target_link_libraries(RayTracerSrc PRIVATE CompilerFlags)

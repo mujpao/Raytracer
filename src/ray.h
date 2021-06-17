@@ -1,7 +1,7 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include "vec.h"
+#include "math/vec.h"
 
 class Camera;
 class Scene;

@@ -1,6 +1,6 @@
 #include "camera.h"
 
-#include "transform.h"
+#include "math/transform.h"
 #include <cmath>
 
 Camera::Camera()

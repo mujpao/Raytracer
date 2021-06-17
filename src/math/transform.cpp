@@ -1,8 +1,8 @@
-#include "transform.h"
+#include "math/transform.h"
 
-#include "vec.h"
-#include "mat3.h"
-#include "mat4.h"
+#include "math/vec.h"
+#include "math/mat3.h"
+#include "math/mat4.h"
 
 #define _USE_MATH_DEFINES // TODO store PI in utils.h
 #include <cmath>

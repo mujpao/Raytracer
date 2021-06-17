@@ -1,9 +1,9 @@
 #define BOOST_TEST_MODULE TestMat3
 #include <boost/test/unit_test.hpp>
 
-#include "mat4.h"
-#include "mat3.h"
-#include "vec.h"
+#include "math/mat4.h"
+#include "math/mat3.h"
+#include "math/vec.h"
 #include "ray.h"
 #include "testutils.h"
 

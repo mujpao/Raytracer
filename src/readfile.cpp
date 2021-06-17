@@ -22,8 +22,8 @@
 
 #include "readfile.h"
 
-#include "mat4.h"
-#include "transform.h"
+#include "math/mat4.h"
+#include "math/transform.h"
 #include "camera.h"
 #include "scene.h"
 #include "light.h"

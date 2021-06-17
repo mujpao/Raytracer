@@ -1,8 +1,8 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
-#include "vec.h"
-#include "mat4.h"
+#include "math/vec.h"
+#include "math/mat4.h"
 
 // TODO redesign interface
 

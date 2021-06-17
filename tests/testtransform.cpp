@@ -1,9 +1,9 @@
 #define BOOST_TEST_MODULE TestTransform
 #include <boost/test/unit_test.hpp>
 
-#include "transform.h"
-#include "mat4.h"
-#include "vec.h"
+#include "math/transform.h"
+#include "math/mat4.h"
+#include "math/vec.h"
 #include "testutils.h"
 
 namespace utf = boost::unit_test;

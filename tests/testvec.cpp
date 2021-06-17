@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE TestVec
 #include <boost/test/unit_test.hpp>
 
-#include "vec.h"
+#include "math/vec.h"
 #include "testutils.h"
 
 #include <cmath>

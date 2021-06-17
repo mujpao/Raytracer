@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE TestMat3
 #include <boost/test/unit_test.hpp>
 
-#include "mat3.h"
+#include "math/mat3.h"
 #include "testutils.h"
 
 namespace utf = boost::unit_test;

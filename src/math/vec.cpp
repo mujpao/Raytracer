@@ -1,4 +1,4 @@
-#include "vec.h"
+#include "math/vec.h"
 
 #include "utils.h"
 

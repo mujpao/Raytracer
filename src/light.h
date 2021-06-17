@@ -1,7 +1,7 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "vec.h"
+#include "math/vec.h"
 
 class Scene;
 class IntersectionInfo;
