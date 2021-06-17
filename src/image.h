@@ -18,12 +18,14 @@ public:
 	void save(const std::string &file) const;
 
 	void set_pixel_color(unsigned int i, unsigned int j, const unsigned char color[]);
+
+	// TODO return value?
 	std::vector<unsigned char> pixel_color(unsigned int i, unsigned int j) const;
 
 private:
 	unsigned int m_width, m_height;
 	
-	unsigned char * m_bytes;
+	unsigned char * m_bytes; // TODO
 };
 
 #endif

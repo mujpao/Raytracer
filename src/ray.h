@@ -18,10 +18,10 @@ public:
 	inline Vec direction() const { return m_direction; }
 	inline double t_min() const { return m_t_min; }
 
-	Vec evaluate(double t);
+	Vec evaluate(double t) const;
 
 	// TODO move to scene class?
-	bool intersect(const Scene &s, float & t_closest, IntersectionInfo & closest_hit_geo);
+	bool intersect(const Scene &s, float & t_closest, IntersectionInfo & closest_hit_geo) const;
 	friend std::ostream& operator<<(std::ostream& os, const Ray& r);
 
 private:

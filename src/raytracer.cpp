@@ -9,9 +9,10 @@
 #include "math/transform.h"
 #include "utils.h"
 
+Raytracer::Raytracer(int max_depth) : m_max_depth(max_depth) {}
 
-Image Raytracer::raytrace(Camera cam, Scene scene) {
-	Image image(cam.w, cam.h);
+Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
+	Image image(camera.w, camera.h);
 	int i, j, k;
 	// const unsigned char red[] = { 255, 0, 0 };
 	// const unsigned char green[] = { 0, 255, 0 };
@@ -24,10 +25,10 @@ Image Raytracer::raytrace(Camera cam, Scene scene) {
 
 	Vec pixel_color;
 
-	for (i = 0; i < cam.h; ++i) {
-		for (j = 0; j < cam.w; ++j) {
+	for (i = 0; i < camera.h; ++i) {
+		for (j = 0; j < camera.w; ++j) {
 
-			Ray ray(cam, i, j);
+			Ray ray(camera, i, j);
 			
 			pixel_color = trace(ray, scene, 0); // TODO start at 0 or 1?
 
@@ -47,12 +48,10 @@ Image Raytracer::raytrace(Camera cam, Scene scene) {
 	return image;
 }
 
-Raytracer::Raytracer(int max_depth) : max_depth(max_depth) {}
+Vec Raytracer::trace(const Ray &r, const Scene &scene, int num_recs) {
+	Vec color(0.0, 0.0, 0.0);
 
-Vec Raytracer::trace(Ray r, Scene scene, int num_recs) {
-	Vec color(0.0f, 0.0f, 0.0f);
-
-	if (num_recs > max_depth)
+	if (num_recs > m_max_depth)
 		return color;
 
 	float t;
@@ -64,16 +63,16 @@ Vec Raytracer::trace(Ray r, Scene scene, int num_recs) {
 
 	
 	// Illumination model
-	color = local.shape_hit->ambient + local.shape_hit->emission;
+	color = local.m_shape_hit->ambient + local.m_shape_hit->m_emission;
 	for (auto & light : scene.lights) {
 		color += light->calc_lighting(r.origin(), scene, local);
 	}
 
 	// Reflected ray
-	Vec reflected_dir = r.direction() - 2.0f * Transform::dot(r.direction(), local.normal) * local.normal;
-	Ray reflected_ray(local.pos, reflected_dir, Utils::EPSILON);
+	Vec reflected_dir = r.direction() - 2.0f * Transform::dot(r.direction(), local.m_normal) * local.m_normal;
+	Ray reflected_ray(local.m_position, reflected_dir, Utils::EPSILON);
 
-	color = color + local.shape_hit->specular * trace(reflected_ray, scene, num_recs + 1);
+	color = color + local.m_shape_hit->m_specular * trace(reflected_ray, scene, num_recs + 1);
 
 	return color;
 }

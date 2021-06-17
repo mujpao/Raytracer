@@ -9,31 +9,43 @@ class IntersectionInfo;
 // TODO redesign interface
 class Light {
 public:
-	virtual Vec calc_lighting(const Vec & eye, Scene & s, IntersectionInfo & local) = 0;
-	Vec light_color;
-	Light(Vec col);
+	Light(const Vec &light_color);
 	virtual ~Light() = default;
 
-	Vec compute_light(float visible, Vec light_color, Vec dir, Vec normal, 
-		Vec half, Vec diffuse, Vec specular, float shininess);
+	virtual Vec calc_lighting(const Vec & eye, const Scene & scene, const IntersectionInfo & intersection_info) = 0;
 
+protected:
+	// TODO light_color argument does what?
+	// TODO change visible to visibility?
+	Vec compute_light(float visible, const Vec & light_color, const Vec & direction, const Vec & normal, 
+		const Vec & half, const Vec & diffuse, const Vec & specular, float shininess);
+
+	inline const Vec& light_color() const { return m_light_color; }
+
+private:
+	Vec m_light_color;
 };
 
-// Point Lights
 class PointLight : public Light {
 public:
-	Vec calc_lighting(const Vec & eye, Scene & s, IntersectionInfo & local) override;
-	Vec p;
-	float atten_const = 1, atten_lin = 0, atten_quad = 0;
-	PointLight(Vec atten, Vec col, Vec p);
+	PointLight(const Vec &attenuation, const Vec &light_color, const Vec &position);
+
+	Vec calc_lighting(const Vec & eye, const Scene & scene, const IntersectionInfo & intersection_info) override;
+
+private:
+	Vec m_position;
+
+	double m_atten_const = 1.0, m_atten_lin = 0.0, m_atten_quad = 0.0;
 };
 
-// Directional Lights
 class DirLight : public Light {
 public:
-	Vec calc_lighting(const Vec & eye, Scene & s, IntersectionInfo & local) override;
-	Vec dir;
-	DirLight(Vec col, Vec dir);
+	DirLight(const Vec &light_color, const Vec &direction);
+
+	Vec calc_lighting(const Vec & eye, const Scene & scene, const IntersectionInfo & intersection_info) override;
+
+private:
+	Vec m_direction;
 };
 
 #endif

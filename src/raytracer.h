@@ -9,12 +9,14 @@ class Ray;
 
 class Raytracer {
 public:
-	Image raytrace(Camera cam, Scene scene);
 	Raytracer(int max_depth);
+
+	Image raytrace(const Camera &camera, const Scene &scene);
 private:
 	// TODO change name to calc_intersection_color() or something...
-	Vec trace(Ray r, Scene scene, int num_recs); // recursively determines the color of the intersection of ray with the scene
-	int max_depth;
+	Vec trace(const Ray &r, const Scene &scene, int num_recs); // recursively determines the color of the intersection of ray with the scene
+
+	int m_max_depth;
 };
 
 #endif

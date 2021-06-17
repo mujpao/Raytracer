@@ -5,6 +5,7 @@
 
 class Camera {
 public:
+	// TODO
 	Vec eye;
 	Vec center;
 	Vec up;

@@ -8,17 +8,17 @@
 IntersectionInfo::IntersectionInfo() {}
 
 IntersectionInfo::IntersectionInfo(Vec pos, Vec normal, Shape * s)
-: pos(pos), normal(normal), shape_hit(s) {}
+: m_position(pos), m_normal(normal), m_shape_hit(s) {}
 
 
 Shape::Shape(Vec d, Vec s, Vec e, Vec a, float shiny)
-:  diffuse(d), specular(s), emission(e), ambient(a), shininess(shiny)
+:  m_diffuse(d), m_specular(s), m_emission(e), ambient(a), m_shininess(shiny)
 {}
 
-bool Triangle::intersect(Ray& ray, float& thit, IntersectionInfo& local) {
-	Vec a = v1;
-	Vec b = v2;
-	Vec c = v3;
+bool Triangle::intersect(const Ray& ray, float& thit, IntersectionInfo& local) {
+	Vec a = m_v1;
+	Vec b = m_v2;
+	Vec c = m_v3;
 
 	Vec n = Vec::normalize(Transform::cross(b - a, c - a));
 	
@@ -30,12 +30,12 @@ bool Triangle::intersect(Ray& ray, float& thit, IntersectionInfo& local) {
 
 	// TODO inside triangle?
 
-	local.pos = ray.evaluate(thit);
-	local.normal = n;
-	local.shape_hit = this;
+	local.m_position = ray.evaluate(thit);
+	local.m_normal = n;
+	local.m_shape_hit = this;
 
 	float alpha, beta, gamma;
-	barycentric(local.pos, alpha, beta, gamma);
+	barycentric(local.m_position, alpha, beta, gamma);
 
 	if (alpha >= 0 && alpha <= 1 &&
 		beta >= 0 && beta <= 1 &&
@@ -48,9 +48,9 @@ bool Triangle::intersect(Ray& ray, float& thit, IntersectionInfo& local) {
 
 
 bool Triangle::intersectP(Ray& ray) {
-	Vec a = v1;
-	Vec b = v2;
-	Vec c = v3;
+	Vec a = m_v1;
+	Vec b = m_v2;
+	Vec c = m_v3;
 
 	Vec n = Vec::normalize(Transform::cross(b - a, c - a));
 
@@ -77,15 +77,15 @@ bool Triangle::intersectP(Ray& ray) {
 }
 
 Triangle::Triangle(Vec p1, Vec p2, Vec p3, Mat4 t, Vec d, Vec s, Vec e, Vec a, float shiny)
-: Shape(d, s, e, a, shiny), v1(t * p1), v2(t * p2), v3(t * p3) // apply transformation to vertices
+: Shape(d, s, e, a, shiny), m_v1(t * p1), m_v2(t * p2), m_v3(t * p3) // apply transformation to vertices
 {}
 
 // from Real-Time Collision Detection
 void Triangle::barycentric(Vec p, float &u, float &v, float &w)
 {
-	Vec a = v2 - v1;
-	Vec b = v3 - v1;
-	Vec c = p - v1;
+	Vec a = m_v2 - m_v1;
+	Vec b = m_v3 - m_v1;
+	Vec c = p - m_v1;
 	float d00 = Transform::dot(a, a);
 	float d01 = Transform::dot(a, b);
 	float d11 = Transform::dot(b, b);
@@ -97,13 +97,13 @@ void Triangle::barycentric(Vec p, float &u, float &v, float &w)
 	u = 1.0f - v - w;
 }
 
-bool Sphere::intersect(Ray& ray, float& thit, IntersectionInfo& local) {
+bool Sphere::intersect(const Ray& ray, float& thit, IntersectionInfo& local) {
 	float a, b, c, disc;
-	Ray r2 = inverse * ray;
+	Ray r2 = m_inverse * ray;
 
 	a = Transform::dot(r2.direction(), r2.direction());
-	b = 2 * Transform::dot(r2.direction(), r2.origin() - center);
-	c = Transform::dot(r2.origin() - center, r2.origin() - center) - std::pow(radius, 2.0f);
+	b = 2 * Transform::dot(r2.direction(), r2.origin() - m_center);
+	c = Transform::dot(r2.origin() - m_center, r2.origin() - m_center) - std::pow(m_radius, 2.0f);
 
 	// check if discriminant < 0
 	disc = std::pow(b, 2.0f) - 4.0f * a * c;
@@ -136,11 +136,11 @@ bool Sphere::intersect(Ray& ray, float& thit, IntersectionInfo& local) {
 	}
 
 	Vec untransformed_point = r2.evaluate(thit);
-	Vec untransformed_normal = Vec::normalize(untransformed_point - center);
+	Vec untransformed_normal = Vec::normalize(untransformed_point - m_center);
 
-	local.pos = transformation * untransformed_point;
-	local.normal = Vec::normalize(inverse_transpose * untransformed_normal);
-	local.shape_hit = this;
+	local.m_position = m_transformation * untransformed_point;
+	local.m_normal = Vec::normalize(m_inverse_transpose * untransformed_normal);
+	local.m_shape_hit = this;
 
 	return true;
 }
@@ -148,11 +148,11 @@ bool Sphere::intersect(Ray& ray, float& thit, IntersectionInfo& local) {
 bool Sphere::intersectP(Ray& ray) {
 	float a, b, c, disc;
 
-	Ray r2 = Transform::inverse(transformation) * ray;
+	Ray r2 = Transform::inverse(m_transformation) * ray;
 
 	a = Transform::dot(r2.direction(), r2.direction());
-	b = 2 * Transform::dot(r2.direction(), r2.origin() - center);
-	c = Transform::dot(r2.origin() - center, r2.origin() - center) - std::pow(radius, 2.0f);
+	b = 2 * Transform::dot(r2.direction(), r2.origin() - m_center);
+	c = Transform::dot(r2.origin() - m_center, r2.origin() - m_center) - std::pow(m_radius, 2.0f);
 
 	// check if discriminant >= 0
 	disc = std::pow(b, 2.0f) - 4.0f * a * c;
@@ -160,8 +160,8 @@ bool Sphere::intersectP(Ray& ray) {
 }
 
 Sphere::Sphere(float cx, float cy, float cz, float r, Mat4 t, Vec d, Vec s, Vec e, Vec a, float shiny)
-: Shape(d, s, e, a, shiny), center(cx, cy, cz, 1.0), radius(r), transformation(t)
+: Shape(d, s, e, a, shiny), m_center(cx, cy, cz, 1.0), m_radius(r), m_transformation(t)
 {
-	inverse = Transform::inverse(transformation);
-	inverse_transpose = Transform::transpose3x3(Transform::inverse3x3(transformation));
+	m_inverse = Transform::inverse(m_transformation);
+	m_inverse_transpose = Transform::transpose3x3(Transform::inverse3x3(m_transformation));
 }

@@ -32,13 +32,13 @@ Ray::Ray(Camera cam, int i, int j)
 	m_direction = Vec::normalize(alpha * cam.u_vec + beta * cam.v_vec - cam.w_vec);
 }
 
-Vec Ray::evaluate(double t) {
+Vec Ray::evaluate(double t) const {
 	Vec result = m_origin + m_direction * t;
 	result[3] = 1.0;
 	return result;
 }
 
-bool Ray::intersect(const Scene &s, float & t_closest, IntersectionInfo & closest_hit_geo) {
+bool Ray::intersect(const Scene &s, float & t_closest, IntersectionInfo & closest_hit_geo) const {
 	IntersectionInfo local;
 	float t;
 	bool has_intersect = false;
