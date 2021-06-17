@@ -4,7 +4,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "thirdparty/stb_image.h"
 
-#include "geometry.h"
+#include "camera.h"
+#include "scene.h"
+#include "raytracer.h"
+#include "image.h"
 #include "readfile.h"
 
 #include "configure.h"

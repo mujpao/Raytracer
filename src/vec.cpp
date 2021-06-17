@@ -35,7 +35,7 @@ double Vec::operator[](int idx) const {
 }
 
 Vec Vec::normalize(const Vec & v) {
-	double mag = sqrt(pow(v.m_data[0], 2) + pow(v.m_data[1], 2) + pow(v.m_data[2], 2));
+	double mag = std::sqrt(std::pow(v.m_data[0], 2) + std::pow(v.m_data[1], 2) + std::pow(v.m_data[2], 2));
 	Vec result = v / mag;
 	return result;
 }

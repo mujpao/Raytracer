@@ -1,18 +1,30 @@
 set(PROJECT_SOURCES
-        vec.h
-        vec.cpp
+        camera.h
+        camera.cpp
+        image.h
+        image.cpp
+        light.h
+        light.cpp
         mat3.h
         mat3.cpp
         mat4.h
         mat4.cpp
-        transform.h
-        transform.cpp
-        geometry.h
-        geometry.cpp
+        ray.h
+        ray.cpp
+        raytracer.h
+        raytracer.cpp
         readfile.h
         readfile.cpp
+        scene.h
+        scene.cpp
+        shape.h
+        shape.cpp
+        transform.h
+        transform.cpp
         utils.h
         utils.cpp
+        vec.h
+        vec.cpp
 )
 
 add_library(RayTracerSrc STATIC ${PROJECT_SOURCES})

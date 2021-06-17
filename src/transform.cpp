@@ -1,9 +1,10 @@
 #include "transform.h"
 
-#include "geometry.h"
+#include "vec.h"
 #include "mat3.h"
+#include "mat4.h"
 
-#define _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES // TODO store PI in utils.h
 #include <cmath>
 
 Mat4 Transform::rotate(double degrees, const Vec& axis)
@@ -101,8 +102,8 @@ double Transform::det(const Mat4 & m) {
 }
 
 Mat4 Transform::inverse(const Mat4 & m) {
-	Mat4 result = (1.0 / 6.0) * (pow(trace(m), 3.0) - 3.0 * trace(m) * trace(m * m) + 2.0 * trace(m * m * m)) * Mat4(1.0);
-	result = result - 0.5 * m * (pow(trace(m), 2.0) - trace(m * m));
+	Mat4 result = (1.0 / 6.0) * (std::pow(trace(m), 3.0) - 3.0 * trace(m) * trace(m * m) + 2.0 * trace(m * m * m)) * Mat4(1.0);
+	result = result - 0.5 * m * (std::pow(trace(m), 2.0) - trace(m * m));
 	result = result + m * m * trace(m) - m * m * m;
 
 	return (1.0 / det(m)) * result;

@@ -4,7 +4,7 @@
 #include "mat4.h"
 #include "mat3.h"
 #include "vec.h"
-#include "geometry.h"
+#include "ray.h"
 #include "testutils.h"
 
 namespace utf = boost::unit_test;

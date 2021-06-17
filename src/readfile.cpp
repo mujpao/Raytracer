@@ -22,8 +22,14 @@
 
 #include "readfile.h"
 
+#include "mat4.h"
 #include "transform.h"
-#include "geometry.h"
+#include "camera.h"
+#include "scene.h"
+#include "light.h"
+#include "shape.h"
+#include "raytracer.h"
+#include "image.h"
 
 #include <iostream>
 #include <fstream>

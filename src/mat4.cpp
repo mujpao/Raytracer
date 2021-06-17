@@ -2,7 +2,7 @@
 
 #include "vec.h"
 #include "mat3.h"
-#include "geometry.h"
+#include "ray.h"
 #include "utils.h"
 
 #include <iostream>
