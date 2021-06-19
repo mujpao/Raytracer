@@ -4,13 +4,13 @@
 #include "thirdparty/stb_image_write.h"
 
 
-Image::Image(unsigned int width, unsigned int height)
+Image::Image(std::size_t width, std::size_t height)
 : m_width(width), m_height(height)
 {
-	m_bytes = new unsigned char[3 * m_width * m_height]; // 3 bytes for each pixel
+	m_bytes = new unsigned char[3 * m_width * m_height];
 }
 
-Image::Image(const unsigned char *data, unsigned int width, unsigned int height)
+Image::Image(const unsigned char *data, std::size_t width, std::size_t height)
 : m_width(width), m_height(height)
 {
 	m_bytes = new unsigned char[3 * m_width * m_height];
@@ -82,19 +82,19 @@ void Image::save(const std::string &file) const {
 	stbi_write_png(file.c_str(), m_width, m_height, 3, (const void *)m_bytes, m_width * 3);
 }
 
-void Image::set_pixel_color(unsigned int i, unsigned int j, const unsigned char color[]) {
+void Image::set_pixel_color(std::size_t i, std::size_t j, const unsigned char color[]) {
 	// TODO check indices
-	std::size_t starting_byte = (std::size_t)3 * ((std::size_t)i * m_width + j);
+	std::size_t starting_byte = 3 * (i * m_width + j);
 
 	for (std::size_t idx = 0; idx < 3; ++idx) {
 		m_bytes[starting_byte + idx] = color[idx];
 	}
 }
 
-std::vector<unsigned char> Image::pixel_color(unsigned int i, unsigned int j) const {
+std::array<unsigned char, 3> Image::pixel_color(std::size_t i, std::size_t j) const {
 	// TODO check indices
-	std::size_t starting_byte = (std::size_t)3 * ((std::size_t)i * m_width + j);
-	std::vector<unsigned char> result(3, 0);
+	std::size_t starting_byte = 3 * (i * m_width + j);
+	std::array<unsigned char, 3> result;
 	for (std::size_t idx = 0; idx < 3; ++idx) {
 		result[idx] = m_bytes[starting_byte + idx];
 	}

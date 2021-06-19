@@ -41,8 +41,8 @@ struct CompareImagesFixture {
         // Compare image to original image
         for (unsigned int i = 0; i < rendered_image.height(); ++i) {
             for (unsigned int j = 0; j < rendered_image.width(); ++j) {
-                std::vector<unsigned char> c1(rendered_image.pixel_color(i, j));
-                std::vector<unsigned char> c2(compare_to.pixel_color(i, j));
+                std::array<unsigned char, 3> c1(rendered_image.pixel_color(i, j));
+                std::array<unsigned char, 3> c2(compare_to.pixel_color(i, j));
                 for (unsigned int k = 0; k < 3; ++k) {
                     int value1 = (int)c1[k];
                     int value2 = (int)c2[k];

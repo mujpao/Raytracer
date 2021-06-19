@@ -2,12 +2,12 @@
 #define IMAGE_H
 
 #include <string>
-#include <vector>
+#include <array>
 
 class Image {
 public:
-	Image(unsigned int width, unsigned int height);
-	Image(const unsigned char *data, unsigned int width, unsigned int height);
+	Image(std::size_t width, std::size_t height);
+	Image(const unsigned char *data, std::size_t width, std::size_t height);
 
 	virtual ~Image();
 
@@ -17,20 +17,19 @@ public:
 	Image(Image &&other);
 	Image& operator=(Image &&other);
 
-	inline unsigned int width() const { return m_width; }
-	inline unsigned int height() const { return m_height; }
+	inline std::size_t width() const { return m_width; }
+	inline std::size_t height() const { return m_height; }
 
 	void save(const std::string &file) const;
 
-	void set_pixel_color(unsigned int i, unsigned int j, const unsigned char color[]);
+	void set_pixel_color(std::size_t i, std::size_t j, const unsigned char color[]);
 
-	// TODO return value?
-	std::vector<unsigned char> pixel_color(unsigned int i, unsigned int j) const;
+	std::array<unsigned char, 3> pixel_color(std::size_t i, std::size_t j) const;
 
 private:
-	unsigned int m_width, m_height;
+	std::size_t m_width, m_height;
 	
-	unsigned char * m_bytes; // TODO
+	unsigned char * m_bytes;
 };
 
 #endif
