@@ -19,19 +19,63 @@ Image::Image(const unsigned char *data, unsigned int width, unsigned int height)
 	}
 }
 
+Image::~Image() {
+	delete[] m_bytes;
+	m_bytes = 0;
+}
 
 Image::Image(const Image &other)
 : m_width(other.m_width), m_height(other.m_height)
 {
 	m_bytes = new unsigned char[3 * m_width * m_height];
-	// copy bytes into this image
+
 	for (std::size_t i = 0; i < 3 * m_width * m_height; ++i) {
 		m_bytes[i] = other.m_bytes[i];
 	}
 }
 
-Image::~Image() {
+Image& Image::operator=(const Image &other) {
+	if (this == &other)
+        return *this;
+
 	delete[] m_bytes;
+
+	m_width = other.m_width;
+	m_height = other.m_height;
+	m_bytes = new unsigned char[3 * m_width * m_height];
+
+	for (std::size_t i = 0; i < 3 * m_width * m_height; ++i) {
+		m_bytes[i] = other.m_bytes[i];
+	}
+
+	return *this;
+}
+
+Image::Image(Image &&other)
+: m_width(std::move(other.m_width)), m_height(std::move(other.m_height))
+{
+	m_bytes = other.m_bytes;
+	
+	other.m_bytes = 0;
+	other.m_width = 0;
+	other.m_height = 0;
+}
+
+Image& Image::operator=(Image &&other) {
+	if (this == &other)
+        return *this;
+	
+	delete[] m_bytes;
+
+	m_bytes = other.m_bytes;
+	m_width = std::move(other.m_width);
+	m_height = std::move(other.m_height);
+
+	other.m_bytes = 0;
+	other.m_width = 0;
+	other.m_height = 0;
+
+	return *this;
 }
 
 void Image::save(const std::string &file) const {

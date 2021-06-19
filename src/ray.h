@@ -9,6 +9,7 @@ class IntersectionInfo;
 
 class Ray {
 public:
+// TODO pass by const reference
 	Ray(Vec origin, Vec dir, double t_min = 0.0); //TODO should t_min and max be different depending on whether this is shadow ray?
 	Ray();
 	Ray(Camera cam, int i, int j); //ray through center of pixel i, j

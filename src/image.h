@@ -7,10 +7,15 @@
 class Image {
 public:
 	Image(unsigned int width, unsigned int height);
-	// Makes a copy of data
 	Image(const unsigned char *data, unsigned int width, unsigned int height);
-	Image(const Image &other);
+
 	virtual ~Image();
+
+	Image(const Image &other);
+	Image& operator=(const Image &other);
+
+	Image(Image &&other);
+	Image& operator=(Image &&other);
 
 	inline unsigned int width() const { return m_width; }
 	inline unsigned int height() const { return m_height; }
