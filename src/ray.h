@@ -9,11 +9,9 @@ class IntersectionInfo;
 
 class Ray {
 public:
-// TODO pass by const reference
-	Ray(Vec origin, Vec dir, double t_min = 0.0); //TODO should t_min and max be different depending on whether this is shadow ray?
+	Ray(const Vec &origin, const Vec &dir, double t_min = 0.0); //TODO should t_min and max be different depending on whether this is shadow ray?
 	Ray();
-	Ray(Camera cam, int i, int j); //ray through center of pixel i, j
-	// TODO Only need to know eye pos
+	Ray(const Camera &cam, int i, int j); //ray through center of pixel i, j
 
 	inline Vec origin() const { return m_origin; }
 	inline Vec direction() const { return m_direction; }

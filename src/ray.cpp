@@ -8,7 +8,7 @@
 #include <iostream>
 #include <cmath>
 
-Ray::Ray(Vec origin, Vec dir, double t_min)
+Ray::Ray(const Vec &origin, const Vec &dir, double t_min)
 : m_origin(origin), m_direction(dir), m_t_min(t_min)
 {
 	if (!Utils::is_equal(m_origin[3] , 1.0)) {
@@ -20,7 +20,7 @@ Ray::Ray()
 : m_origin(Vec(0.0, 0.0, 0.0, 0.0)), m_direction(Vec(0.0, 0.0, 0.0)), m_t_min(0.0)
 {}
 
-Ray::Ray(Camera cam, int i, int j)
+Ray::Ray(const Camera &cam, int i, int j)
 : m_t_min(0.0)
 {
 	m_origin = cam.eye;
