@@ -64,7 +64,7 @@ bool readvals(std::stringstream &s, const int numvals, float* values)
 	return true;
 }
 
-void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth, std::string & outfile)
+void readfile(const char* filename, Camera & camera, Scene & scene, int & max_depth, std::string & outfile)
 {
 	std::string str, cmd;
 	std::ifstream in;
@@ -232,7 +232,6 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 						up[1] = values[7];
 						up[2] = values[8];
 						fov = values[9];
-
 					}
 				}
 
@@ -337,10 +336,7 @@ void readfile(const char* filename, Camera & cam, Scene & scene, int & max_depth
 			getline(in, str);
 		}
 
-		// initialize camera
-
-		cam.init(eye, center, up, fov, w, h);
-
+		camera = Camera(eye, center, up, fov, w, h);
 	}
 	else {
 		std::cerr << "Unable to Open Input Data File " << filename << "\n";

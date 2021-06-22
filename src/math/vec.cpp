@@ -106,8 +106,7 @@ Vec operator/(Vec v, double scalar) {
 }
 
 bool operator==(const Vec& lhs, const Vec& rhs) {
-	// TODO...
-    return Utils::is_equal(lhs[0], rhs[0]) && 
+	return Utils::is_equal(lhs[0], rhs[0]) && 
     Utils::is_equal(lhs[1], rhs[1]) &&
     Utils::is_equal(lhs[2], rhs[2]) && 
     Utils::is_equal(lhs[3], rhs[3]);

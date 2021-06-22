@@ -8,8 +8,6 @@ class Transform
 {
 public:
 // TODO does this need to be a class?
-	Transform();
-	virtual ~Transform();
 	static Mat4 rotate(double degrees, const Vec& axis);
 	static Mat4 scale(double sx, double sy, double sz);
 	static Mat4 translate(double tx, double ty, double tz);

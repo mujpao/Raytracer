@@ -12,7 +12,7 @@
 Raytracer::Raytracer(int max_depth) : m_max_depth(max_depth) {}
 
 Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
-	Image image(camera.w, camera.h);
+	Image image(camera.width(), camera.height());
 	int i, j, k;
 	// const unsigned char red[] = { 255, 0, 0 };
 	// const unsigned char green[] = { 0, 255, 0 };
@@ -20,21 +20,16 @@ Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
 	// const unsigned char black[] = { 0, 0, 0 };
 	unsigned char color[3];
 
-	//float t;
-	//LocalGeo local;
-
 	Vec pixel_color;
 
-	for (i = 0; i < camera.h; ++i) {
-		for (j = 0; j < camera.w; ++j) {
+	for (i = 0; i < camera.height(); ++i) {
+		for (j = 0; j < camera.width(); ++j) {
 
-			Ray ray(camera, i, j);
+			Ray ray = camera.ray_through_pixel_center(i, j);
 			
 			pixel_color = trace(ray, scene, 0); // TODO start at 0 or 1?
 
 			for (k = 0; k < 3; ++k) {
-				// change pixel_color to range 0 to 255
-				// make sure new values are not greater than 255
 				int new_color = (int)(pixel_color[k] * 255.0f);
 				if (new_color > 255)
 					new_color = 255;

@@ -3,14 +3,14 @@
 #include "math/vec.h"
 #include "math/mat3.h"
 #include "math/mat4.h"
+#include "utils.h"
 
-#define _USE_MATH_DEFINES // TODO store PI in utils.h
 #include <cmath>
 
 Mat4 Transform::rotate(double degrees, const Vec& axis)
 {
 	Vec axis_normalized = Vec::normalize(axis);
-	const double theta = (M_PI * degrees) / 180.0;
+	const double theta = Utils::deg2rad(degrees);
 	Mat3 I(1.0);
 	Mat3 result;
 
@@ -35,7 +35,7 @@ Mat4 Transform::rotate(double degrees, const Vec& axis)
 	axis_dual(2, 2) = 0;
 
 
-	result = I * cos(theta) + multiply_by_transpose *  (1 - cos(theta)) + axis_dual * sin(theta);
+	result = I * std::cos(theta) + multiply_by_transpose *  (1 - std::cos(theta)) + axis_dual * std::sin(theta);
 
 	Mat4 res4x4(result);
 
