@@ -4,6 +4,7 @@
 #include "math/transform.h"
 #include "math/mat4.h"
 #include "math/vec.h"
+#include "utils.h"
 #include "testutils.h"
 
 namespace utf = boost::unit_test;
@@ -389,4 +390,34 @@ BOOST_AUTO_TEST_CASE(test_trace, * utf::tolerance(TestUtils::TOLERANCE))
     Mat4 b(m2);
 
     BOOST_TEST(Transform::trace(b) == 34.0);
+}
+
+BOOST_AUTO_TEST_CASE(test_random_double1, * utf::tolerance(0.01))
+{
+    int n = 10000;
+    double sum = 0.0;
+    for (int i = 0; i < n; ++i) {
+        double num = Utils::random_double(0.0, 1.0);
+        sum += num;
+        BOOST_REQUIRE_GT(num, -0.000001);
+        BOOST_REQUIRE_LT(num, 1.0);
+    }
+
+    double avg = sum / n;
+    BOOST_TEST(avg == 0.5);
+}
+
+BOOST_AUTO_TEST_CASE(test_random_double2, * utf::tolerance(0.1))
+{
+    int n = 10000;
+    double sum = 0.0;
+    for (int i = 0; i < n; ++i) {
+        double num = Utils::random_double(-30.0, 20.0);
+        sum += num;
+        BOOST_REQUIRE_GT(num, -31.000001);
+        BOOST_REQUIRE_LT(num, 20.0);
+    }
+
+    double avg = sum / n;
+    BOOST_TEST(avg == -5.0);
 }

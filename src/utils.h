@@ -6,6 +6,9 @@ namespace Utils {
 
     double deg2rad(double degrees);
 
+    // In range [min, max)
+    double random_double(double min, double max);
+
     const double EPSILON = 0.001;
     const double PI = 3.14159265358979323846;
 }
