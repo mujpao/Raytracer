@@ -9,19 +9,34 @@
 #include "math/transform.h"
 #include "utils.h"
 
-Raytracer::Raytracer(int max_depth, bool normals_only) : m_max_depth(max_depth), m_normals_only(normals_only) {}
+Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only) 
+: m_max_depth(max_depth), m_num_samples(num_samples), m_normals_only(normals_only) {}
 
 Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
 	Image image(camera.width(), camera.height());
 	
 	for (std::size_t i = 0; i < image.height(); ++i) {
 		for (std::size_t j = 0; j < image.width(); ++j) {
-			double u = static_cast<double>(j) / (image.width() - 1);
-			double v = static_cast<double>(i) / (image.height() - 1);
-			Ray ray = camera.get_ray(u, v);
+			Vec color;
+			if (m_num_samples == 1)  {
+				double u = static_cast<double>(j)  / (image.width() - 1);
+				double v = static_cast<double>(i) / (image.height() - 1);
+				Ray ray = camera.get_ray(u, v);
 
-			Vec pixel_color = trace(ray, scene, 0); // TODO start at 0 or 1?
-			image.set_pixel_color(i, j, pixel_color);
+				color = trace(ray, scene, 0); // TODO start at 0 or 1?
+
+			} else {
+				for (int k = 0; k < m_num_samples; ++k) {
+					double u = (j + Utils::random_double(0.0, 1.0)) / (image.width() - 1);
+					double v = (i + Utils::random_double(0.0, 1.0)) / (image.height() - 1);
+					Ray ray = camera.get_ray(u, v);
+
+					color += trace(ray, scene, 0); // TODO start at 0 or 1?
+				}
+				color /= m_num_samples;
+			}
+		
+			image.set_pixel_color(i, j, Utils::clamp(color, 0.0, 1.0));
 		}
 	}
 

@@ -1,5 +1,7 @@
 #include "utils.h"
 
+#include "math/vec.h"
+
 #include <cmath>
 #include <stdlib.h>
 
@@ -22,5 +24,13 @@ namespace Utils {
         if (value < min)
             return min;
         return value;
+    }
+
+    Vec clamp(const Vec &v, double min, double max) {
+        Vec result = v;
+        for (int i = 0; i < 3; ++i) {
+            result[i] = clamp(v[i], min, max);
+        }
+        return result;
     }
 }

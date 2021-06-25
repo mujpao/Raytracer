@@ -9,7 +9,7 @@ class Ray;
 
 class Raytracer {
 public:
-	Raytracer(int max_depth, bool normals_only = false);
+	Raytracer(int max_depth, int num_samples = 1, bool normals_only = false);
 
 	Image raytrace(const Camera &camera, const Scene &scene);
 private:
@@ -17,6 +17,7 @@ private:
 	Vec trace(const Ray &r, const Scene &scene, int num_recs); // recursively determines the color of the intersection of ray with the scene
 
 	int m_max_depth;
+	int m_num_samples;
 	bool m_normals_only = false;
 };
 
