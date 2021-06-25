@@ -9,7 +9,7 @@
 #include "math/transform.h"
 #include "utils.h"
 
-Raytracer::Raytracer(int max_depth) : m_max_depth(max_depth) {}
+Raytracer::Raytracer(int max_depth, bool normals_only) : m_max_depth(max_depth), m_normals_only(normals_only) {}
 
 Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
 	Image image(camera.width(), camera.height());
@@ -55,19 +55,22 @@ Vec Raytracer::trace(const Ray &r, const Scene &scene, int num_recs) {
 	// TODO is t used?
 	if (!r.intersect(scene, t, local))
 		return color;
-
 	
-	// Illumination model
-	color = local.m_shape_hit->ambient + local.m_shape_hit->m_emission;
-	for (auto & light : scene.lights) {
-		color += light->calc_lighting(r.origin(), scene, local);
-	}
+	if (m_normals_only) {
+		color = 0.5 * (local.m_normal + Vec(1.0, 1.0, 1.0));
+	} else {
+		// Illumination model
+		color = local.m_shape_hit->ambient + local.m_shape_hit->m_emission;
+		for (const auto &light : scene.lights) {
+			color += light->calc_lighting(r.origin(), scene, local);
+		}
 
-	// Reflected ray
-	Vec reflected_dir = r.direction() - 2.0f * Transform::dot(r.direction(), local.m_normal) * local.m_normal;
-	Ray reflected_ray(local.m_position, reflected_dir, Utils::EPSILON);
+		// Reflected ray
+		Vec reflected_dir = r.direction() - 2.0 * Transform::dot(r.direction(), local.m_normal) * local.m_normal;
+		Ray reflected_ray(local.m_position, reflected_dir, Utils::EPSILON);
 
-	color = color + local.m_shape_hit->m_specular * trace(reflected_ray, scene, num_recs + 1);
+		color = color + local.m_shape_hit->m_specular * trace(reflected_ray, scene, num_recs + 1);
+	}	
 
 	return color;
 }

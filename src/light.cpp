@@ -11,7 +11,7 @@ Light::Light(const Vec &light_color)
 : m_light_color(light_color) {}
 
 Vec Light::compute_light(float visible, const Vec & light_color, const Vec & direction, const Vec & normal, 
-		const Vec & half, const Vec & diffuse, const Vec & specular, float shininess) {
+		const Vec & half, const Vec & diffuse, const Vec & specular, float shininess) const {
 
 	double ndotl = Transform::dot(direction, normal);
 	double hdotn = Transform::dot(half, normal);
@@ -25,7 +25,7 @@ PointLight::PointLight(const Vec &attenuation, const Vec &light_color, const Vec
 m_atten_lin(attenuation[1]), m_atten_quad(attenuation[2])
 {}
 
-Vec PointLight::calc_lighting(const Vec & eye, const Scene & scene, const IntersectionInfo & intersection_info) {
+Vec PointLight::calc_lighting(const Vec & eye, const Scene & scene, const IntersectionInfo & intersection_info) const {
 	// dist from light to pixel
 	// TODO vector dist function
 	float d = std::sqrt(std::pow(intersection_info.m_position.x() - m_position.x(), 2) + std::pow(intersection_info.m_position.y() - m_position.y(), 2) + std::pow(intersection_info.m_position.z() - m_position.z(), 2));
@@ -59,7 +59,7 @@ Vec PointLight::calc_lighting(const Vec & eye, const Scene & scene, const Inters
 DirLight::DirLight(const Vec &light_color, const Vec &direction)
 : Light(light_color), m_direction(Vec::normalize(direction)) {}
 
-Vec DirLight::calc_lighting(const Vec & eye, const Scene & scene, const IntersectionInfo & intersection_info) {
+Vec DirLight::calc_lighting(const Vec & eye, const Scene & scene, const IntersectionInfo & intersection_info) const {
 
 	// create ray starting at pixel in dir of light source
 	Ray r(Vec(intersection_info.m_position.x(), intersection_info.m_position.y(), intersection_info.m_position.z(), 1.0), Vec::normalize(m_direction), Utils::EPSILON);
