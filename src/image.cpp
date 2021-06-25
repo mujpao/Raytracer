@@ -1,6 +1,7 @@
 #include "image.h"
 
 #include "math/vec.h"
+#include "utils.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "thirdparty/stb_image_write.h"
@@ -89,10 +90,8 @@ void Image::set_pixel_color(std::size_t i, std::size_t j, const Vec &color) {
 
 	unsigned char new_color[3];
 	for (int k = 0; k < 3; ++k) {
-		// int comp = static_cast<int>(color[k] * 255.0);
-		// new_color[k] = static_cast<unsigned char>(comp);
-
-		new_color[k] = static_cast<unsigned char>(color[k] * 255.0);
+		double col = Utils::clamp(color[k] * 255.0, 0.0, 255.0);
+		new_color[k] = static_cast<unsigned char>(col);
 	}
 
 	std::size_t starting_byte = 3 * (i * m_width + j);

@@ -421,3 +421,17 @@ BOOST_AUTO_TEST_CASE(test_random_double2, * utf::tolerance(0.1))
     double avg = sum / n;
     BOOST_TEST(avg == -5.0);
 }
+
+BOOST_AUTO_TEST_CASE(test_clamp, * utf::tolerance(0.000001))
+{
+    double a = Utils::clamp(0.0, 0.0, 1.0);
+    BOOST_TEST(a == 0.0);
+    a = Utils::clamp(1.0, 0.0, 1.0);
+    BOOST_TEST(a == 1.0);
+    a = Utils::clamp(0.5, 0.0, 1.0);
+    BOOST_TEST(a == 0.5);
+    a = Utils::clamp(1.1, 0.0, 1.0);
+    BOOST_TEST(a == 1.0);
+    a = Utils::clamp(-0.1, 0.0, 1.0);
+    BOOST_TEST(a == 0.0);
+}

@@ -9,6 +9,8 @@ namespace Utils {
     // In range [min, max)
     double random_double(double min, double max);
 
+    double clamp(double value, double min, double max);
+
     const double EPSILON = 0.001;
     const double PI = 3.14159265358979323846;
 }

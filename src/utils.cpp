@@ -15,4 +15,12 @@ namespace Utils {
     double random_double(double min, double max) {
         return rand() * (max - min) / (RAND_MAX + 1.0) + min;
     }
+
+    double clamp(double value, double min, double max) {
+        if (value > max)
+            return max;
+        if (value < min)
+            return min;
+        return value;
+    }
 }
