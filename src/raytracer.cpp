@@ -16,8 +16,6 @@ Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
 	
 	for (std::size_t i = 0; i < image.height(); ++i) {
 		for (std::size_t j = 0; j < image.width(); ++j) {
-
-			//Ray ray = camera.ray_through_pixel_center(i, j);
 			double u = static_cast<double>(j) / (image.width() - 1);
 			double v = static_cast<double>(i) / (image.height() - 1);
 			Ray ray = camera.get_ray(u, v);
