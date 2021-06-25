@@ -14,9 +14,14 @@ Raytracer::Raytracer(int max_depth, bool normals_only) : m_max_depth(max_depth),
 Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
 	Image image(camera.width(), camera.height());
 	
-	for (int i = 0; i < camera.height(); ++i) {
-		for (int j = 0; j < camera.width(); ++j) {
-			Ray ray = camera.ray_through_pixel_center(i, j);
+	for (std::size_t i = 0; i < image.height(); ++i) {
+		for (std::size_t j = 0; j < image.width(); ++j) {
+
+			//Ray ray = camera.ray_through_pixel_center(i, j);
+			double u = static_cast<double>(j) / (image.width() - 1);
+			double v = static_cast<double>(i) / (image.height() - 1);
+			Ray ray = camera.get_ray(u, v);
+
 			Vec pixel_color = trace(ray, scene, 0); // TODO start at 0 or 1?
 			image.set_pixel_color(i, j, pixel_color);
 		}
