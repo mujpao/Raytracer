@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(test_constructors, * utf::tolerance(TestUtils::TOLERANCE))
     BOOST_TEST(m2(2, 1) == 0.0);
     BOOST_TEST(m2(2, 2) == 0.0);
 
-	Mat3 m3(1.0f);
+	Mat3 m3(1.0);
     BOOST_TEST(m3(0, 0) == 1.0);
     BOOST_TEST(m3(0, 1) == 0.0);
     BOOST_TEST(m3(0, 2) == 0.0);
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(test_add, * utf::tolerance(TestUtils::TOLERANCE))
 
 	Mat3 m1(m);
 
-    Mat3 m2(1.0f);
+    Mat3 m2(1.0);
 
     Mat3 m3 = m1 + m2;
 
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE(test_subtract, * utf::tolerance(TestUtils::TOLERANCE))
 
 	Mat3 m1(m);
 
-    Mat3 m2(1.0f);
+    Mat3 m2(1.0);
 
     Mat3 m3 = m1 - m2;
 

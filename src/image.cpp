@@ -1,5 +1,7 @@
 #include "image.h"
 
+#include "math/vec.h"
+
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "thirdparty/stb_image_write.h"
 
@@ -82,12 +84,21 @@ void Image::save(const std::string &file) const {
 	stbi_write_png(file.c_str(), m_width, m_height, 3, (const void *)m_bytes, m_width * 3);
 }
 
-void Image::set_pixel_color(std::size_t i, std::size_t j, const unsigned char color[]) {
+void Image::set_pixel_color(std::size_t i, std::size_t j, const Vec &color) {
 	// TODO check indices
+
+	unsigned char new_color[3];
+	for (int k = 0; k < 3; ++k) {
+		// int comp = static_cast<int>(color[k] * 255.0);
+		// new_color[k] = static_cast<unsigned char>(comp);
+
+		new_color[k] = static_cast<unsigned char>(color[k] * 255.0);
+	}
+
 	std::size_t starting_byte = 3 * (i * m_width + j);
 
 	for (std::size_t idx = 0; idx < 3; ++idx) {
-		m_bytes[starting_byte + idx] = color[idx];
+		m_bytes[starting_byte + idx] = new_color[idx];
 	}
 }
 

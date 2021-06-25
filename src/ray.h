@@ -18,7 +18,7 @@ public:
 	Vec evaluate(double t) const;
 
 	// TODO move to scene class?
-	bool intersect(const Scene &s, float & t_closest, IntersectionInfo & closest_hit_geo) const;
+	bool intersect(const Scene &s, double & t_closest, IntersectionInfo & closest_hit_geo) const;
 	friend std::ostream& operator<<(std::ostream& os, const Ray& r);
 
 private:

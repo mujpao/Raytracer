@@ -21,9 +21,9 @@ Vec Ray::evaluate(double t) const {
 	return result;
 }
 
-bool Ray::intersect(const Scene &s, float & t_closest, IntersectionInfo & closest_hit_geo) const {
+bool Ray::intersect(const Scene &s, double & t_closest, IntersectionInfo & closest_hit_geo) const {
 	IntersectionInfo local;
-	float t;
+	double t;
 	bool has_intersect = false;
 	t_closest = m_t_max;
 	for (auto & obj : s.objects) {

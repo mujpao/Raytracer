@@ -17,8 +17,8 @@ public:
 protected:
 	// TODO light_color argument does what?
 	// TODO change visible to visibility?
-	Vec compute_light(float visible, const Vec & light_color, const Vec & direction, const Vec & normal, 
-		const Vec & half, const Vec & diffuse, const Vec & specular, float shininess) const;
+	Vec compute_light(double visible, const Vec & light_color, const Vec & direction, const Vec & normal, 
+		const Vec & half, const Vec & diffuse, const Vec & specular, double shininess) const;
 
 	inline const Vec& light_color() const { return m_light_color; }
 

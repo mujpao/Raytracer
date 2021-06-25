@@ -4,6 +4,8 @@
 #include <string>
 #include <array>
 
+class Vec;
+
 class Image {
 public:
 	Image(std::size_t width, std::size_t height);
@@ -22,7 +24,7 @@ public:
 
 	void save(const std::string &file) const;
 
-	void set_pixel_color(std::size_t i, std::size_t j, const unsigned char color[]);
+	void set_pixel_color(std::size_t i, std::size_t j, const Vec &color);
 
 	std::array<unsigned char, 3> pixel_color(std::size_t i, std::size_t j) const;
 

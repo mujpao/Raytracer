@@ -82,8 +82,8 @@ void readfile(const char* filename, Camera & camera, Scene & scene, int & max_de
 
 	// set values to defaults
 	max_depth = 5;
-	Vec attenuation(1.0f, 0.0f, 0.0f);
-	Vec ambient(0.2f, 0.2f, 0.2f);
+	Vec attenuation(1.0, 0.0, 0.0);
+	Vec ambient(0.2, 0.2, 0.2);
 	outfile = "output.png";
 	float shininess = 0; // default shininess value of 0
 

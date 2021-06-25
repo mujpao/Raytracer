@@ -13,30 +13,12 @@ Raytracer::Raytracer(int max_depth, bool normals_only) : m_max_depth(max_depth),
 
 Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
 	Image image(camera.width(), camera.height());
-	int i, j, k;
-	// const unsigned char red[] = { 255, 0, 0 };
-	// const unsigned char green[] = { 0, 255, 0 };
-	// const unsigned char blue[] = { 0, 0, 255 };
-	// const unsigned char black[] = { 0, 0, 0 };
-	unsigned char color[3];
-
-	Vec pixel_color;
-
-	for (i = 0; i < camera.height(); ++i) {
-		for (j = 0; j < camera.width(); ++j) {
-
+	
+	for (int i = 0; i < camera.height(); ++i) {
+		for (int j = 0; j < camera.width(); ++j) {
 			Ray ray = camera.ray_through_pixel_center(i, j);
-			
-			pixel_color = trace(ray, scene, 0); // TODO start at 0 or 1?
-
-			for (k = 0; k < 3; ++k) {
-				int new_color = (int)(pixel_color[k] * 255.0f);
-				if (new_color > 255)
-					new_color = 255;
-				color[k] = (unsigned char)new_color;
-			}
-
-			image.set_pixel_color(i, j, color);
+			Vec pixel_color = trace(ray, scene, 0); // TODO start at 0 or 1?
+			image.set_pixel_color(i, j, pixel_color);
 		}
 	}
 
@@ -49,7 +31,7 @@ Vec Raytracer::trace(const Ray &r, const Scene &scene, int num_recs) {
 	if (num_recs > m_max_depth)
 		return color;
 
-	float t;
+	double t;
 	IntersectionInfo local;
 
 	// TODO is t used?

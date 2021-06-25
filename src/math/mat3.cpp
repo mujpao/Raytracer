@@ -16,7 +16,7 @@ Mat3::Mat3(double val) {
 	int i, j;
 	for (i = 0; i < 3; ++i) {
 		for (j = 0; j < 3; ++j)
-			m_data[i][j] = 0.0f;
+			m_data[i][j] = 0.0;
 	}
 	m_data[0][0] = val;
 	m_data[1][1] = val;
@@ -27,7 +27,7 @@ Mat3::Mat3() {
 	int i, j;
 	for (i = 0; i < 3; ++i) {
 		for (j = 0; j < 3; ++j)
-			m_data[i][j] = 0.0f;
+			m_data[i][j] = 0.0;
 	}
 }
 

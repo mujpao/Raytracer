@@ -10,8 +10,8 @@
 Light::Light(const Vec &light_color)
 : m_light_color(light_color) {}
 
-Vec Light::compute_light(float visible, const Vec & light_color, const Vec & direction, const Vec & normal, 
-		const Vec & half, const Vec & diffuse, const Vec & specular, float shininess) const {
+Vec Light::compute_light(double visible, const Vec & light_color, const Vec & direction, const Vec & normal, 
+		const Vec & half, const Vec & diffuse, const Vec & specular, double shininess) const {
 
 	double ndotl = Transform::dot(direction, normal);
 	double hdotn = Transform::dot(half, normal);
@@ -28,7 +28,7 @@ m_atten_lin(attenuation[1]), m_atten_quad(attenuation[2])
 Vec PointLight::calc_lighting(const Vec & eye, const Scene & scene, const IntersectionInfo & intersection_info) const {
 	// dist from light to pixel
 	// TODO vector dist function
-	float d = std::sqrt(std::pow(intersection_info.m_position.x() - m_position.x(), 2) + std::pow(intersection_info.m_position.y() - m_position.y(), 2) + std::pow(intersection_info.m_position.z() - m_position.z(), 2));
+	double d = std::sqrt(std::pow(intersection_info.m_position.x() - m_position.x(), 2) + std::pow(intersection_info.m_position.y() - m_position.y(), 2) + std::pow(intersection_info.m_position.z() - m_position.z(), 2));
 
 	// create ray from pixel to light source
 	Vec ray_dir = Vec::normalize(m_position - intersection_info.m_position);
@@ -39,12 +39,12 @@ Vec PointLight::calc_lighting(const Vec & eye, const Scene & scene, const Inters
 	Vec atten_light_color = light_color() / (m_atten_const + m_atten_lin * d + m_atten_quad * std::pow(d, 2));
 
 	// check if view to light is blocked
-	float t, v;
+	double t, v;
 	IntersectionInfo local;
 	if (r.intersect(scene, t, local) && t < d) // TODO what if light is between objects?
-		v = 0.0f;
+		v = 0.0;
 	else
-		v = 1.0f;
+		v = 1.0;
 
 
 	Vec dir = r.direction();
@@ -65,12 +65,12 @@ Vec DirLight::calc_lighting(const Vec & eye, const Scene & scene, const Intersec
 	Ray r(Vec(intersection_info.m_position.x(), intersection_info.m_position.y(), intersection_info.m_position.z(), 1.0), Vec::normalize(m_direction), Utils::EPSILON);
 
 	// check if view to light is blocked
-	float t, v;
+	double t, v;
 	IntersectionInfo local;
 	if (r.intersect(scene, t, local))
-		v = 0.0f;
+		v = 0.0;
 	else
-		v = 1.0f;
+		v = 1.0;
 
 	Vec pos_vector(intersection_info.m_position.x(), intersection_info.m_position.y(), intersection_info.m_position.z());
 	Vec eyedirn = Vec::normalize(eye - pos_vector);
