@@ -111,24 +111,16 @@ bool Sphere::intersect(const Ray& ray, double& thit, IntersectionInfo& local) {
 	if (disc < 0)
 		return false;
 
-	double t1, t2;
-
-	t1 = (-b + std::sqrt(disc)) / (2.0 * a);
-	t2 = (-b - std::sqrt(disc)) / (2.0 * a);
+	double t1 = (-b + std::sqrt(disc)) / (2.0 * a);
+	double t2 = (-b - std::sqrt(disc)) / (2.0 * a);
 
 	if (t1 > 0 && t2 > 0) {
-		if (t1 < t2)
-			thit = t1;
-		else
-			thit = t2;
+		thit = std::min(t1, t2);
 	}
-	else if (t1 == t2) {
+	else if (t1 > 0) {
 		thit = t1;
 	}
-	else if (t1 > 0 && t2 < 0) {
-		thit = t1;
-	}
-	else if (t1 < 0 && t2 > 0) {
+	else if (t2 > 0) {
 		thit = t2;
 	}
 	else {
