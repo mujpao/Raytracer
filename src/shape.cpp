@@ -7,11 +7,11 @@
 #include <cmath>
 
 Shape::Shape(std::shared_ptr<Material> material)
-: m_material(material)
+: m_material(std::move(material))
 {}
 
 Triangle::Triangle(const Vec &p1, const Vec &p2, const Vec & p3, const Mat4 &transform, std::shared_ptr<Material> material)
-: Shape(material), m_v1(transform * p1), m_v2(transform * p2), m_v3(transform * p3)
+: Shape(std::move(material)), m_v1(transform * p1), m_v2(transform * p2), m_v3(transform * p3)
 {}
 
 bool Triangle::intersect(const Ray& ray, double& thit, IntersectionInfo& local) {
@@ -88,7 +88,7 @@ void Triangle::barycentric(const Vec &p, double &u, double &v, double &w)
 }
 
 Sphere::Sphere(double cx, double cy, double cz, double r, const Mat4 &transform, std::shared_ptr<Material> material)
-: Shape(material), m_center(cx, cy, cz, 1.0), m_radius(r), m_transformation(transform)
+: Shape(std::move(material)), m_center(cx, cy, cz, 1.0), m_radius(r), m_transformation(transform)
 {
 	m_inverse = Transform::inverse(m_transformation);
 	m_inverse_transpose = Transform::transpose3x3(Transform::inverse3x3(m_transformation));
