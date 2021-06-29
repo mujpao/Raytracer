@@ -4,10 +4,10 @@
 #include "scene.h"
 #include "image.h"
 #include "ray.h"
-#include "shape.h"
-#include "light.h"
 #include "math/transform.h"
 #include "utils.h"
+#include "intersectioninfo.h"
+#include "material.h"
 
 Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only) 
 : m_max_depth(max_depth), m_num_samples(num_samples), m_normals_only(normals_only) {}
@@ -23,7 +23,7 @@ Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
 				double v = static_cast<double>(i) / (image.height() - 1);
 				Ray ray = camera.get_ray(u, v);
 
-				color = trace(ray, scene, 0); // TODO start at 0 or 1?
+				color = trace(ray, scene, m_max_depth);
 
 			} else {
 				for (int k = 0; k < m_num_samples; ++k) {
@@ -31,7 +31,7 @@ Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
 					double v = (i + Utils::random_double(0.0, 1.0)) / (image.height() - 1);
 					Ray ray = camera.get_ray(u, v);
 
-					color += trace(ray, scene, 0); // TODO start at 0 or 1?
+					color += trace(ray, scene, m_max_depth);
 				}
 				color /= m_num_samples;
 			}
@@ -43,34 +43,23 @@ Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
 	return image;
 }
 
-Vec Raytracer::trace(const Ray &r, const Scene &scene, int num_recs) {
-	Vec color(0.0, 0.0, 0.0);
+Vec Raytracer::trace(const Ray &r, const Scene &scene, int depth) {
+	if (depth < 1)
+		return Vec(0.0, 0.0, 0.0);
 
-	if (num_recs > m_max_depth)
-		return color;
-
-	double t;
-	IntersectionInfo local;
-
-	// TODO is t used?
-	if (!r.intersect(scene, t, local))
-		return color;
+	IntersectionInfo hit_info;
+	if (!scene.intersect(r, Utils::RAY_HIT_TOLERANCE, hit_info))
+		return Vec(0.0, 0.0, 0.0);
 	
 	if (m_normals_only) {
-		color = 0.5 * (local.m_normal + Vec(1.0, 1.0, 1.0));
+		return 0.5 * (hit_info.normal + Vec(1.0, 1.0, 1.0));
 	} else {
-		// Illumination model
-		color = local.m_shape_hit->ambient + local.m_shape_hit->m_emission;
-		for (const auto &light : scene.lights) {
-			color += light->calc_lighting(r.origin(), scene, local);
+		Vec color = hit_info.material->base_shade(r, hit_info, scene);
+		Vec atten_factor;
+		Ray scattered;
+		if (hit_info.material->calc_scattered_ray(r, hit_info, atten_factor, scattered)) {
+			color += atten_factor * trace(scattered, scene, depth - 1);
 		}
-
-		// Reflected ray
-		Vec reflected_dir = r.direction() - 2.0 * Transform::dot(r.direction(), local.m_normal) * local.m_normal;
-		Ray reflected_ray(local.m_position, reflected_dir, Utils::EPSILON);
-
-		color = color + local.m_shape_hit->m_specular * trace(reflected_ray, scene, num_recs + 1);
+		return color;
 	}	
-
-	return color;
 }

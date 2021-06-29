@@ -154,7 +154,7 @@ bool operator==(const Mat4& lhs, const Mat4& rhs) {
 }
 
 Ray operator*(const Mat4 & m, const Ray & r) {
-	return Ray(m * r.origin(), m * r.direction(), r.t_min());
+	return Ray(m * r.origin(), m * r.direction());
 }
 
 std::ostream& operator<<(std::ostream& os, const Mat4& m) {

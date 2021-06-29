@@ -40,6 +40,10 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, const Vec& v);
 
+	static Vec to_point(const Vec& v);
+	static Vec to_vec(const Vec& v);
+	static double dist(const Vec& a, const Vec& b);
+
 private:
     double m_data[4];
 };

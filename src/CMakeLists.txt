@@ -11,8 +11,12 @@ set(PROJECT_SOURCES
         camera.cpp
         image.h
         image.cpp
+        intersectioninfo.h
         light.h
         light.cpp
+        material.h
+        phongmaterial.h
+        phongmaterial.cpp
         ray.h
         ray.cpp
         raytracer.h

@@ -116,3 +116,15 @@ std::ostream& operator<<(std::ostream& os, const Vec& v) {
 	os << "<" << v[0] << ", " << v[1] << ", " << v[2] << ", " << v[3] << ">";
 	return os;
 }
+
+Vec Vec::to_point(const Vec& v) {
+	return Vec(v.x(), v.y(), v.z(), 1.0);
+}
+
+Vec Vec::to_vec(const Vec& v) {
+	return Vec(v.x(), v.y(), v.z(), 0.0);
+}
+
+double Vec::dist(const Vec& a, const Vec& b) {
+	return std::sqrt(std::pow(a.x() - b.x(), 2) + std::pow(a.y() - b.y(), 2) + std::pow(a.z() - b.z(), 2));
+}

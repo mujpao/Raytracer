@@ -128,3 +128,19 @@ BOOST_AUTO_TEST_CASE(test_assign, * utf::tolerance(TestUtils::TOLERANCE))
 
 	BOOST_REQUIRE_EQUAL(v2, v1);
 }
+
+BOOST_AUTO_TEST_CASE(test_convert)
+{
+    Vec v(1.0, 2.0, 3.0, 0.0);
+	v = Vec::to_point(v);
+	BOOST_REQUIRE_EQUAL(v, Vec(1.0, 2.0, 3.0, 1.0));
+	v = Vec::to_vec(v);
+	BOOST_REQUIRE_EQUAL(v, Vec(1.0, 2.0, 3.0, 0.0));
+}
+
+BOOST_AUTO_TEST_CASE(test_dist, * utf::tolerance(TestUtils::TOLERANCE))
+{
+    Vec a(1.0, 2.0, 3.0);
+	Vec b(10.0, 9.0, 8.0);
+	BOOST_TEST(Vec::dist(a, b) == 12.449899597988733);
+}

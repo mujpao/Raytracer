@@ -30,6 +30,7 @@
 #include "shape.h"
 #include "raytracer.h"
 #include "image.h"
+#include "phongmaterial.h"
 
 #include <iostream>
 #include <fstream>
@@ -122,7 +123,7 @@ void readfile(const char* filename, Camera & camera, Scene & scene, int & max_de
 						color[2] = values[5];
 						color[3] = 1.0;						
 
-						scene.lights.push_back(std::make_shared<DirLight>(color, direction));
+						scene.lights.push_back(std::make_shared<DirectionalLight>(color, direction));
 					}
 					
 				}
@@ -256,14 +257,14 @@ void readfile(const char* filename, Camera & camera, Scene & scene, int & max_de
 						validinput = readvals(s, 4, values);
 
 						if (validinput) {
-							scene.objects.push_back(std::make_shared<Sphere>(values[0], values[1], values[2], values[3], transfstack.top(), diffuse, specular, emission, ambient, shininess));
+							scene.objects.push_back(std::make_shared<Sphere>(values[0], values[1], values[2], values[3], transfstack.top(), std::make_shared<PhongMaterial>(ambient, diffuse, specular, shininess, emission)));
 						}
 					}
 					else if (cmd == "tri") {
 						validinput = readvals(s, 3, values);
 
 						if (validinput) {
-							scene.objects.push_back(std::make_shared<Triangle>(vertices[values[0]], vertices[values[1]], vertices[values[2]], transfstack.top(), diffuse, specular, emission, ambient, shininess));
+							scene.objects.push_back(std::make_shared<Triangle>(vertices[values[0]], vertices[values[1]], vertices[values[2]], transfstack.top(), std::make_shared<PhongMaterial>(ambient, diffuse, specular, shininess, emission)));
 						}
 					}
 					
