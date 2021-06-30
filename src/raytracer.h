@@ -10,21 +10,22 @@ class Ray;
 
 class Raytracer {
 public:
-	Raytracer(int max_depth, int num_samples = 1, bool normals_only = false);
+  Raytracer(int max_depth, int num_samples = 1, bool normals_only = false);
 
-	Image raytrace(const Camera &camera, const Scene &scene);
+  Image raytrace(const Camera &camera, const Scene &scene);
 
-	// Determines color of pixels where ray does not hit an object. Default is black.
-	void set_background_color(const Vec &color);
+  // Determines color of pixels where ray does not hit an object. Default is
+  // black.
+  void set_background_color(const Vec &color);
 
 private:
-	Vec trace(const Ray &r, const Scene &scene, int depth);
+  Vec trace(const Ray &r, const Scene &scene, int depth);
 
-	int m_max_depth;
-	int m_num_samples;
-	bool m_normals_only;
+  int m_max_depth;
+  int m_num_samples;
+  bool m_normals_only;
 
-	Vec m_background_color = Vec(0.0, 0.0, 0.0);
+  Vec m_background_color = Vec(0.0, 0.0, 0.0);
 };
 
 #endif

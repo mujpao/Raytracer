@@ -8,9 +8,9 @@
 class Material;
 
 struct IntersectionInfo {
-	Vec position;
-	Vec normal;
-	std::shared_ptr<Material> material;
+  Vec position;
+  Vec normal;
+  std::shared_ptr<Material> material;
 };
 
 #endif

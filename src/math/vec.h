@@ -5,50 +5,50 @@
 
 class Vec {
 public:
-	Vec();
-	Vec(double  x, double y, double z);
-	Vec(double x, double y, double z, double w);
-	
-	double& operator[](int idx);
-	double operator[](int idx) const;
+  Vec();
+  Vec(double x, double y, double z);
+  Vec(double x, double y, double z, double w);
 
-    inline double x() const { return m_data[0]; }
-    inline double y() const { return m_data[1]; }
-    inline double z() const { return m_data[2]; }
-    inline double w() const { return m_data[3]; }
+  double &operator[](int idx);
+  double operator[](int idx) const;
 
-	static Vec normalize(const Vec & v);
+  inline double x() const { return m_data[0]; }
+  inline double y() const { return m_data[1]; }
+  inline double z() const { return m_data[2]; }
+  inline double w() const { return m_data[3]; }
 
-	Vec& operator+=(const Vec& rhs);
-	Vec& operator-=(const Vec& rhs);
-	Vec& operator*=(const Vec& rhs);
+  static Vec normalize(const Vec &v);
 
-	Vec& operator*=(double scalar);
-	Vec& operator/=(double scalar);
+  Vec &operator+=(const Vec &rhs);
+  Vec &operator-=(const Vec &rhs);
+  Vec &operator*=(const Vec &rhs);
 
-	friend Vec operator+(Vec lhs, const Vec & rhs);
-	friend Vec operator-(Vec lhs, const Vec & rhs);
+  Vec &operator*=(double scalar);
+  Vec &operator/=(double scalar);
 
- 	// Component-wise multiplication
-	friend Vec operator*(Vec lhs, const Vec & rhs);
+  friend Vec operator+(Vec lhs, const Vec &rhs);
+  friend Vec operator-(Vec lhs, const Vec &rhs);
 
-	friend Vec operator*(Vec v, double scalar);
-	friend Vec operator*(double scalar, Vec v);
-	friend Vec operator/(Vec v, double scalar);
+  // Component-wise multiplication
+  friend Vec operator*(Vec lhs, const Vec &rhs);
 
-    friend bool operator==(const Vec& lhs, const Vec& rhs);
+  friend Vec operator*(Vec v, double scalar);
+  friend Vec operator*(double scalar, Vec v);
+  friend Vec operator/(Vec v, double scalar);
 
-	friend std::ostream& operator<<(std::ostream& os, const Vec& v);
+  friend bool operator==(const Vec &lhs, const Vec &rhs);
 
-	static Vec to_point(const Vec& v);
-	static Vec to_vec(const Vec& v);
-	static double dist(const Vec& a, const Vec& b);
+  friend std::ostream &operator<<(std::ostream &os, const Vec &v);
 
-	static double length_squared(const Vec& v);
-	static double length(const Vec& v);
+  static Vec to_point(const Vec &v);
+  static Vec to_vec(const Vec &v);
+  static double dist(const Vec &a, const Vec &b);
+
+  static double length_squared(const Vec &v);
+  static double length(const Vec &v);
 
 private:
-    double m_data[4];
+  double m_data[4];
 };
 
 #endif
