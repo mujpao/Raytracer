@@ -5,38 +5,38 @@
 
 class Light {
 public:
-  Light(const Vec &light_color);
-  virtual ~Light() = default;
+    Light(const Vec& light_color);
+    virtual ~Light() = default;
 
-  inline const Vec &light_color() const { return m_light_color; }
+    inline const Vec& light_color() const { return m_light_color; }
 
 private:
-  Vec m_light_color;
+    Vec m_light_color;
 };
 
 class PointLight : public Light {
 public:
-  PointLight(const Vec &attenuation, const Vec &light_color,
-             const Vec &position);
+    PointLight(
+        const Vec& attenuation, const Vec& light_color, const Vec& position);
 
-  inline const Vec position() const { return m_position; }
+    inline const Vec position() const { return m_position; }
 
-  Vec calc_attenuation(double distance) const;
+    Vec calc_attenuation(double distance) const;
 
 private:
-  Vec m_position;
+    Vec m_position;
 
-  double m_atten_const = 1.0, m_atten_lin = 0.0, m_atten_quad = 0.0;
+    double m_atten_const = 1.0, m_atten_lin = 0.0, m_atten_quad = 0.0;
 };
 
 class DirectionalLight : public Light {
 public:
-  DirectionalLight(const Vec &light_color, const Vec &direction);
+    DirectionalLight(const Vec& light_color, const Vec& direction);
 
-  inline const Vec direction() const { return m_direction; }
+    inline const Vec direction() const { return m_direction; }
 
 private:
-  Vec m_direction;
+    Vec m_direction;
 };
 
 #endif

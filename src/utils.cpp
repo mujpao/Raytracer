@@ -6,44 +6,46 @@
 #include <stdlib.h>
 
 namespace Utils {
-bool is_equal(double lhs, double rhs) { return std::abs(lhs - rhs) < EPSILON; }
-
-double deg2rad(double degrees) { return degrees * (PI / 180.0); }
-
-double random_double(double min, double max) {
-  return rand() * (max - min) / (RAND_MAX + 1.0) + min;
-}
-
-Vec random_vec(double min, double max) {
-  Vec result;
-  for (int i = 0; i < 3; ++i) {
-    result[i] = random_double(min, max);
-  }
-  return result;
-}
-
-Vec random_in_unit_sphere() {
-  while (true) {
-    Vec v = Vec::to_point(random_vec(-1.0, 1.0));
-    if (Vec::length_squared(v) < 1.0) {
-      return v;
+    bool is_equal(double lhs, double rhs) {
+        return std::abs(lhs - rhs) < EPSILON;
     }
-  }
-}
 
-double clamp(double value, double min, double max) {
-  if (value > max)
-    return max;
-  if (value < min)
-    return min;
-  return value;
-}
+    double deg2rad(double degrees) { return degrees * (PI / 180.0); }
 
-Vec clamp(const Vec &v, double min, double max) {
-  Vec result = v;
-  for (int i = 0; i < 3; ++i) {
-    result[i] = clamp(v[i], min, max);
-  }
-  return result;
-}
+    double random_double(double min, double max) {
+        return rand() * (max - min) / (RAND_MAX + 1.0) + min;
+    }
+
+    Vec random_vec(double min, double max) {
+        Vec result;
+        for (int i = 0; i < 3; ++i) {
+            result[i] = random_double(min, max);
+        }
+        return result;
+    }
+
+    Vec random_in_unit_sphere() {
+        while (true) {
+            Vec v = Vec::to_point(random_vec(-1.0, 1.0));
+            if (Vec::length_squared(v) < 1.0) {
+                return v;
+            }
+        }
+    }
+
+    double clamp(double value, double min, double max) {
+        if (value > max)
+            return max;
+        if (value < min)
+            return min;
+        return value;
+    }
+
+    Vec clamp(const Vec& v, double min, double max) {
+        Vec result = v;
+        for (int i = 0; i < 3; ++i) {
+            result[i] = clamp(v[i], min, max);
+        }
+        return result;
+    }
 } // namespace Utils

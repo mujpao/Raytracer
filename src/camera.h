@@ -7,30 +7,30 @@ class Ray;
 
 class Camera {
 public:
-  Camera() = default;
-  // fov in degrees
-  Camera(const Vec &eye, const Vec &center, const Vec &up, double fov, int w,
-         int h);
+    Camera() = default;
+    // fov in degrees
+    Camera(const Vec& eye, const Vec& center, const Vec& up, double fov, int w,
+        int h);
 
-  inline int width() const { return m_width; }
-  inline int height() const { return m_height; }
+    inline int width() const { return m_width; }
+    inline int height() const { return m_height; }
 
-  // s and t = pct along image width and height
-  Ray get_ray(double s, double t) const;
+    // s and t = pct along image width and height
+    Ray get_ray(double s, double t) const;
 
 private:
-  Vec m_eye;
+    Vec m_eye;
 
-  Vec m_u;
-  Vec m_v;
-  Vec m_w;
+    Vec m_u;
+    Vec m_v;
+    Vec m_w;
 
-  Vec m_horizontal;
-  Vec m_vertical;
+    Vec m_horizontal;
+    Vec m_vertical;
 
-  Vec m_top_left;
+    Vec m_top_left;
 
-  int m_width, m_height;
+    int m_width, m_height;
 };
 
 #endif
