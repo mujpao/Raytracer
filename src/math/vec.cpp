@@ -126,5 +126,14 @@ Vec Vec::to_vec(const Vec& v) {
 }
 
 double Vec::dist(const Vec& a, const Vec& b) {
-	return std::sqrt(std::pow(a.x() - b.x(), 2) + std::pow(a.y() - b.y(), 2) + std::pow(a.z() - b.z(), 2));
+	return length(a - b);
+	// return std::sqrt(std::pow(a.x() - b.x(), 2) + std::pow(a.y() - b.y(), 2) + std::pow(a.z() - b.z(), 2));
+}
+
+double Vec::length_squared(const Vec& v) {
+	return std::pow(v.x(), 2) + std::pow(v.y(), 2) + std::pow(v.z(), 2);
+}
+
+double Vec::length(const Vec& v) {
+	return std::sqrt(length_squared(v));
 }

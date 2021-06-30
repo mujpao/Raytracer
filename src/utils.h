@@ -13,6 +13,8 @@ namespace Utils {
 
     Vec random_vec(double min, double max);
 
+    Vec random_in_unit_sphere();
+
     double clamp(double value, double min, double max);
     Vec clamp(const Vec &v, double min, double max);
 

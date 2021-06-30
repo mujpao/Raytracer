@@ -433,6 +433,14 @@ BOOST_AUTO_TEST_CASE(test_random_vec, * utf::tolerance(TestUtils::TOLERANCE))
     BOOST_TEST(v[3] == 0.0);
 }
 
+BOOST_AUTO_TEST_CASE(test_random_in_unit_sphere, * utf::tolerance(TestUtils::TOLERANCE))
+{
+    for (int i = 0; i < 10; ++i) {
+        Vec v = Utils::random_in_unit_sphere();
+        BOOST_TEST(Vec::length_squared(v) < 1.0);
+    }
+}
+
 BOOST_AUTO_TEST_CASE(test_clamp, * utf::tolerance(0.000001))
 {
     double a = Utils::clamp(0.0, 0.0, 1.0);

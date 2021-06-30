@@ -44,6 +44,9 @@ public:
 	static Vec to_vec(const Vec& v);
 	static double dist(const Vec& a, const Vec& b);
 
+	static double length_squared(const Vec& v);
+	static double length(const Vec& v);
+
 private:
     double m_data[4];
 };

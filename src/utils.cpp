@@ -21,9 +21,18 @@ namespace Utils {
     Vec random_vec(double min, double max) {
         Vec result;
         for (int i = 0; i < 3; ++i) {
-            result[i] = random_double(min, max);
+        result[i] = random_double(min, max);
         }
         return result;
+    }
+
+    Vec random_in_unit_sphere() {
+        while (true) {
+            Vec v = Vec::to_point(random_vec(-1.0, 1.0));
+            if (Vec::length_squared(v) < 1.0) {
+                return v;
+            }
+        }
     }
 
     double clamp(double value, double min, double max) {
