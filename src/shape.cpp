@@ -87,8 +87,8 @@ void Triangle::barycentric(const Vec &p, double &u, double &v, double &w)
 	u = 1.0 - v - w;
 }
 
-Sphere::Sphere(double cx, double cy, double cz, double r, const Mat4 &transform, std::shared_ptr<Material> material)
-: Shape(std::move(material)), m_center(cx, cy, cz, 1.0), m_radius(r), m_transformation(transform)
+Sphere::Sphere(const Vec &center, double r, const Mat4 &transform, std::shared_ptr<Material> material)
+: Shape(std::move(material)), m_center(Vec::to_point(center)), m_radius(r), m_transformation(transform)
 {
 	m_inverse = Transform::inverse(m_transformation);
 	m_inverse_transpose = Transform::transpose3x3(Transform::inverse3x3(m_transformation));

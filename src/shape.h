@@ -35,7 +35,7 @@ private:
 
 class Sphere : public Shape {
 public:
-	Sphere(double cx, double cy, double cz, double r, const Mat4 &transform, std::shared_ptr<Material> material);
+	Sphere(const Vec &center, double r, const Mat4 &transform, std::shared_ptr<Material> material);
 
 	bool intersect(const Ray& ray, double& thit, IntersectionInfo& local) override;
 	bool intersects(const Ray& ray) override;

@@ -9,6 +9,8 @@ set(PROJECT_SOURCES
         math/vec.cpp
         camera.h
         camera.cpp
+        diffusematerial.h
+        diffusematerial.cpp
         image.h
         image.cpp
         intersectioninfo.h

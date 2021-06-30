@@ -16,6 +16,8 @@ target_compile_options(CompilerFlags INTERFACE
 
 add_subdirectory(src)
 
+add_subdirectory(examples)
+
 add_subdirectory(tests)
 
 add_executable(RayTracer

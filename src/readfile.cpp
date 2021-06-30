@@ -257,7 +257,7 @@ void readfile(const char* filename, Camera & camera, Scene & scene, int & max_de
 						validinput = readvals(s, 4, values);
 
 						if (validinput) {
-							scene.objects.push_back(std::make_shared<Sphere>(values[0], values[1], values[2], values[3], transfstack.top(), std::make_shared<PhongMaterial>(ambient, diffuse, specular, shininess, emission)));
+							scene.objects.push_back(std::make_shared<Sphere>(Vec(values[0], values[1], values[2]), values[3], transfstack.top(), std::make_shared<PhongMaterial>(ambient, diffuse, specular, shininess, emission)));
 						}
 					}
 					else if (cmd == "tri") {

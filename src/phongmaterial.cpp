@@ -14,7 +14,6 @@ PhongMaterial::PhongMaterial(const Vec &ambient, const Vec &diffuse, const Vec &
 {}
 
 bool PhongMaterial::calc_scattered_ray(const Ray &ray, const IntersectionInfo &hit_info, Vec &atten_factor, Ray &scattered) const {
-    // Reflected ray
     Vec reflected_dir = ray.direction() - 2.0 * Transform::dot(ray.direction(), hit_info.normal) * hit_info.normal;
     scattered = Ray(hit_info.position, reflected_dir);
     atten_factor = m_specular;

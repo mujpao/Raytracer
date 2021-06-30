@@ -43,23 +43,29 @@ Image Raytracer::raytrace(const Camera &camera, const Scene &scene) {
 	return image;
 }
 
+void Raytracer::set_background_color(const Vec &color) {
+	m_background_color = color;
+}
+
 Vec Raytracer::trace(const Ray &r, const Scene &scene, int depth) {
 	if (depth < 1)
-		return Vec(0.0, 0.0, 0.0);
+		return m_background_color;
 
 	IntersectionInfo hit_info;
-	if (!scene.intersect(r, Utils::RAY_HIT_TOLERANCE, hit_info))
-		return Vec(0.0, 0.0, 0.0);
-	
-	if (m_normals_only) {
-		return 0.5 * (hit_info.normal + Vec(1.0, 1.0, 1.0));
-	} else {
-		Vec color = hit_info.material->base_shade(r, hit_info, scene);
-		Vec atten_factor;
-		Ray scattered;
-		if (hit_info.material->calc_scattered_ray(r, hit_info, atten_factor, scattered)) {
-			color += atten_factor * trace(scattered, scene, depth - 1);
+	if (scene.intersect(r, Utils::RAY_HIT_TOLERANCE, hit_info)) {
+		if (m_normals_only) {
+			return 0.5 * (hit_info.normal + Vec(1.0, 1.0, 1.0));
+		} else {
+			Vec color = hit_info.material->base_shade(r, hit_info, scene);
+			Vec atten_factor;
+			Ray scattered;
+			if (hit_info.material->calc_scattered_ray(r, hit_info, atten_factor, scattered)) {
+				color += atten_factor * trace(scattered, scene, depth - 1);
+			}
+			return color;
 		}
-		return color;
-	}	
+	}
+	else {
+		return m_background_color;
+	}
 }
