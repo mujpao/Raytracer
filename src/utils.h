@@ -11,6 +11,8 @@ namespace Utils {
     // In range [min, max)
     double random_double(double min, double max);
 
+    Vec random_vec(double min, double max);
+
     double clamp(double value, double min, double max);
     Vec clamp(const Vec &v, double min, double max);
 

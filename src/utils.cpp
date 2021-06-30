@@ -18,6 +18,14 @@ namespace Utils {
         return rand() * (max - min) / (RAND_MAX + 1.0) + min;
     }
 
+    Vec random_vec(double min, double max) {
+        Vec result;
+        for (int i = 0; i < 3; ++i) {
+            result[i] = random_double(min, max);
+        }
+        return result;
+    }
+
     double clamp(double value, double min, double max) {
         if (value > max)
             return max;

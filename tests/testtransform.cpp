@@ -422,6 +422,17 @@ BOOST_AUTO_TEST_CASE(test_random_double2, * utf::tolerance(0.1))
     BOOST_TEST(avg == -5.0);
 }
 
+BOOST_AUTO_TEST_CASE(test_random_vec, * utf::tolerance(TestUtils::TOLERANCE))
+{
+    Vec v = Utils::random_vec(-100.0, 0.0);
+    for (int i = 0; i < 3; ++i) {
+        BOOST_REQUIRE_GT(v[i], -100.0);
+        BOOST_REQUIRE_LT(v[i], 0.0);
+    }
+
+    BOOST_TEST(v[3] == 0.0);
+}
+
 BOOST_AUTO_TEST_CASE(test_clamp, * utf::tolerance(0.000001))
 {
     double a = Utils::clamp(0.0, 0.0, 1.0);
