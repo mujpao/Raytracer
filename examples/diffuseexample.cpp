@@ -1,6 +1,6 @@
 #include "camera.h"
-#include "diffusematerial.h"
 #include "image.h"
+#include "materials/diffusematerial.h"
 #include "raytracer.h"
 #include "readfile.h"
 #include "scene.h"

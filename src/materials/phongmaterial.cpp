@@ -1,4 +1,4 @@
-#include "phongmaterial.h"
+#include "materials/phongmaterial.h"
 
 #include "intersectioninfo.h"
 #include "light.h"

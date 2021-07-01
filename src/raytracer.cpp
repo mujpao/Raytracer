@@ -3,7 +3,7 @@
 #include "camera.h"
 #include "image.h"
 #include "intersectioninfo.h"
-#include "material.h"
+#include "materials/material.h"
 #include "math/transform.h"
 #include "ray.h"
 #include "scene.h"

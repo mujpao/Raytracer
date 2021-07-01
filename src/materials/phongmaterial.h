@@ -1,7 +1,7 @@
 #ifndef PHONGMATERIAL_H
 #define PHONGMATERIAL_H
 
-#include "material.h"
+#include "materials/material.h"
 
 class PointLight;
 class DirectionalLight;

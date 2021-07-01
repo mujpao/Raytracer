@@ -1,4 +1,4 @@
-#include "diffusematerial.h"
+#include "materials/diffusematerial.h"
 
 #include "intersectioninfo.h"
 #include "ray.h"

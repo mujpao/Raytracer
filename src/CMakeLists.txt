@@ -1,4 +1,9 @@
 set(PROJECT_SOURCES
+        materials/diffusematerial.h
+        materials/diffusematerial.cpp
+        materials/material.h
+        materials/phongmaterial.h
+        materials/phongmaterial.cpp
         math/mat3.h
         math/mat3.cpp
         math/mat4.h
@@ -9,16 +14,11 @@ set(PROJECT_SOURCES
         math/vec.cpp
         camera.h
         camera.cpp
-        diffusematerial.h
-        diffusematerial.cpp
         image.h
         image.cpp
         intersectioninfo.h
         light.h
         light.cpp
-        material.h
-        phongmaterial.h
-        phongmaterial.cpp
         ray.h
         ray.cpp
         raytracer.h
