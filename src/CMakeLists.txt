@@ -2,6 +2,8 @@ set(PROJECT_SOURCES
         materials/diffusematerial.h
         materials/diffusematerial.cpp
         materials/material.h
+        materials/metalmaterial.h
+        materials/metalmaterial.cpp
         materials/phongmaterial.h
         materials/phongmaterial.cpp
         math/mat3.h

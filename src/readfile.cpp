@@ -253,19 +253,20 @@ void readfile(const char* filename, Camera& camera, Scene& scene,
                         if (validinput) {
                             scene.objects.push_back(std::make_shared<Sphere>(
                                 Vec(values[0], values[1], values[2]), values[3],
-                                transfstack.top(),
                                 std::make_shared<PhongMaterial>(ambient,
-                                    diffuse, specular, shininess, emission)));
+                                    diffuse, specular, shininess, emission),
+                                transfstack.top()));
                         }
                     } else if (cmd == "tri") {
                         validinput = readvals(s, 3, values);
 
                         if (validinput) {
-                            scene.objects.push_back(std::make_shared<Triangle>(
-                                vertices[values[0]], vertices[values[1]],
-                                vertices[values[2]], transfstack.top(),
-                                std::make_shared<PhongMaterial>(ambient,
-                                    diffuse, specular, shininess, emission)));
+                            scene.objects.push_back(
+                                std::make_shared<Triangle>(vertices[values[0]],
+                                    vertices[values[1]], vertices[values[2]],
+                                    std::make_shared<PhongMaterial>(ambient,
+                                        diffuse, specular, shininess, emission),
+                                    transfstack.top()));
                         }
                     }
 

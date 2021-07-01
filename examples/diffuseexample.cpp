@@ -14,10 +14,10 @@ int main() {
 
     auto diffuse_material
         = std::make_shared<DiffuseMaterial>(Vec(0.5, 0.5, 0.5));
+    scene.objects.push_back(
+        std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, diffuse_material));
     scene.objects.push_back(std::make_shared<Sphere>(
-        Vec(0.0, 0.0, -1.0), 0.5, Mat4(1.0), diffuse_material));
-    scene.objects.push_back(std::make_shared<Sphere>(
-        Vec(0.0, -100.5, -1.0), 100.0, Mat4(1.0), diffuse_material));
+        Vec(0.0, -100.5, -1.0), 100.0, diffuse_material));
 
     Raytracer raytracer(50, 100);
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));

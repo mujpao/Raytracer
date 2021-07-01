@@ -25,8 +25,8 @@ protected:
 
 class Triangle : public Shape {
 public:
-    Triangle(const Vec& p1, const Vec& p2, const Vec& p3, const Mat4& transform,
-        std::shared_ptr<Material> material);
+    Triangle(const Vec& p1, const Vec& p2, const Vec& p3,
+        std::shared_ptr<Material> material, const Mat4& transform = Mat4(1.0));
 
     bool intersect(
         const Ray& ray, double& thit, IntersectionInfo& local) override;
@@ -39,8 +39,8 @@ private:
 
 class Sphere : public Shape {
 public:
-    Sphere(const Vec& center, double r, const Mat4& transform,
-        std::shared_ptr<Material> material);
+    Sphere(const Vec& center, double r, std::shared_ptr<Material> material,
+        const Mat4& transform = Mat4(1.0));
 
     bool intersect(
         const Ray& ray, double& thit, IntersectionInfo& local) override;
