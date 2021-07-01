@@ -12,7 +12,8 @@ int main() {
         45.0, 400, 225);
     Scene scene;
 
-    auto diffuse_material = std::make_shared<DiffuseMaterial>();
+    auto diffuse_material
+        = std::make_shared<DiffuseMaterial>(Vec(0.5, 0.5, 0.5));
     scene.objects.push_back(std::make_shared<Sphere>(
         Vec(0.0, 0.0, -1.0), 0.5, Mat4(1.0), diffuse_material));
     scene.objects.push_back(std::make_shared<Sphere>(
