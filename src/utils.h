@@ -18,6 +18,9 @@ namespace Utils {
     double clamp(double value, double min, double max);
     Vec clamp(const Vec& v, double min, double max);
 
+    bool is_small(double value);
+    bool is_small(const Vec& v);
+
     const double RAY_HIT_TOLERANCE = 0.001;
     const double EPSILON = 0.000001;
     const double PI = 3.14159265358979323846;

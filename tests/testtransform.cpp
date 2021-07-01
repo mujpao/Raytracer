@@ -337,6 +337,18 @@ BOOST_AUTO_TEST_CASE(test_trace, *utf::tolerance(TestUtils::TOLERANCE)) {
     BOOST_TEST(Transform::trace(b) == 34.0);
 }
 
+BOOST_AUTO_TEST_CASE(test_reflect, *utf::tolerance(TestUtils::TOLERANCE)) {
+    Vec v1(5.0, 0.0, 0.0);
+    Vec n1(-1.0, 0.0, 0.0);
+    Vec r1 = Transform::reflect(v1, n1);
+    BOOST_REQUIRE_EQUAL(r1, Vec(-5.0, 0.0, 0.0));
+
+    Vec v2(5.0, -5.0, 0.0);
+    Vec n2(0.0, 1.0, 0.0);
+    Vec r2 = Transform::reflect(v2, n2);
+    BOOST_REQUIRE_EQUAL(r2, Vec(5.0, 5.0, 0.0));
+}
+
 BOOST_AUTO_TEST_CASE(test_random_double1, *utf::tolerance(0.01)) {
     int n = 10000;
     double sum = 0.0;
@@ -394,4 +406,20 @@ BOOST_AUTO_TEST_CASE(test_clamp, *utf::tolerance(0.000001)) {
     BOOST_TEST(a == 1.0);
     a = Utils::clamp(-0.1, 0.0, 1.0);
     BOOST_TEST(a == 0.0);
+}
+
+BOOST_AUTO_TEST_CASE(test_is_small) {
+    double a = 0.0001;
+    BOOST_REQUIRE_EQUAL(Utils::is_small(a), false);
+    double b = 0.0000000001;
+    BOOST_REQUIRE_EQUAL(Utils::is_small(b), true);
+
+    Vec v(0.1, 0.1, 0.1);
+    BOOST_REQUIRE_EQUAL(Utils::is_small(v), false);
+    v[0] = b;
+    BOOST_REQUIRE_EQUAL(Utils::is_small(v), false);
+    v[1] = b;
+    BOOST_REQUIRE_EQUAL(Utils::is_small(v), false);
+    v[2] = b;
+    BOOST_REQUIRE_EQUAL(Utils::is_small(v), true);
 }

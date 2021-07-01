@@ -48,4 +48,11 @@ namespace Utils {
         }
         return result;
     }
+
+    bool is_small(double value) { return std::abs(value) < EPSILON; }
+
+    bool is_small(const Vec& v) {
+        return is_small(v[0]) && is_small(v[1]) && is_small(v[2]);
+    }
+
 } // namespace Utils
