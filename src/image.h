@@ -24,7 +24,8 @@ public:
 
     void save(const std::string& file) const;
 
-    void set_pixel_color(std::size_t i, std::size_t j, const Vec& color);
+    void set_pixel_color(std::size_t i, std::size_t j, const Vec& color,
+        bool gamma_corrected = false);
 
     std::array<unsigned char, 3> pixel_color(
         std::size_t i, std::size_t j) const;

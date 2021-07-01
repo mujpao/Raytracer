@@ -13,7 +13,8 @@ Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
     : m_max_depth(max_depth), m_num_samples(num_samples),
       m_normals_only(normals_only) {}
 
-Image Raytracer::raytrace(const Camera& camera, const Scene& scene) {
+Image Raytracer::raytrace(
+    const Camera& camera, const Scene& scene, bool gamma_corrected) {
     Image image(camera.width(), camera.height());
 
     for (std::size_t i = 0; i < image.height(); ++i) {
@@ -39,7 +40,8 @@ Image Raytracer::raytrace(const Camera& camera, const Scene& scene) {
                 color /= m_num_samples;
             }
 
-            image.set_pixel_color(i, j, Utils::clamp(color, 0.0, 1.0));
+            image.set_pixel_color(
+                i, j, Utils::clamp(color, 0.0, 1.0), gamma_corrected);
         }
     }
 

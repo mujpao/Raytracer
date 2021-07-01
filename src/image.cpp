@@ -81,12 +81,14 @@ void Image::save(const std::string& file) const {
         file.c_str(), m_width, m_height, 3, (const void*)m_bytes, m_width * 3);
 }
 
-void Image::set_pixel_color(std::size_t i, std::size_t j, const Vec& color) {
+void Image::set_pixel_color(
+    std::size_t i, std::size_t j, const Vec& color, bool gamma_corrected) {
     // TODO check indices
 
     unsigned char new_color[3];
     for (int k = 0; k < 3; ++k) {
-        double col = Utils::clamp(color[k] * 255.0, 0.0, 255.0);
+        double col = gamma_corrected ? std::sqrt(color[k]) : color[k];
+        col = Utils::clamp(col * 255.0, 0.0, 255.0);
         new_color[k] = static_cast<unsigned char>(col);
     }
 

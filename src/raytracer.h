@@ -12,7 +12,8 @@ class Raytracer {
 public:
     Raytracer(int max_depth, int num_samples = 1, bool normals_only = false);
 
-    Image raytrace(const Camera& camera, const Scene& scene);
+    Image raytrace(
+        const Camera& camera, const Scene& scene, bool gamma_corrected = false);
 
     // Determines color of pixels where ray does not hit an object. Default is
     // black.

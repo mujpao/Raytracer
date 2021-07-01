@@ -7,7 +7,7 @@
 #include "shape.h"
 
 int main() {
-    std::string outfile("example1.png");
+    std::string outfile("diffuseexample.png");
     Camera camera(Vec(0.0, 0.0, 1.0), Vec(0.0, 0.0, 0.0), Vec(0.0, 1.0, 0.0),
         45.0, 400, 225);
     Scene scene;
@@ -21,7 +21,7 @@ int main() {
     Raytracer raytracer(50, 100);
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
 
-    Image image = raytracer.raytrace(camera, scene);
+    Image image = raytracer.raytrace(camera, scene, true);
     image.save(outfile);
 
     return 0;
