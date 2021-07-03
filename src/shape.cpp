@@ -125,6 +125,10 @@ bool Sphere::intersect(const Ray& ray, double& thit, IntersectionInfo& local) {
 
     local.position = m_transformation * untransformed_point;
     local.normal = Vec::normalize(m_inverse_transpose * untransformed_normal);
+    if (m_radius < 0.0) {
+        local.normal *= -1.0;
+    }
+
     local.material = m_material;
 
     return true;
