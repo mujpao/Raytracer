@@ -18,19 +18,26 @@ int main() {
     double height = width / aspect;
 
     // Camera camera(Vec(0.0, 0.0, 1.0), Vec(0.0, 0.0, 0.0), Vec(0.0, 1.0, 0.0),
-    // 40.0, (int)width, (int)height);
+    //     40.0, (int)width, (int)height);
 
     // Camera camera(Vec(-2, 2, 1), Vec(0, 0, -1), Vec(0.0, 1.0, 0.0), 40.0,
     //     (int)width, (int)height);
 
-    Camera camera(Vec(-2, 2, 1), Vec(0, 0, -1), Vec(0.0, 1.0, 0.0), 20.0,
-        (int)width, (int)height);
+    Vec lookfrom(3.0, 3.0, 2.0);
+    Vec lookat(0.0, 0.0, -1.0);
+    Vec vup(0.0, 1.0, 0.0);
+    double dist_to_focus = Vec::length(lookfrom - lookat);
+    double aperture = 2.0;
+
+    Camera camera(lookfrom, lookat, vup, 20.0, (int)width, (int)height,
+        aperture, dist_to_focus);
 
     Scene scene;
 
     auto material_ground
         = std::make_shared<DiffuseMaterial>(Vec(0.8, 0.8, 0.0));
-    auto material_center = std::make_shared<DielectricMaterial>(1.5);
+    auto material_center
+        = std::make_shared<DiffuseMaterial>(Vec(0.1, 0.2, 0.5));
     auto material_left = std::make_shared<DielectricMaterial>(1.5);
     auto material_right
         = std::make_shared<MetalMaterial>(Vec(0.8, 0.6, 0.2), 0.0);

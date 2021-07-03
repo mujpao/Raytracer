@@ -6,9 +6,9 @@
 
 #include <cmath>
 
-Camera::Camera(
-    const Vec& eye, const Vec& center, const Vec& up, double fov, int w, int h)
-    : m_eye(eye), m_width(w), m_height(h) {
+Camera::Camera(const Vec& eye, const Vec& center, const Vec& up, double fov,
+    int w, int h, double aperture, double focus_dist)
+    : m_eye(eye), m_width(w), m_height(h), m_lens_radius(aperture / 2.0) {
     double aspect = static_cast<double>(m_width) / m_height;
     double fovy = Utils::deg2rad(fov);
 
@@ -21,14 +21,17 @@ Camera::Camera(
     m_u = Vec::normalize(Transform::cross(b, m_w));
     m_v = Transform::cross(m_w, m_u);
 
-    m_horizontal = viewport_width * m_u;
-    m_vertical = -viewport_height * m_v;
-    m_top_left = m_eye - m_horizontal / 2.0 - m_vertical / 2.0 - m_w;
+    m_horizontal = focus_dist * viewport_width * m_u;
+    m_vertical = focus_dist * -viewport_height * m_v;
+    m_top_left
+        = m_eye - m_horizontal / 2.0 - m_vertical / 2.0 - focus_dist * m_w;
 }
 
 Ray Camera::get_ray(double s, double t) const {
-    Vec origin = Vec(m_eye.x(), m_eye.y(), m_eye.z(), 1.0);
-    Vec direction = m_top_left + s * m_horizontal + t * m_vertical - origin;
+    Vec rd = m_lens_radius * Utils::random_in_unit_disk();
+    Vec offset = m_u * rd.x() + m_v * rd.y();
 
-    return Ray(origin, direction);
+    Vec origin = Vec::to_point(m_eye);
+    return Ray(origin + offset,
+        m_top_left + s * m_horizontal + t * m_vertical - origin - offset);
 }

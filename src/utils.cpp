@@ -33,6 +33,16 @@ namespace Utils {
         }
     }
 
+    Vec random_in_unit_disk() {
+        while (true) {
+            Vec v = Vec::to_point(
+                Vec(random_double(-1.0, 1.0), random_double(-1.0, 1.0), 0.0));
+            if (Vec::length_squared(v) < 1.0) {
+                return v;
+            }
+        }
+    }
+
     double clamp(double value, double min, double max) {
         if (value > max)
             return max;

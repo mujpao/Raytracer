@@ -10,7 +10,7 @@ public:
     Camera() = default;
     // fov in degrees
     Camera(const Vec& eye, const Vec& center, const Vec& up, double fov, int w,
-        int h);
+        int h, double aperture = 0.0, double focus_dist = 1.0);
 
     inline int width() const { return m_width; }
     inline int height() const { return m_height; }
@@ -31,6 +31,8 @@ private:
     Vec m_top_left;
 
     int m_width, m_height;
+
+    double m_lens_radius;
 };
 
 #endif
