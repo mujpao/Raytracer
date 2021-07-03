@@ -11,6 +11,9 @@ public:
         Vec& atten_factor, Ray& scattered) const override;
 
 private:
+    // Schlick's Approximation
+    static double reflectance(double cosine, double ref_idx);
+
     const double m_refraction_idx;
 };
 

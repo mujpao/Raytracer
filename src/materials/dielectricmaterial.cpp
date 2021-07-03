@@ -3,6 +3,7 @@
 #include "intersectioninfo.h"
 #include "math/transform.h"
 #include "ray.h"
+#include "utils.h"
 
 #include <cmath>
 
@@ -34,8 +35,9 @@ bool DielectricMaterial::calc_scattered_ray(const Ray& ray,
 
     Vec scatter_dir;
 
-    if (eta1 / eta2 * sin_theta > 1.0) {
-
+    if (eta1 / eta2 * sin_theta > 1.0
+        || reflectance(cos_theta, eta1 / eta2)
+            > Utils::random_double(0.0, 1.0)) {
         scatter_dir = Transform::reflect(ray.direction(), normal);
     } else {
         scatter_dir = Transform::refract(incident_dir, normal, eta1, eta2);
@@ -46,4 +48,10 @@ bool DielectricMaterial::calc_scattered_ray(const Ray& ray,
     atten_factor = Vec(1.0, 1.0, 1.0);
 
     return true;
+}
+
+double DielectricMaterial::reflectance(double cosine, double ref_idx) {
+    double r0 = (1.0 - ref_idx) / (1.0 + ref_idx);
+    r0 = r0 * r0;
+    return r0 + (1.0 - r0) * std::pow((1.0 - cosine), 5);
 }
