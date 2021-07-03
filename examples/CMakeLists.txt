@@ -13,4 +13,5 @@ function(make_example name file)
 endfunction(make_example)
 
 make_example(diffuseexample diffuseexample.cpp)
-make_example(metalexample metalexample1.cpp)
+make_example(metalexample1 metalexample1.cpp)
+make_example(dielectricexample1 dielectricexample1.cpp)

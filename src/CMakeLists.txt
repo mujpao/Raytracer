@@ -1,4 +1,6 @@
 set(PROJECT_SOURCES
+        materials/dielectricmaterial.h
+        materials/dielectricmaterial.cpp
         materials/diffusematerial.h
         materials/diffusematerial.cpp
         materials/material.h

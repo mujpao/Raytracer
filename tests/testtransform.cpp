@@ -7,6 +7,8 @@
 #include "testutils.h"
 #include "utils.h"
 
+#include <cmath>
+
 namespace utf = boost::unit_test;
 
 BOOST_AUTO_TEST_CASE(test_rotate, *utf::tolerance(TestUtils::TOLERANCE)) {
@@ -347,6 +349,38 @@ BOOST_AUTO_TEST_CASE(test_reflect, *utf::tolerance(TestUtils::TOLERANCE)) {
     Vec n2(0.0, 1.0, 0.0);
     Vec r2 = Transform::reflect(v2, n2);
     BOOST_REQUIRE_EQUAL(r2, Vec(5.0, 5.0, 0.0));
+}
+
+BOOST_AUTO_TEST_CASE(test_refract1, *utf::tolerance(TestUtils::TOLERANCE)) {
+    Vec i1 = Vec::normalize(Vec(1.0, -1.0, 0.0));
+    Vec n1(0.0, 1.0, 0.0);
+    Vec t1 = Transform::refract(i1, n1, 1.0, 1.0);
+    BOOST_TEST(Vec::length(t1) == 1.0);
+    BOOST_REQUIRE_EQUAL(t1, i1);
+
+    Vec i2 = Vec::normalize(Vec(1.0, -3.0, 0.0));
+    Vec n2(0.0, 1.0, 0.0);
+    Vec t2 = Transform::refract(i2, n2, 1.0, 1.5);
+    BOOST_TEST(Vec::length(t2) == 1.0);
+    double theta1 = std::acos(Transform::dot(i2, n2));
+    double theta2 = std::acos(Transform::dot(t2, n2));
+    BOOST_TEST(1.0 * std::sin(theta1) == 1.5 * std::sin(theta2));
+}
+
+BOOST_AUTO_TEST_CASE(test_refract2, *utf::tolerance(TestUtils::TOLERANCE)) {
+    double theta1 = Utils::deg2rad(20.0);
+    Vec i = Vec::normalize(std::sin(theta1) * Vec(1.0, 0.0, 0.0)
+        - std::cos(theta1) * Vec(0.0, 1.0, 0.0));
+    Vec n(0.0, 1.0, 0.0);
+    Vec t = Transform::refract(i, n, 1.0, 1.5);
+
+    double theta2 = std::asin(1.0 / 1.5 * std::sin(theta1));
+    Vec t_actual = Vec::normalize(std::sin(theta2) * Vec(1.0, 0.0, 0.0)
+        - std::cos(theta2) * Vec(0.0, 1.0, 0.0));
+
+    BOOST_TEST(Vec::length(t) == 1.0);
+    BOOST_REQUIRE_EQUAL(t, t_actual);
+    BOOST_TEST(1.0 * std::sin(theta1) == 1.5 * std::sin(theta2));
 }
 
 BOOST_AUTO_TEST_CASE(test_random_double1, *utf::tolerance(0.01)) {

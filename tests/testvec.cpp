@@ -75,6 +75,12 @@ BOOST_AUTO_TEST_CASE(test_subtract, *utf::tolerance(TestUtils::TOLERANCE)) {
     BOOST_REQUIRE_EQUAL(v1 - v2, Vec(-3.0, -3.0, -3.0, 0.0));
 }
 
+BOOST_AUTO_TEST_CASE(test_unary_minus, *utf::tolerance(TestUtils::TOLERANCE)) {
+    Vec v(3.0, -4.0, 5.0);
+
+    BOOST_REQUIRE_EQUAL(-v, -1.0 * v);
+}
+
 BOOST_AUTO_TEST_CASE(
     test_multiply_scalar1, *utf::tolerance(TestUtils::TOLERANCE)) {
     Vec v(1.0, 2.0, 3.0);

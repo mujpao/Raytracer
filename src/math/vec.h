@@ -29,6 +29,8 @@ public:
     friend Vec operator+(Vec lhs, const Vec& rhs);
     friend Vec operator-(Vec lhs, const Vec& rhs);
 
+    friend Vec operator-(const Vec& v);
+
     // Component-wise multiplication
     friend Vec operator*(Vec lhs, const Vec& rhs);
 

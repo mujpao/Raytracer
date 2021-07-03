@@ -19,9 +19,10 @@ public:
     // black.
     void set_background_color(const Vec& color);
 
-private:
+    // todo
     Vec trace(const Ray& r, const Scene& scene, int depth);
 
+private:
     int m_max_depth;
     int m_num_samples;
     bool m_normals_only;

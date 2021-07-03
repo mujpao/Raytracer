@@ -23,8 +23,8 @@ Image Raytracer::raytrace(
             if (m_num_samples == 1) {
                 double u = static_cast<double>(j) / (image.width() - 1);
                 double v = static_cast<double>(i) / (image.height() - 1);
-                Ray ray = camera.get_ray(u, v);
 
+                Ray ray = camera.get_ray(u, v);
                 color = trace(ray, scene, m_max_depth);
 
             } else {
@@ -33,8 +33,8 @@ Image Raytracer::raytrace(
                         / (image.width() - 1);
                     double v = (i + Utils::random_double(0.0, 1.0))
                         / (image.height() - 1);
-                    Ray ray = camera.get_ray(u, v);
 
+                    Ray ray = camera.get_ray(u, v);
                     color += trace(ray, scene, m_max_depth);
                 }
                 color /= m_num_samples;

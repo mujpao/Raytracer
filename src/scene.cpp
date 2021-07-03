@@ -1,6 +1,7 @@
 #include "scene.h"
 
 #include "intersectioninfo.h"
+#include "ray.h"
 #include "shape.h"
 
 bool Scene::intersect(
@@ -9,9 +10,11 @@ bool Scene::intersect(
     double t;
     bool has_intersect = false;
     double t_closest = m_t_max;
+
+    Ray adjusted_ray(ray.evaluate(tolerance), ray.direction());
     for (auto& obj : objects) {
-        if (obj->intersect(ray, t, local)) {
-            if (t > tolerance && t < t_closest) {
+        if (obj->intersect(adjusted_ray, t, local)) {
+            if (t > 0.0 && t < t_closest) {
                 t_closest = t;
                 closest_hit_geo = local;
                 has_intersect = true;

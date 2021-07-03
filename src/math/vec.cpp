@@ -77,6 +77,8 @@ Vec operator-(Vec lhs, const Vec& rhs) {
     return lhs;
 }
 
+Vec operator-(const Vec& v) { return -1.0 * v; }
+
 Vec operator*(Vec lhs, const Vec& rhs) {
     lhs *= rhs;
     return lhs;

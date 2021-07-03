@@ -9,6 +9,7 @@ namespace Transform {
     Vec cross(const Vec& a, const Vec& b);
 
     Vec reflect(const Vec& v, const Vec& n);
+    Vec refract(const Vec& incident, const Vec& n1, double eta1, double eta2);
 
     Mat4 rotate(double degrees, const Vec& axis);
     Mat4 scale(double sx, double sy, double sz);

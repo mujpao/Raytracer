@@ -21,6 +21,16 @@ namespace Transform {
 
     Vec reflect(const Vec& v, const Vec& n) { return v - 2 * dot(v, n) * n; }
 
+    Vec refract(const Vec& incident, const Vec& n1, double eta1, double eta2) {
+        Vec n2 = -n1;
+        double mu = eta1 / eta2;
+        Vec t_perpendicular = mu * (incident - dot(n2, incident) * n2);
+        Vec t_parallel
+            = std::sqrt(1.0 - Vec::length_squared(t_perpendicular)) * n2;
+
+        return t_perpendicular + t_parallel;
+    }
+
     Mat4 rotate(double degrees, const Vec& axis) {
         Vec axis_normalized = Vec::normalize(axis);
         const double theta = Utils::deg2rad(degrees);
