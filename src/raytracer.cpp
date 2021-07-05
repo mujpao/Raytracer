@@ -9,6 +9,8 @@
 #include "scene.h"
 #include "utils.h"
 
+#include <iostream>
+
 Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
     : m_max_depth(max_depth), m_num_samples(num_samples),
       m_normals_only(normals_only) {}
@@ -20,12 +22,16 @@ Image Raytracer::raytrace(const Camera& camera, const Scene& scene,
 
     Image image(width, height);
 
+    std::cout << "Tracing scene (" << width << "x" << height << ")" << '\n';
+
+    m_progress_indicator.start();
+
     for (std::size_t i = 0; i < height; ++i) {
         for (std::size_t j = 0; j < width; ++j) {
             Vec color;
             if (m_num_samples == 1) {
-                double u = static_cast<double>(j) / (image.width() - 1);
-                double v = static_cast<double>(i) / (image.height() - 1);
+                double u = static_cast<double>(j) / (width - 1);
+                double v = static_cast<double>(i) / (height - 1);
 
                 Ray ray = camera.get_ray(u, v);
                 color = trace(ray, scene, m_max_depth);
@@ -46,6 +52,8 @@ Image Raytracer::raytrace(const Camera& camera, const Scene& scene,
             image.set_pixel_color(
                 i, j, Utils::clamp(color, 0.0, 1.0), gamma_corrected);
         }
+
+        m_progress_indicator.increment(1.0 / height);
     }
 
     return image;

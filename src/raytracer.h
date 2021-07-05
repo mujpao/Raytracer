@@ -2,6 +2,7 @@
 #define RAYTRACER_H
 
 #include "math/vec.h"
+#include "progressindicator.h"
 
 class Image;
 class Camera;
@@ -28,6 +29,8 @@ private:
     bool m_normals_only;
 
     Vec m_background_color = Vec(0.0, 0.0, 0.0);
+
+    ProgressIndicator m_progress_indicator;
 };
 
 #endif

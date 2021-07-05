@@ -23,6 +23,8 @@ set(PROJECT_SOURCES
         intersectioninfo.h
         light.h
         light.cpp
+        progressindicator.h
+        progressindicator.cpp
         ray.h
         ray.cpp
         raytracer.h

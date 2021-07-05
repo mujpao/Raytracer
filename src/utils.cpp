@@ -10,6 +10,10 @@ namespace Utils {
         return std::abs(lhs - rhs) < EPSILON;
     }
 
+    bool is_gt_equal(double lhs, double rhs) {
+        return lhs > rhs || is_equal(lhs, rhs);
+    }
+
     double deg2rad(double degrees) { return degrees * (PI / 180.0); }
 
     double random_double(double min, double max) {

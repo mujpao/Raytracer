@@ -5,6 +5,7 @@ class Vec;
 
 namespace Utils {
     bool is_equal(double lhs, double rhs);
+    bool is_gt_equal(double lhs, double rhs);
 
     double deg2rad(double degrees);
 

@@ -6,6 +6,8 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "thirdparty/stb_image_write.h"
 
+#include <iostream>
+
 Image::Image(std::size_t width, std::size_t height)
     : m_width(width), m_height(height) {
     m_bytes = new unsigned char[3 * m_width * m_height];
@@ -77,6 +79,7 @@ Image& Image::operator=(Image&& other) {
 }
 
 void Image::save(const std::string& file) const {
+    std::cout << "Saving to file: " << file << '\n';
     stbi_write_png(
         file.c_str(), m_width, m_height, 3, (const void*)m_bytes, m_width * 3);
 }
