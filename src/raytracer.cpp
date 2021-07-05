@@ -13,12 +13,15 @@ Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
     : m_max_depth(max_depth), m_num_samples(num_samples),
       m_normals_only(normals_only) {}
 
-Image Raytracer::raytrace(
-    const Camera& camera, const Scene& scene, bool gamma_corrected) {
-    Image image(camera.width(), camera.height());
+Image Raytracer::raytrace(const Camera& camera, const Scene& scene,
+    const std::size_t width, double aspect, bool gamma_corrected) {
 
-    for (std::size_t i = 0; i < image.height(); ++i) {
-        for (std::size_t j = 0; j < image.width(); ++j) {
+    const std::size_t height = width / aspect;
+
+    Image image(width, height);
+
+    for (std::size_t i = 0; i < height; ++i) {
+        for (std::size_t j = 0; j < width; ++j) {
             Vec color;
             if (m_num_samples == 1) {
                 double u = static_cast<double>(j) / (image.width() - 1);

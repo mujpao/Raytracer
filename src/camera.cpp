@@ -7,9 +7,8 @@
 #include <cmath>
 
 Camera::Camera(const Vec& eye, const Vec& center, const Vec& up, double fov,
-    int w, int h, double aperture, double focus_dist)
-    : m_eye(eye), m_width(w), m_height(h), m_lens_radius(aperture / 2.0) {
-    double aspect = static_cast<double>(m_width) / m_height;
+    double aspect, double aperture, double focus_dist)
+    : m_eye(eye), m_lens_radius(aperture / 2.0) {
     double fovy = Utils::deg2rad(fov);
 
     double viewport_height = 2.0 * std::tan(fovy / 2.0);

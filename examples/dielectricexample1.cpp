@@ -15,13 +15,12 @@ int main() {
 
     double width = 400.0;
     double aspect = 16.0 / 9.0;
-    double height = width / aspect;
 
     // Camera camera(Vec(0.0, 0.0, 1.0), Vec(0.0, 0.0, 0.0), Vec(0.0, 1.0, 0.0),
-    //     40.0, (int)width, (int)height);
+    //     40.0, aspect);
 
     // Camera camera(Vec(-2, 2, 1), Vec(0, 0, -1), Vec(0.0, 1.0, 0.0), 40.0,
-    //     (int)width, (int)height);
+    //     aspect);
 
     Vec lookfrom(3.0, 3.0, 2.0);
     Vec lookat(0.0, 0.0, -1.0);
@@ -29,8 +28,7 @@ int main() {
     double dist_to_focus = Vec::length(lookfrom - lookat);
     double aperture = 2.0;
 
-    Camera camera(lookfrom, lookat, vup, 20.0, (int)width, (int)height,
-        aperture, dist_to_focus);
+    Camera camera(lookfrom, lookat, vup, 20.0, aspect, aperture, dist_to_focus);
 
     Scene scene;
 
@@ -61,7 +59,7 @@ int main() {
     // Ray r(Vec(0.0, 0.0, 1.0, 1.0), Vec(0.0, 0.0, -1.0)); // for debugging
     // raytracer.trace(r, scene, 50);
 
-    Image image = raytracer.raytrace(camera, scene, true);
+    Image image = raytracer.raytrace(camera, scene, width, aspect, true);
     image.save(outfile);
 
     return 0;

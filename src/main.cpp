@@ -20,9 +20,11 @@ int main(int argc, char* argv[]) {
         int max_depth = 5;
         Camera camera;
         Scene scene;
-        readfile(argv[i], camera, scene, max_depth, outfile);
+        int width;
+        double aspect;
+        readfile(argv[i], camera, scene, width, aspect, max_depth, outfile);
         Raytracer r(max_depth);
-        Image image = r.raytrace(camera, scene);
+        Image image = r.raytrace(camera, scene, width, aspect);
         image.save(outfile);
     }
 

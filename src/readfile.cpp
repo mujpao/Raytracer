@@ -62,14 +62,13 @@ bool readvals(std::stringstream& s, const int numvals, float* values) {
     return true;
 }
 
-void readfile(const char* filename, Camera& camera, Scene& scene,
-    int& max_depth, std::string& outfile) {
+void readfile(const char* filename, Camera& camera, Scene& scene, int& width,
+    double& aspect, int& max_depth, std::string& outfile) {
     std::string str, cmd;
     std::ifstream in;
     Vec eye;
     Vec up;
     Vec center;
-    int w, h;
     float fov;
     Vec diffuse, specular, emission;
     Vec color, direction;
@@ -201,8 +200,9 @@ void readfile(const char* filename, Camera& camera, Scene& scene,
                 } else if (cmd == "size") {
                     validinput = readvals(s, 2, values);
                     if (validinput) {
-                        w = (int)values[0];
-                        h = (int)values[1];
+                        width = (int)values[0];
+                        int height = (int)values[1];
+                        aspect = static_cast<double>(width) / height;
                     }
                 }
                 // process ray depth
@@ -336,7 +336,7 @@ void readfile(const char* filename, Camera& camera, Scene& scene,
             getline(in, str);
         }
 
-        camera = Camera(eye, center, up, fov, w, h);
+        camera = Camera(eye, center, up, fov, aspect);
     } else {
         std::cerr << "Unable to Open Input Data File " << filename << "\n";
         throw 2; // TODO change

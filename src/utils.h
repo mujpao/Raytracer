@@ -9,9 +9,9 @@ namespace Utils {
     double deg2rad(double degrees);
 
     // In range [min, max)
-    double random_double(double min, double max);
+    double random_double(double min = 0.0, double max = 1.0);
 
-    Vec random_vec(double min, double max);
+    Vec random_vec(double min = 0.0, double max = 1.0);
 
     Vec random_in_unit_sphere();
 

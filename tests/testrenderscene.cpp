@@ -19,12 +19,14 @@ struct CompareImagesFixture {
           m_scene_name(scene_name) {
         std::string infile(m_scene_dir + m_scene_name + ".test");
         int max_depth = 5;
-        Camera cam;
+        Camera camera;
         Scene scene;
+        int width;
+        double aspect;
         std::string temp;
-        readfile(infile.c_str(), cam, scene, max_depth, temp);
+        readfile(infile.c_str(), camera, scene, width, aspect, max_depth, temp);
         Raytracer r(max_depth);
-        Image rendered_image = r.raytrace(cam, scene);
+        Image rendered_image = r.raytrace(camera, scene, width, aspect);
 
         std::string compare_to_file(m_scene_dir + m_scene_name + extension);
 
