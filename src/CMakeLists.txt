@@ -16,6 +16,12 @@ set(PROJECT_SOURCES
         math/transform.cpp
         math/vec.h
         math/vec.cpp
+        shapes/shape.h
+        shapes/shape.cpp
+        shapes/sphere.h
+        shapes/sphere.cpp
+        shapes/triangle.h
+        shapes/triangle.cpp
         camera.h
         camera.cpp
         image.h
@@ -33,8 +39,6 @@ set(PROJECT_SOURCES
         readfile.cpp
         scene.h
         scene.cpp
-        shape.h
-        shape.cpp
         utils.h
         utils.cpp
 )

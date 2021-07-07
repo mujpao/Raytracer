@@ -6,7 +6,7 @@
 #include "raytracer.h"
 #include "readfile.h"
 #include "scene.h"
-#include "shape.h"
+#include "shapes/sphere.h"
 
 #include "ray.h"
 

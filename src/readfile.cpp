@@ -29,7 +29,8 @@
 #include "math/transform.h"
 #include "raytracer.h"
 #include "scene.h"
-#include "shape.h"
+#include "shapes/sphere.h"
+#include "shapes/triangle.h"
 
 #include <fstream>
 #include <iostream>

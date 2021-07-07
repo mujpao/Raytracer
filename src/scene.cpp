@@ -2,7 +2,7 @@
 
 #include "intersectioninfo.h"
 #include "ray.h"
-#include "shape.h"
+#include "shapes/shape.h"
 
 bool Scene::intersect(
     const Ray& ray, double tolerance, IntersectionInfo& closest_hit_geo) const {
