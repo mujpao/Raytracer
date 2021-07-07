@@ -11,11 +11,11 @@ public:
         std::shared_ptr<Material> material, const Mat4& transform = Mat4(1.0));
 
     bool intersect(
-        const Ray& ray, double& thit, IntersectionInfo& local) override;
-    bool intersects(const Ray& ray) override;
+        const Ray& ray, double& thit, IntersectionInfo& local) const override;
+    // bool intersects(const Ray& ray) override;
 
 private:
-    void barycentric(const Vec& p, double& u, double& v, double& w);
+    void barycentric(const Vec& p, double& u, double& v, double& w) const;
     Vec m_v1, m_v2, m_v3;
 };
 

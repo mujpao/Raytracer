@@ -84,6 +84,8 @@ void readfile(const char* filename, Camera& camera, Scene& scene, int& width,
     float shininess = 0; // default shininess value of 0
 
     std::vector<Vec> vertices;
+    std::vector<std::shared_ptr<Light>> lights;
+    std::vector<std::shared_ptr<Shape>> shapes;
 
     in.open(filename);
     if (in.is_open()) {
@@ -120,9 +122,8 @@ void readfile(const char* filename, Camera& camera, Scene& scene, int& width,
                         color[2] = values[5];
                         color[3] = 1.0;
 
-                        scene.lights.push_back(
-                            std::make_shared<DirectionalLight>(
-                                color, direction));
+                        lights.push_back(std::make_shared<DirectionalLight>(
+                            color, direction));
                     }
 
                 } else if (cmd == "point") {
@@ -138,7 +139,7 @@ void readfile(const char* filename, Camera& camera, Scene& scene, int& width,
                         color[2] = values[5];
                         color[3] = 1.0;
 
-                        scene.lights.push_back(std::make_shared<PointLight>(
+                        lights.push_back(std::make_shared<PointLight>(
                             attenuation, color, light_location));
                     }
                     // reset attenuation regardless of whether input was valid
@@ -252,7 +253,7 @@ void readfile(const char* filename, Camera& camera, Scene& scene, int& width,
                         validinput = readvals(s, 4, values);
 
                         if (validinput) {
-                            scene.objects.push_back(std::make_shared<Sphere>(
+                            shapes.push_back(std::make_shared<Sphere>(
                                 Vec(values[0], values[1], values[2]), values[3],
                                 std::make_shared<PhongMaterial>(ambient,
                                     diffuse, specular, shininess, emission),
@@ -262,7 +263,7 @@ void readfile(const char* filename, Camera& camera, Scene& scene, int& width,
                         validinput = readvals(s, 3, values);
 
                         if (validinput) {
-                            scene.objects.push_back(
+                            shapes.push_back(
                                 std::make_shared<Triangle>(vertices[values[0]],
                                     vertices[values[1]], vertices[values[2]],
                                     std::make_shared<PhongMaterial>(ambient,
@@ -338,6 +339,7 @@ void readfile(const char* filename, Camera& camera, Scene& scene, int& width,
         }
 
         camera = Camera(eye, center, up, fov, aspect);
+        scene = Scene(shapes, lights);
     } else {
         std::cerr << "Unable to Open Input Data File " << filename << "\n";
         throw 2; // TODO change

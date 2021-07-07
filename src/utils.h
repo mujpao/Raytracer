@@ -25,8 +25,11 @@ namespace Utils {
     bool is_small(const Vec& v);
 
     const double RAY_HIT_TOLERANCE = 0.001;
-    const double EPSILON = 0.000001;
     const double PI = 3.14159265358979323846;
+    const double EPSILON = 0.000001;
+
+    // Maximum ray parameter
+    const double T_MAX = 10000.0;
 } // namespace Utils
 
 #endif

@@ -15,7 +15,8 @@ Sphere::Sphere(const Vec& center, double r, std::shared_ptr<Material> material,
         = Transform::transpose3x3(Transform::inverse3x3(m_transformation));
 }
 
-bool Sphere::intersect(const Ray& ray, double& thit, IntersectionInfo& local) {
+bool Sphere::intersect(
+    const Ray& ray, double& thit, IntersectionInfo& local) const {
     double a, b, c, disc;
     Ray r2 = m_inverse * ray;
 
@@ -57,17 +58,17 @@ bool Sphere::intersect(const Ray& ray, double& thit, IntersectionInfo& local) {
     return true;
 }
 
-bool Sphere::intersects(const Ray& ray) {
-    double a, b, c, disc;
+// bool Sphere::intersects(const Ray& ray) {
+//     double a, b, c, disc;
 
-    Ray r2 = Transform::inverse(m_transformation) * ray;
+//     Ray r2 = Transform::inverse(m_transformation) * ray;
 
-    a = Transform::dot(r2.direction(), r2.direction());
-    b = 2 * Transform::dot(r2.direction(), r2.origin() - m_center);
-    c = Transform::dot(r2.origin() - m_center, r2.origin() - m_center)
-        - std::pow(m_radius, 2.0);
+//     a = Transform::dot(r2.direction(), r2.direction());
+//     b = 2 * Transform::dot(r2.direction(), r2.origin() - m_center);
+//     c = Transform::dot(r2.origin() - m_center, r2.origin() - m_center)
+//         - std::pow(m_radius, 2.0);
 
-    // check if discriminant >= 0
-    disc = std::pow(b, 2.0) - 4.0 * a * c;
-    return disc >= 0;
-}
+//     // check if discriminant >= 0
+//     disc = std::pow(b, 2.0) - 4.0 * a * c;
+//     return disc >= 0;
+// }

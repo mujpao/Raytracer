@@ -16,8 +16,11 @@ set(PROJECT_SOURCES
         math/transform.cpp
         math/vec.h
         math/vec.cpp
+        shapes/abstractshape.h
         shapes/shape.h
         shapes/shape.cpp
+        shapes/shapelist.h
+        shapes/shapelist.cpp
         shapes/sphere.h
         shapes/sphere.cpp
         shapes/triangle.h

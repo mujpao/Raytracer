@@ -6,15 +6,17 @@
 #include "raytracer.h"
 #include "readfile.h"
 #include "scene.h"
+#include "shapes/shapelist.h"
 #include "shapes/sphere.h"
 #include "utils.h"
 
 Scene random_scene() {
-    Scene scene;
+
+    std::shared_ptr<ShapeList> shape_list = std::make_shared<ShapeList>();
 
     auto ground_material
         = std::make_shared<DiffuseMaterial>(Vec(0.5, 0.5, 0.5));
-    scene.objects.push_back(
+    shape_list->add(
         std::make_shared<Sphere>(Vec(0, -1000, 0), 1000, ground_material));
 
     for (int a = -11; a < 11; ++a) {
@@ -30,7 +32,7 @@ Scene random_scene() {
                     // diffuse
                     auto albedo = Utils::random_vec() * Utils::random_vec();
                     sphere_material = std::make_shared<DiffuseMaterial>(albedo);
-                    scene.objects.push_back(
+                    shape_list->add(
                         std::make_shared<Sphere>(center, 0.2, sphere_material));
                 } else if (choose_mat < 0.95) {
                     // metal
@@ -38,12 +40,12 @@ Scene random_scene() {
                     auto fuzz = Utils::random_double(0, 0.5);
                     sphere_material
                         = std::make_shared<MetalMaterial>(albedo, fuzz);
-                    scene.objects.push_back(
+                    shape_list->add(
                         std::make_shared<Sphere>(center, 0.2, sphere_material));
                 } else {
                     // glass
                     sphere_material = std::make_shared<DielectricMaterial>(1.5);
-                    scene.objects.push_back(
+                    shape_list->add(
                         std::make_shared<Sphere>(center, 0.2, sphere_material));
                 }
             }
@@ -51,18 +53,15 @@ Scene random_scene() {
     }
 
     auto material1 = std::make_shared<DielectricMaterial>(1.5);
-    scene.objects.push_back(
-        std::make_shared<Sphere>(Vec(0, 1, 0), 1.0, material1));
+    shape_list->add(std::make_shared<Sphere>(Vec(0, 1, 0), 1.0, material1));
 
     auto material2 = std::make_shared<DiffuseMaterial>(Vec(0.4, 0.2, 0.1));
-    scene.objects.push_back(
-        std::make_shared<Sphere>(Vec(-4, 1, 0), 1.0, material2));
+    shape_list->add(std::make_shared<Sphere>(Vec(-4, 1, 0), 1.0, material2));
 
     auto material3 = std::make_shared<MetalMaterial>(Vec(0.7, 0.6, 0.5), 0.0);
-    scene.objects.push_back(
-        std::make_shared<Sphere>(Vec(4, 1, 0), 1.0, material3));
+    shape_list->add(std::make_shared<Sphere>(Vec(4, 1, 0), 1.0, material3));
 
-    return scene;
+    return Scene(shape_list);
 }
 
 int main() {

@@ -14,7 +14,6 @@ int main() {
     double aspect = 16.0 / 9.0;
     Camera camera(Vec(0.0, 0.0, 1.0), Vec(0.0, 0.0, 0.0), Vec(0.0, 1.0, 0.0),
         45.0, aspect);
-    Scene scene;
 
     auto material_ground
         = std::make_shared<DiffuseMaterial>(Vec(0.8, 0.8, 0.0));
@@ -25,14 +24,19 @@ int main() {
     auto material_right
         = std::make_shared<MetalMaterial>(Vec(0.8, 0.6, 0.2), 1.0);
 
-    scene.objects.push_back(std::make_shared<Sphere>(
-        Vec(0.0, -100.5, -1.0), 100.0, material_ground));
-    scene.objects.push_back(
-        std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, material_center));
-    scene.objects.push_back(
-        std::make_shared<Sphere>(Vec(-1.0, 0.0, -1.0), 0.5, material_left));
-    scene.objects.push_back(
-        std::make_shared<Sphere>(Vec(1.0, 0.0, -1.0), 0.5, material_right));
+    Scene scene({ std::make_shared<Sphere>(
+                      Vec(0.0, -100.5, -1.0), 100.0, material_ground),
+        std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, material_center),
+        std::make_shared<Sphere>(Vec(1.0, 0.0, -1.0), 0.5, material_right) });
+
+    // scene.objects.push_back(std::make_shared<Sphere>(
+    //     Vec(0.0, -100.5, -1.0), 100.0, material_ground));
+    // scene.objects.push_back(
+    //     std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, material_center));
+    // scene.objects.push_back(
+    //     std::make_shared<Sphere>(Vec(-1.0, 0.0, -1.0), 0.5, material_left));
+    // scene.objects.push_back(
+    //     std::make_shared<Sphere>(Vec(1.0, 0.0, -1.0), 0.5, material_right));
 
     Raytracer raytracer(50, 100);
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));

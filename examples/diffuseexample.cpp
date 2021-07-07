@@ -13,14 +13,19 @@ int main() {
     double aspect = 16.0 / 9.0;
     Camera camera(Vec(0.0, 0.0, 1.0), Vec(0.0, 0.0, 0.0), Vec(0.0, 1.0, 0.0),
         45.0, aspect);
-    Scene scene;
 
     auto diffuse_material
         = std::make_shared<DiffuseMaterial>(Vec(0.5, 0.5, 0.5));
-    scene.objects.push_back(
-        std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, diffuse_material));
-    scene.objects.push_back(std::make_shared<Sphere>(
-        Vec(0.0, -100.5, -1.0), 100.0, diffuse_material));
+    // scene.objects.push_back(
+    //     std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5,
+    //     diffuse_material));
+    // scene.objects.push_back(std::make_shared<Sphere>(
+    //     Vec(0.0, -100.5, -1.0), 100.0, diffuse_material));
+
+    Scene scene(
+        { std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, diffuse_material),
+            std::make_shared<Sphere>(
+                Vec(0.0, -100.5, -1.0), 100.0, diffuse_material) });
 
     Raytracer raytracer(50, 100);
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));

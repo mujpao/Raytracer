@@ -25,7 +25,7 @@ bool PhongMaterial::calc_scattered_ray(const Ray& ray,
 Vec PhongMaterial::base_shade(const Ray& ray, const IntersectionInfo& hit_info,
     const Scene& scene) const {
     Vec color = m_ambient + m_emission;
-    for (const auto& light : scene.lights) {
+    for (const auto& light : scene.lights()) {
         if (auto dir_light = dynamic_cast<DirectionalLight*>(light.get())) {
             color += calc_lighting(*dir_light, ray.origin(), scene, hit_info);
         } else if (auto point_light = dynamic_cast<PointLight*>(light.get())) {

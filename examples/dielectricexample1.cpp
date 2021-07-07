@@ -6,6 +6,7 @@
 #include "raytracer.h"
 #include "readfile.h"
 #include "scene.h"
+#include "shapes/shapelist.h"
 #include "shapes/sphere.h"
 
 #include "ray.h"
@@ -30,7 +31,7 @@ int main() {
 
     Camera camera(lookfrom, lookat, vup, 20.0, aspect, aperture, dist_to_focus);
 
-    Scene scene;
+    std::shared_ptr<ShapeList> shape_list = std::make_shared<ShapeList>();
 
     auto material_ground
         = std::make_shared<DiffuseMaterial>(Vec(0.8, 0.8, 0.0));
@@ -40,16 +41,18 @@ int main() {
     auto material_right
         = std::make_shared<MetalMaterial>(Vec(0.8, 0.6, 0.2), 0.0);
 
-    scene.objects.push_back(std::make_shared<Sphere>(
+    shape_list->add(std::make_shared<Sphere>(
         Vec(0.0, -100.5, -1.0), 100.0, material_ground));
-    scene.objects.push_back(
+    shape_list->add(
         std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, material_center));
-    scene.objects.push_back(
+    shape_list->add(
         std::make_shared<Sphere>(Vec(-1.0, 0.0, -1.0), 0.5, material_left));
-    scene.objects.push_back(
+    shape_list->add(
         std::make_shared<Sphere>(Vec(-1.0, 0.0, -1.0), -0.45, material_left));
-    scene.objects.push_back(
+    shape_list->add(
         std::make_shared<Sphere>(Vec(1.0, 0.0, -1.0), 0.5, material_right));
+
+    Scene scene(shape_list);
 
     Raytracer raytracer(50, 100);
     // Raytracer raytracer(5);

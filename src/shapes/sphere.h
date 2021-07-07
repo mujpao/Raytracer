@@ -11,8 +11,8 @@ public:
         const Mat4& transform = Mat4(1.0));
 
     bool intersect(
-        const Ray& ray, double& thit, IntersectionInfo& local) override;
-    bool intersects(const Ray& ray) override;
+        const Ray& ray, double& thit, IntersectionInfo& local) const override;
+    // bool intersects(const Ray& ray) override;
 
 private:
     Vec m_center;
