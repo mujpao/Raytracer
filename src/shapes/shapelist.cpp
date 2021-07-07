@@ -2,7 +2,7 @@
 
 #include "intersectioninfo.h"
 
-ShapeList::ShapeList(std::vector<std::shared_ptr<Shape>> shapes)
+ShapeList::ShapeList(const std::vector<std::shared_ptr<Shape>>& shapes)
     : m_shapes(shapes) {}
 
 bool ShapeList::intersect(
