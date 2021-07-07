@@ -25,6 +25,8 @@ set(PROJECT_SOURCES
         shapes/sphere.cpp
         shapes/triangle.h
         shapes/triangle.cpp
+        boundingbox.h
+        boundingbox.cpp
         camera.h
         camera.cpp
         image.h

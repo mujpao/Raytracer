@@ -10,8 +10,8 @@ public:
     Ray() = default;
     Ray(const Vec& origin, const Vec& direction);
 
-    inline Vec origin() const { return m_origin; }
-    inline Vec direction() const { return m_direction; }
+    inline const Vec& origin() const { return m_origin; }
+    inline const Vec& direction() const { return m_direction; }
 
     Vec evaluate(double t) const;
 

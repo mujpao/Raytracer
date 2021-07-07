@@ -19,7 +19,7 @@ public:
     PointLight(
         const Vec& attenuation, const Vec& light_color, const Vec& position);
 
-    inline const Vec position() const { return m_position; }
+    inline const Vec& position() const { return m_position; }
 
     Vec calc_attenuation(double distance) const;
 
@@ -33,7 +33,7 @@ class DirectionalLight : public Light {
 public:
     DirectionalLight(const Vec& light_color, const Vec& direction);
 
-    inline const Vec direction() const { return m_direction; }
+    inline const Vec& direction() const { return m_direction; }
 
 private:
     Vec m_direction;
