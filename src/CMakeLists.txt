@@ -17,6 +17,8 @@ set(PROJECT_SOURCES
         math/vec.h
         math/vec.cpp
         shapes/abstractshape.h
+        shapes/boundingboxnode.h
+        shapes/boundingboxnode.cpp
         shapes/shape.h
         shapes/shape.cpp
         shapes/shapelist.h

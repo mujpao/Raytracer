@@ -9,15 +9,19 @@ class ShapeList : public AbstractShape {
 public:
     ShapeList() = default;
 
-    ShapeList(const std::vector<std::shared_ptr<Shape>>& shapes);
+    ShapeList(const std::vector<std::shared_ptr<AbstractShape>>& shapes);
+
+    inline const std::vector<std::shared_ptr<AbstractShape>>& shapes() const {
+        return m_shapes;
+    }
 
     bool intersect(const Ray& ray, double& thit,
         IntersectionInfo& intersection_info) const override;
 
-    void add(std::shared_ptr<Shape> shape);
+    void add(std::shared_ptr<AbstractShape> shape);
 
 private:
-    std::vector<std::shared_ptr<Shape>> m_shapes;
+    std::vector<std::shared_ptr<AbstractShape>> m_shapes;
 };
 
 #endif

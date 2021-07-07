@@ -69,4 +69,14 @@ namespace Utils {
         return is_small(v[0]) && is_small(v[1]) && is_small(v[2]);
     }
 
+    Vec min_vec(const Vec& a, const Vec& b) {
+        return Vec(std::min(a[0], b[0]), std::min(a[1], b[1]),
+            std::min(a[2], b[2]), 1.0);
+    }
+
+    Vec max_vec(const Vec& a, const Vec& b) {
+        return Vec(std::max(a[0], b[0]), std::max(a[1], b[1]),
+            std::max(a[2], b[2]), 1.0);
+    }
+
 } // namespace Utils

@@ -4,6 +4,13 @@
 class Vec;
 
 namespace Utils {
+    const double RAY_HIT_TOLERANCE = 0.001;
+    const double PI = 3.14159265358979323846;
+    const double EPSILON = 0.000001;
+
+    // Maximum ray parameter
+    const double T_MAX = 10000.0;
+
     bool is_equal(double lhs, double rhs);
     bool is_gt_equal(double lhs, double rhs);
 
@@ -24,12 +31,10 @@ namespace Utils {
     bool is_small(double value);
     bool is_small(const Vec& v);
 
-    const double RAY_HIT_TOLERANCE = 0.001;
-    const double PI = 3.14159265358979323846;
-    const double EPSILON = 0.000001;
+    // Take min/max x/y/z values of a and b
+    Vec min_vec(const Vec& a, const Vec& b);
+    Vec max_vec(const Vec& a, const Vec& b);
 
-    // Maximum ray parameter
-    const double T_MAX = 10000.0;
 } // namespace Utils
 
 #endif

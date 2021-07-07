@@ -85,7 +85,7 @@ void readfile(const char* filename, Camera& camera, Scene& scene, int& width,
 
     std::vector<Vec> vertices;
     std::vector<std::shared_ptr<Light>> lights;
-    std::vector<std::shared_ptr<Shape>> shapes;
+    std::vector<std::shared_ptr<AbstractShape>> shapes;
 
     in.open(filename);
     if (in.is_open()) {

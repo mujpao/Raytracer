@@ -3,6 +3,7 @@
 #include "intersectioninfo.h"
 #include "math/transform.h"
 #include "ray.h"
+#include "utils.h"
 
 #include <cmath>
 
@@ -13,6 +14,10 @@ Sphere::Sphere(const Vec& center, double r, std::shared_ptr<Material> material,
     m_inverse = Transform::inverse(m_transformation);
     m_inverse_transpose
         = Transform::transpose3x3(Transform::inverse3x3(m_transformation));
+
+    Vec v(1.0, 1.0, 1.0, 1.0);
+    // TODO ellipsoid box
+    m_box = BoundingBox(center - r * v, center + r * v);
 }
 
 bool Sphere::intersect(
@@ -34,15 +39,21 @@ bool Sphere::intersect(
     double t1 = (-b + std::sqrt(disc)) / (2.0 * a);
     double t2 = (-b - std::sqrt(disc)) / (2.0 * a);
 
+    double t;
     if (t1 > 0 && t2 > 0) {
-        thit = std::min(t1, t2);
+        t = std::min(t1, t2);
     } else if (t1 > 0) {
-        thit = t1;
+        t = t1;
     } else if (t2 > 0) {
-        thit = t2;
+        t = t2;
     } else {
         return false;
     }
+
+    if (Utils::is_gt_equal(t, thit)) {
+        return false; // TODO ?
+    }
+    thit = t;
 
     Vec untransformed_point = r2.evaluate(thit);
     Vec untransformed_normal = Vec::normalize(untransformed_point - m_center);

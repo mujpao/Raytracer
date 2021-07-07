@@ -38,6 +38,9 @@ Image Raytracer::raytrace(const Camera& camera, const Scene& scene,
 
             } else {
                 for (int k = 0; k < m_num_samples; ++k) {
+                    if (i == 50 && j == 200) {
+                        std::cout << "here";
+                    }
                     double u = (j + Utils::random_double(0.0, 1.0))
                         / (image.width() - 1);
                     double v = (i + Utils::random_double(0.0, 1.0))

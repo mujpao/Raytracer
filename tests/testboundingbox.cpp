@@ -34,3 +34,17 @@ BOOST_AUTO_TEST_CASE(test_ray_origin_inside_box) {
 
     BOOST_REQUIRE_EQUAL(box.intersect(r, 0.0, 10.0), true);
 }
+
+BOOST_AUTO_TEST_CASE(test_intersect_2d_plane) {
+    Ray r(Vec(0.0, 0.0, 1.0, 1.0), Vec(0.0, 0.0, -1.0));
+    BoundingBox box(Vec(-1.0, -1.0, 0.0, 1.0), Vec(1.0, 1.0, 0.0, 1.0));
+
+    BOOST_REQUIRE_EQUAL(box.intersect(r, 0.0, 10.0), true);
+}
+
+BOOST_AUTO_TEST_CASE(test_not_intersect_2d_plane) {
+    Ray r(Vec(0.0, -10.0, 1.0, 1.0), Vec(0.0, -10.0, -1.0));
+    BoundingBox box(Vec(-1.0, -1.0, 0.0, 1.0), Vec(1.0, 1.0, 0.0, 1.0));
+
+    BOOST_REQUIRE_EQUAL(box.intersect(r, 0.0, 10.0), false);
+}
