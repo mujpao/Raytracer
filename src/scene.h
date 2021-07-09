@@ -23,8 +23,7 @@ public:
         const std::vector<std::shared_ptr<Light>>& lights
         = std::vector<std::shared_ptr<Light>>());
 
-    bool intersect(const Ray& ray, double tolerance,
-        IntersectionInfo& closest_hit_geo) const;
+    bool intersect(const Ray& ray, IntersectionInfo& closest_hit_info) const;
 
     inline const std::vector<std::shared_ptr<Light>>& lights() const {
         return m_lights;

@@ -10,9 +10,8 @@ public:
     Sphere(const Vec& center, double r, std::shared_ptr<Material> material,
         const Mat4& transform = Mat4(1.0));
 
-    bool intersect(
-        const Ray& ray, double& thit, IntersectionInfo& local) const override;
-    // bool intersects(const Ray& ray) override;
+    bool intersect(const Ray& ray, double t_min, double t_max,
+        IntersectionInfo& intersection_info) const override;
 
 private:
     Vec m_center;

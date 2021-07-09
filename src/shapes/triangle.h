@@ -10,12 +10,11 @@ public:
     Triangle(const Vec& p1, const Vec& p2, const Vec& p3,
         std::shared_ptr<Material> material, const Mat4& transform = Mat4(1.0));
 
-    bool intersect(
-        const Ray& ray, double& thit, IntersectionInfo& local) const override;
-    // bool intersects(const Ray& ray) override;
+    bool intersect(const Ray& ray, double t_min, double t_max,
+        IntersectionInfo& intersection_info) const override;
 
 private:
-    void barycentric(const Vec& p, double& u, double& v, double& w) const;
+    Vec barycentric(const Vec& p) const;
     Vec m_v1, m_v2, m_v3;
 };
 

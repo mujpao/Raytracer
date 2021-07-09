@@ -17,7 +17,7 @@ public:
     BoundingBoxNode(std::vector<std::shared_ptr<AbstractShape>>& shapes,
         std::size_t start, std::size_t end);
 
-    bool intersect(const Ray& ray, double& t_hit,
+    bool intersect(const Ray& ray, double t_min, double t_max,
         IntersectionInfo& intersection_info) const override;
 
     std::shared_ptr<AbstractShape> left;

@@ -20,18 +20,17 @@ Sphere::Sphere(const Vec& center, double r, std::shared_ptr<Material> material,
     m_box = BoundingBox(center - r * v, center + r * v);
 }
 
-bool Sphere::intersect(
-    const Ray& ray, double& thit, IntersectionInfo& local) const {
-    double a, b, c, disc;
+bool Sphere::intersect(const Ray& ray, double t_min, double t_max,
+    IntersectionInfo& intersection_info) const {
     Ray r2 = m_inverse * ray;
 
-    a = Transform::dot(r2.direction(), r2.direction());
-    b = 2 * Transform::dot(r2.direction(), r2.origin() - m_center);
-    c = Transform::dot(r2.origin() - m_center, r2.origin() - m_center)
-        - std::pow(m_radius, 2.0);
+    double a = Transform::dot(r2.direction(), r2.direction());
+    double b = 2 * Transform::dot(r2.direction(), r2.origin() - m_center);
+    double c = Transform::dot(r2.origin() - m_center, r2.origin() - m_center)
+        - m_radius * m_radius;
 
     // check if discriminant < 0
-    disc = std::pow(b, 2.0) - 4.0 * a * c;
+    double disc = b * b - 4.0 * a * c;
 
     if (disc < 0)
         return false;
@@ -50,36 +49,23 @@ bool Sphere::intersect(
         return false;
     }
 
-    if (Utils::is_gt_equal(t, thit)) {
-        return false; // TODO ?
+    if (t < t_min || t > t_max) {
+        return false;
     }
-    thit = t;
 
-    Vec untransformed_point = r2.evaluate(thit);
+    intersection_info.t_hit = t;
+
+    Vec untransformed_point = r2.evaluate(t);
     Vec untransformed_normal = Vec::normalize(untransformed_point - m_center);
 
-    local.position = m_transformation * untransformed_point;
-    local.normal = Vec::normalize(m_inverse_transpose * untransformed_normal);
+    intersection_info.position = m_transformation * untransformed_point;
+    intersection_info.normal
+        = Vec::normalize(m_inverse_transpose * untransformed_normal);
     if (m_radius < 0.0) {
-        local.normal *= -1.0;
+        intersection_info.normal *= -1.0;
     }
 
-    local.material = m_material;
+    intersection_info.material = m_material;
 
     return true;
 }
-
-// bool Sphere::intersects(const Ray& ray) {
-//     double a, b, c, disc;
-
-//     Ray r2 = Transform::inverse(m_transformation) * ray;
-
-//     a = Transform::dot(r2.direction(), r2.direction());
-//     b = 2 * Transform::dot(r2.direction(), r2.origin() - m_center);
-//     c = Transform::dot(r2.origin() - m_center, r2.origin() - m_center)
-//         - std::pow(m_radius, 2.0);
-
-//     // check if discriminant >= 0
-//     disc = std::pow(b, 2.0) - 4.0 * a * c;
-//     return disc >= 0;
-// }

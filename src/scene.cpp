@@ -21,14 +21,16 @@ Scene::Scene(std::shared_ptr<ShapeList> shape_list,
 }
 
 bool Scene::intersect(
-    const Ray& ray, double tolerance, IntersectionInfo& closest_hit_geo) const {
+    const Ray& ray, IntersectionInfo& closest_hit_info) const {
 
-    Ray adjusted_ray(ray.evaluate(tolerance), ray.direction());
-    double t = Utils::T_MAX;
+    // Ray adjusted_ray(ray.evaluate(Utils::RAY_HIT_TOLERANCE),
+    // ray.direction()); double t = Utils::T_MAX;
 
-    // return m_shapes->intersect(adjusted_ray, t, closest_hit_geo);
+    return m_shapes->intersect(
+        ray, Utils::RAY_HIT_TOLERANCE, Utils::T_MAX, closest_hit_info);
 
-    return m_root->intersect(adjusted_ray, t, closest_hit_geo);
+    // return m_root->intersect(adjusted_ray, 0.0, Utils::T_MAX,
+    // closest_hit_info);
 }
 
 void Scene::add_light(std::shared_ptr<Light> light) {

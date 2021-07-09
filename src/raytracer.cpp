@@ -71,7 +71,7 @@ Vec Raytracer::trace(const Ray& r, const Scene& scene, int depth) {
         return m_background_color;
 
     IntersectionInfo hit_info;
-    if (scene.intersect(r, Utils::RAY_HIT_TOLERANCE, hit_info)) {
+    if (scene.intersect(r, hit_info)) {
         if (m_normals_only) {
             return 0.5 * (hit_info.normal + Vec(1.0, 1.0, 1.0));
         } else {

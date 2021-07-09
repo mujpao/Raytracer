@@ -15,7 +15,7 @@ public:
         return m_shapes;
     }
 
-    bool intersect(const Ray& ray, double& thit,
+    bool intersect(const Ray& ray, double t_min, double t_max,
         IntersectionInfo& intersection_info) const override;
 
     void add(std::shared_ptr<AbstractShape> shape);

@@ -13,8 +13,8 @@ public:
 
     virtual ~AbstractShape() = default;
 
-    virtual bool intersect(
-        const Ray& ray, double& thit, IntersectionInfo& local) const = 0;
+    virtual bool intersect(const Ray& ray, double t_min, double t_max,
+        IntersectionInfo& intersection_info) const = 0;
 
     const BoundingBox& box() const { return m_box; };
 

@@ -11,19 +11,14 @@ ShapeList::ShapeList(const std::vector<std::shared_ptr<AbstractShape>>& shapes)
     }
 }
 
-bool ShapeList::intersect(
-    const Ray& ray, double& thit, IntersectionInfo& intersection_info) const {
+bool ShapeList::intersect(const Ray& ray, double t_min, double t_max,
+    IntersectionInfo& intersection_info) const {
     bool has_intersect = false;
 
     for (const auto& shape : m_shapes) {
-        double t = Utils::T_MAX;
-        IntersectionInfo local;
-        if (shape->intersect(ray, t, local)) {
-            if (t > 0.0 && t < thit) {
-                thit = t;
-                intersection_info = local;
-                has_intersect = true;
-            }
+        if (shape->intersect(ray, t_min, t_max, intersection_info)) {
+            has_intersect = true;
+            t_max = std::min(t_max, intersection_info.t_hit);
         }
     }
     return has_intersect;

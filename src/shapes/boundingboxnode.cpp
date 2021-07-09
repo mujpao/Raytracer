@@ -1,6 +1,7 @@
 #include "shapes/boundingboxnode.h"
 
 #include "boundingbox.h"
+#include "intersectioninfo.h"
 #include "shapes/shapelist.h"
 
 #include <algorithm>
@@ -12,20 +13,22 @@ BoundingBoxNode::BoundingBoxNode(std::shared_ptr<ShapeList> shape_list)
     build_tree(vec, 0, vec.size());
 }
 
-bool BoundingBoxNode::intersect(
-    const Ray& ray, double& t_hit, IntersectionInfo& intersection_info) const {
-    // TODO check t_hit > 0?
-    if (m_box.intersect(ray, 0.0, t_hit)) {
-        double t_l = t_hit;
-        bool hit_left
-            = left ? left->intersect(ray, t_l, intersection_info) : false;
-        double t_r = std::min(t_l, t_hit);
-        bool hit_right
-            = right ? right->intersect(ray, t_r, intersection_info) : false;
+bool BoundingBoxNode::intersect(const Ray& ray, double t_min, double t_max,
+    IntersectionInfo& intersection_info) const {
+    if (m_box.intersect(ray, t_min, t_max)) {
+        bool hit_left = left
+            ? left->intersect(ray, t_min, t_max, intersection_info)
+            : false;
+
+        if (hit_left) {
+            t_max = std::min(t_max, intersection_info.t_hit);
+        }
+
+        bool hit_right = right
+            ? right->intersect(ray, t_min, t_max, intersection_info)
+            : false;
 
         if (hit_left || hit_right) {
-            t_hit = std::min(t_hit, std::min(t_l, t_r));
-            // std::cout << "t_hit: " << t_hit << '\n';
             return true;
         }
     }
