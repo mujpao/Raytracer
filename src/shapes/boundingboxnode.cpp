@@ -3,6 +3,7 @@
 #include "boundingbox.h"
 #include "intersectioninfo.h"
 #include "shapes/shapelist.h"
+#include "utils.h"
 
 #include <algorithm>
 #include <iostream>
@@ -45,28 +46,36 @@ BoundingBoxNode::BoundingBoxNode(
 void BoundingBoxNode::build_tree(
     std::vector<std::shared_ptr<AbstractShape>>& shapes, std::size_t start,
     std::size_t end) {
+
     if (end - start == 1) {
-        left = *(shapes.begin() + start);
+        left = shapes[start];
         m_box = left->box();
-        return;
-    } else if (end - start == 2) {
-        left = *(shapes.begin() + start);
-        right = *(shapes.begin() + end - 1);
-        m_box = BoundingBox::combine(left->box(), right->box());
         return;
     }
 
-    auto comp = [](const auto& a, const auto& b) {
-        // TODO
+    int axis = Utils::random_int(0, 2);
 
-        return a->box().min()[0] < b->box().min()[0];
+    auto comp = [axis](const auto& a, const auto& b) {
+        return a->box().min()[axis] < b->box().min()[axis];
     };
-    std::sort(shapes.begin() + start, shapes.begin() + end, comp);
 
-    int mid = (end - start) / 2 + start;
+    if (end - start == 2) {
+        if (comp(shapes[start], shapes[start + 1])) {
+            left = shapes[start];
+            right = shapes[start + 1];
+        } else {
+            left = shapes[start + 1];
+            right = shapes[start];
+        }
 
-    left = std::make_shared<BoundingBoxNode>(shapes, start, mid);
-    right = std::make_shared<BoundingBoxNode>(shapes, mid, end);
+    } else {
+        std::sort(shapes.begin() + start, shapes.begin() + end, comp);
+
+        int mid = (end - start) / 2 + start;
+
+        left = std::make_shared<BoundingBoxNode>(shapes, start, mid);
+        right = std::make_shared<BoundingBoxNode>(shapes, mid, end);
+    }
 
     m_box = BoundingBox::combine(left->box(), right->box());
 }

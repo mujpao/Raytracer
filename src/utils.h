@@ -16,6 +16,9 @@ namespace Utils {
 
     double deg2rad(double degrees);
 
+    // In range [min, max]
+    int random_int(int min = 0, int max = 1);
+
     // In range [min, max)
     double random_double(double min = 0.0, double max = 1.0);
 

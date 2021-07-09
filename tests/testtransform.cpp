@@ -411,6 +411,20 @@ BOOST_AUTO_TEST_CASE(test_random_double2, *utf::tolerance(0.1)) {
     BOOST_TEST(avg == -5.0);
 }
 
+BOOST_AUTO_TEST_CASE(test_random_int, *utf::tolerance(0.1)) {
+    int n = 100;
+    double sum = 0.0;
+    for (int i = 0; i < n; ++i) {
+        int num = Utils::random_int(0, 10);
+        sum += num;
+        BOOST_REQUIRE_GE(num, 0);
+        BOOST_REQUIRE_LE(num, 10);
+    }
+
+    double avg = sum / n;
+    BOOST_TEST(avg == 5.0);
+}
+
 BOOST_AUTO_TEST_CASE(test_random_vec, *utf::tolerance(TestUtils::TOLERANCE)) {
     Vec v = Utils::random_vec(-100.0, 0.0);
     for (int i = 0; i < 3; ++i) {

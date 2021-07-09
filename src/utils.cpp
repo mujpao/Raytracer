@@ -16,6 +16,8 @@ namespace Utils {
 
     double deg2rad(double degrees) { return degrees * (PI / 180.0); }
 
+    int random_int(int min, int max) { return rand() % (max - min + 1) + min; }
+
     double random_double(double min, double max) {
         return rand() * (max - min) / (RAND_MAX + 1.0) + min;
     }
