@@ -27,6 +27,7 @@ int main() {
     Scene scene({ std::make_shared<Sphere>(
                       Vec(0.0, -100.5, -1.0), 100.0, material_ground),
         std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, material_center),
+        std::make_shared<Sphere>(Vec(-1.0, 0.0, -1.0), 0.5, material_left),
         std::make_shared<Sphere>(Vec(1.0, 0.0, -1.0), 0.5, material_right) });
 
     // scene.objects.push_back(std::make_shared<Sphere>(
