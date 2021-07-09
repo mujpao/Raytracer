@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "utils.h"
 
+#include <chrono>
 #include <iostream>
 
 Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
@@ -25,6 +26,8 @@ Image Raytracer::raytrace(const Camera& camera, const Scene& scene,
     std::cout << "Tracing scene (" << width << "x" << height << ")" << '\n';
 
     m_progress_indicator.start();
+
+    auto start_time = std::chrono::steady_clock::now();
 
     for (std::size_t i = 0; i < height; ++i) {
         for (std::size_t j = 0; j < width; ++j) {
@@ -55,6 +58,12 @@ Image Raytracer::raytrace(const Camera& camera, const Scene& scene,
 
         m_progress_indicator.increment(1.0 / height);
     }
+
+    auto end_time = std::chrono::steady_clock::now();
+
+    std::chrono::duration<double> duration = end_time - start_time;
+
+    std::cout << "Finished in " << duration.count() << "s\n";
 
     return image;
 }
