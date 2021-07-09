@@ -45,7 +45,6 @@ BoundingBoxNode::BoundingBoxNode(
 void BoundingBoxNode::build_tree(
     std::vector<std::shared_ptr<AbstractShape>>& shapes, std::size_t start,
     std::size_t end) {
-    std::cout << "start: " << start << ", end: " << end << std::endl;
     if (end - start == 1) {
         left = *(shapes.begin() + start);
         m_box = left->box();
@@ -59,14 +58,12 @@ void BoundingBoxNode::build_tree(
 
     auto comp = [](const auto& a, const auto& b) {
         // TODO
-        // std::cout << a->box().min()[0] << ", " << b->box().min()[0] << '\n';
 
         return a->box().min()[0] < b->box().min()[0];
     };
     std::sort(shapes.begin() + start, shapes.begin() + end, comp);
 
     int mid = (end - start) / 2 + start;
-    std::cout << "mid: " << mid << '\n';
 
     left = std::make_shared<BoundingBoxNode>(shapes, start, mid);
     right = std::make_shared<BoundingBoxNode>(shapes, mid, end);
@@ -75,6 +72,7 @@ void BoundingBoxNode::build_tree(
 }
 
 std::ostream& operator<<(std::ostream& os, const BoundingBoxNode& b) {
+    // TODO remove
     os << "node: " << b.box().min() << ", " << b.box().max() << '\n';
     os << "(";
     if (b.left) {
