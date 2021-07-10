@@ -23,7 +23,8 @@ public:
     std::shared_ptr<AbstractShape> left;
     std::shared_ptr<AbstractShape> right;
 
-    friend std::ostream& operator<<(std::ostream& os, const BoundingBoxNode& b);
+    // friend std::ostream& operator<<(std::ostream& os, const BoundingBoxNode&
+    // b);
 
 private:
     void build_tree(std::vector<std::shared_ptr<AbstractShape>>& shapes,

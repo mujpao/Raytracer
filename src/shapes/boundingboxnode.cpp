@@ -6,7 +6,6 @@
 #include "utils.h"
 
 #include <algorithm>
-#include <iostream>
 
 BoundingBoxNode::BoundingBoxNode(std::shared_ptr<ShapeList> shape_list)
     : m_start(0), m_end(shape_list->shapes().size()) {
@@ -80,25 +79,25 @@ void BoundingBoxNode::build_tree(
     m_box = BoundingBox::combine(left->box(), right->box());
 }
 
-std::ostream& operator<<(std::ostream& os, const BoundingBoxNode& b) {
-    // TODO remove
-    os << "node: " << b.box().min() << ", " << b.box().max() << '\n';
-    os << "(";
-    if (b.left) {
-        if (auto left = dynamic_cast<BoundingBoxNode*>(b.left.get())) {
-            os << *left;
-        } else {
-            os << "leaf";
-        }
-    }
-    if (b.right) {
-        if (auto right = dynamic_cast<BoundingBoxNode*>(b.right.get())) {
-            os << *right;
-        } else {
-            os << "leaf";
-        }
-    }
-    os << ")";
+// std::ostream& operator<<(std::ostream& os, const BoundingBoxNode& b) {
+//     // TODO remove
+//     os << "node: " << b.box().min() << ", " << b.box().max() << '\n';
+//     os << "(";
+//     if (b.left) {
+//         if (auto left = dynamic_cast<BoundingBoxNode*>(b.left.get())) {
+//             os << *left;
+//         } else {
+//             os << "leaf";
+//         }
+//     }
+//     if (b.right) {
+//         if (auto right = dynamic_cast<BoundingBoxNode*>(b.right.get())) {
+//             os << *right;
+//         } else {
+//             os << "leaf";
+//         }
+//     }
+//     os << ")";
 
-    return os;
-}
+//     return os;
+// }

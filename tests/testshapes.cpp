@@ -191,8 +191,6 @@ BOOST_AUTO_TEST_CASE(test_intersect_box) {
 
     BoundingBoxNode root(list);
 
-    std::cout << root << std::endl;
-
     IntersectionInfo hit_info;
 
     Ray r1(Vec(2.0, 0.0, 2.0, 1.0), Vec(0.0, 0.0, -1.0));

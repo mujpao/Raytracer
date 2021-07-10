@@ -6,8 +6,6 @@
 #include "shapes/shapelist.h"
 #include "utils.h"
 
-#include <iostream>
-
 Scene::Scene(const std::vector<std::shared_ptr<AbstractShape>>& shapes,
     const std::vector<std::shared_ptr<Light>>& lights)
     : m_shapes(std::make_shared<ShapeList>(shapes)), m_lights(lights) {
@@ -23,7 +21,9 @@ Scene::Scene(std::shared_ptr<ShapeList> shape_list,
 bool Scene::intersect(
     const Ray& ray, IntersectionInfo& closest_hit_info) const {
 
-    return m_root->intersect(
+    // return m_root->intersect(
+    //     ray, Utils::RAY_HIT_TOLERANCE, Utils::T_MAX, closest_hit_info);
+    return m_shapes->intersect(
         ray, Utils::RAY_HIT_TOLERANCE, Utils::T_MAX, closest_hit_info);
 }
 
