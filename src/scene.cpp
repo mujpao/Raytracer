@@ -21,10 +21,10 @@ Scene::Scene(std::shared_ptr<ShapeList> shape_list,
 bool Scene::intersect(
     const Ray& ray, IntersectionInfo& closest_hit_info) const {
 
-    // return m_root->intersect(
-    //     ray, Utils::RAY_HIT_TOLERANCE, Utils::T_MAX, closest_hit_info);
-    return m_shapes->intersect(
+    return m_root->intersect(
         ray, Utils::RAY_HIT_TOLERANCE, Utils::T_MAX, closest_hit_info);
+    // return m_shapes->intersect(
+    //     ray, Utils::RAY_HIT_TOLERANCE, Utils::T_MAX, closest_hit_info);
 }
 
 void Scene::add_light(std::shared_ptr<Light> light) {

@@ -68,9 +68,13 @@ int main() {
     std::string outfile("randomspherescene.png");
 
     const double aspect_ratio = 3.0 / 2.0;
-    const int image_width = 400;
-    const int samples_per_pixel = 5;
-    const int max_depth = 5;
+    const int image_width = 1200;
+    const int samples_per_pixel = 500;
+    const int max_depth = 50;
+
+    // const int image_width = 400;
+    // const int samples_per_pixel = 5;
+    // const int max_depth = 5;
 
     Scene scene = random_scene();
 
