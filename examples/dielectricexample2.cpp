@@ -29,10 +29,10 @@ int main() {
 
     auto material_glass = std::make_shared<DielectricMaterial>(1.5);
 
-    shape_list->add(std::make_shared<Sphere>(
-        Vec(0.0, -100.5, -1.0), 100.0, material_ground));
     shape_list->add(
         std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, material_glass));
+    shape_list->add(std::make_shared<Sphere>(
+        Vec(0.0, -100.5, -1.0), 100.0, material_ground));
     shape_list->add(
         std::make_shared<Sphere>(Vec(-1.0, 0.0, -1.0), 0.5, material_left));
     shape_list->add(
@@ -41,12 +41,24 @@ int main() {
     Scene scene(shape_list);
 
     Raytracer raytracer(50, 100);
-    // Raytracer raytracer(5);
+    // Raytracer raytracer(5); // debugging
 
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
 
-    Ray r(Vec(0.0, 0.0, 1.0, 1.0), Vec(0.0, 0.0, -1.0)); // for debugging
-    raytracer.trace(r, scene, 50);
+    /************************************************************/
+    // Rays for debugging:
+
+    // Ray r(Vec(0.0, 0.0, 1.0, 1.0), Vec(0.0, 0.0, -1.0));
+    // Ray dirs:
+    // r1: <0, 0, -1>, r2: <0, 0, -1>, r3: <0, 0, -1>
+
+    // Ray r(Vec(0.0, 0.0, 1.0, 1.0), Vec(0.002, 0.1, -1.0));
+    // Ray dirs:
+    // r1: <.002, .1, -1>, r2: <0, -.04, -.999>, r3: <-.0, -.18, -.98>...
+
+    // raytracer.trace(r, scene, 50);
+
+    /************************************************************/
 
     Image image = raytracer.raytrace(camera, scene, width, aspect, true);
     image.save(outfile);

@@ -39,11 +39,11 @@ bool Sphere::intersect(const Ray& ray, double t_min, double t_max,
     double t2 = (-b - std::sqrt(disc)) / (2.0 * a);
 
     double t;
-    if (t1 > 0 && t2 > 0) {
+    if (t1 > t_min && t2 > t_min) {
         t = std::min(t1, t2);
-    } else if (t1 > 0) {
+    } else if (t1 > t_min) {
         t = t1;
-    } else if (t2 > 0) {
+    } else if (t2 > t_min) {
         t = t2;
     } else {
         return false;
