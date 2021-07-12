@@ -31,6 +31,8 @@ set(PROJECT_SOURCES
         boundingbox.cpp
         camera.h
         camera.cpp
+        flatcolortexture.h
+        flatcolortexture.cpp
         image.h
         image.cpp
         intersectioninfo.h
@@ -46,6 +48,7 @@ set(PROJECT_SOURCES
         readfile.cpp
         scene.h
         scene.cpp
+        texture.h
         utils.h
         utils.cpp
 )

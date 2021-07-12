@@ -1,10 +1,15 @@
 #include "materials/diffusematerial.h"
 
+#include "flatcolortexture.h"
 #include "intersectioninfo.h"
 #include "ray.h"
 #include "utils.h"
 
-DiffuseMaterial::DiffuseMaterial(const Vec& albedo) : m_albedo(albedo) {}
+DiffuseMaterial::DiffuseMaterial(const Vec& albedo)
+    : m_albedo(std::make_shared<FlatColorTexture>(albedo)) {}
+
+DiffuseMaterial::DiffuseMaterial(std::shared_ptr<Texture> albedo)
+    : m_albedo(albedo) {}
 
 bool DiffuseMaterial::calc_scattered_ray(const Ray&,
     const IntersectionInfo& hit_info, Vec& atten_factor, Ray& scattered) const {
@@ -16,6 +21,6 @@ bool DiffuseMaterial::calc_scattered_ray(const Ray&,
     }
 
     scattered = Ray(hit_info.position, scatter_dir);
-    atten_factor = m_albedo;
+    atten_factor = m_albedo->sample(hit_info.u, hit_info.v);
     return true;
 }
