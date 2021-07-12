@@ -66,6 +66,14 @@ bool Sphere::intersect(const Ray& ray, double t_min, double t_max,
     }
 
     intersection_info.material = m_material;
+    intersection_info.uv = get_uv(intersection_info.normal);
 
     return true;
+}
+
+std::pair<double, double> Sphere::get_uv(const Vec& p) const {
+    double phi = std::atan2(-p[2], p[0]) + Utils::PI;
+    double theta = std::acos(-p[1]);
+
+    return { phi / (2 * Utils::PI), theta / Utils::PI };
 }

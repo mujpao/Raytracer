@@ -14,6 +14,8 @@ public:
         IntersectionInfo& intersection_info) const override;
 
 private:
+    std::pair<double, double> get_uv(const Vec& p) const;
+
     Vec m_center;
     double m_radius;
     Mat4 m_transformation, m_inverse, m_inverse_transpose;

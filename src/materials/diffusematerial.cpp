@@ -1,8 +1,8 @@
 #include "materials/diffusematerial.h"
 
-#include "flatcolortexture.h"
 #include "intersectioninfo.h"
 #include "ray.h"
+#include "textures/flatcolortexture.h"
 #include "utils.h"
 
 DiffuseMaterial::DiffuseMaterial(const Vec& albedo)
@@ -21,6 +21,7 @@ bool DiffuseMaterial::calc_scattered_ray(const Ray&,
     }
 
     scattered = Ray(hit_info.position, scatter_dir);
-    atten_factor = m_albedo->sample(hit_info.u, hit_info.v);
+    atten_factor = m_albedo->sample(hit_info.uv.first, hit_info.uv.second,
+        hit_info.position); // TODO Position or normal?
     return true;
 }

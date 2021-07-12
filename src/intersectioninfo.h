@@ -9,7 +9,7 @@ class Material;
 
 struct IntersectionInfo {
     double t_hit;
-    double u, v;
+    std::pair<double, double> uv;
     Vec position;
     Vec normal;
     std::shared_ptr<Material> material;

@@ -8,6 +8,7 @@ set(PROJECT_SOURCES
         materials/metalmaterial.cpp
         materials/phongmaterial.h
         materials/phongmaterial.cpp
+
         math/mat3.h
         math/mat3.cpp
         math/mat4.h
@@ -16,6 +17,7 @@ set(PROJECT_SOURCES
         math/transform.cpp
         math/vec.h
         math/vec.cpp
+
         shapes/abstractshape.h
         shapes/boundingboxnode.h
         shapes/boundingboxnode.cpp
@@ -27,12 +29,17 @@ set(PROJECT_SOURCES
         shapes/sphere.cpp
         shapes/triangle.h
         shapes/triangle.cpp
+
+        textures/texture.h
+        textures/checkeredtexture.h
+        textures/checkeredtexture.cpp
+        textures/flatcolortexture.h
+        textures/flatcolortexture.cpp
+
         boundingbox.h
         boundingbox.cpp
         camera.h
         camera.cpp
-        flatcolortexture.h
-        flatcolortexture.cpp
         image.h
         image.cpp
         intersectioninfo.h
@@ -48,7 +55,6 @@ set(PROJECT_SOURCES
         readfile.cpp
         scene.h
         scene.cpp
-        texture.h
         utils.h
         utils.cpp
 )

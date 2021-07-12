@@ -5,7 +5,7 @@ class Texture {
 public:
     virtual ~Texture() = default;
 
-    virtual Vec sample(double u, double v) const = 0;
+    virtual Vec sample(double u, double v, const Vec& p) const = 0;
 };
 
 #endif
