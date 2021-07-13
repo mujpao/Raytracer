@@ -18,4 +18,4 @@ make_example(dielectricexample1 dielectricexample1.cpp)
 make_example(dielectricexample2 dielectricexample2.cpp)
 make_example(randomspherescene randomspherescene.cpp)
 make_example(textureexample1 textureexample1.cpp)
-
+make_example(textureexample2 textureexample2.cpp)

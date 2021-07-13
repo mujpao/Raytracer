@@ -9,7 +9,8 @@ class Vec;
 class Image {
 public:
     Image(std::size_t width, std::size_t height);
-    Image(const unsigned char* data, std::size_t width, std::size_t height);
+
+    Image(const std::string& filename);
 
     virtual ~Image();
 
@@ -29,6 +30,9 @@ public:
 
     std::array<unsigned char, 3> pixel_color(
         std::size_t i, std::size_t j) const;
+
+    // Color of row i, column j, starting from top left
+    Vec pixel_color_vec(std::size_t i, std::size_t j) const;
 
 private:
     std::size_t m_width, m_height;

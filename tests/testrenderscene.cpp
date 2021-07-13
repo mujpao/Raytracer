@@ -1,9 +1,6 @@
 #define BOOST_TEST_MODULE TestRenderScene
 #include <boost/test/unit_test.hpp>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "thirdparty/stb_image.h"
-
 #include "camera.h"
 #include "image.h"
 #include "raytracer.h"
@@ -28,13 +25,7 @@ struct CompareImagesFixture {
         Raytracer r(max_depth);
         Image rendered_image = r.raytrace(camera, scene, width, aspect);
 
-        std::string compare_to_file(m_scene_dir + m_scene_name + extension);
-
-        int x, y, n;
-        unsigned char* data = stbi_load(compare_to_file.c_str(), &x, &y, &n, 0);
-
-        Image compare_to(data, x, y);
-        stbi_image_free(data);
+        Image compare_to(std::string(m_scene_dir + m_scene_name + extension));
 
         BOOST_REQUIRE_EQUAL(rendered_image.width(), compare_to.width());
         BOOST_REQUIRE_EQUAL(rendered_image.height(), compare_to.height());

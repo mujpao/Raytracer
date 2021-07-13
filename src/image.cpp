@@ -3,8 +3,7 @@
 #include "math/vec.h"
 #include "utils.h"
 
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "thirdparty/stb_image_write.h"
+#include "rt_stb_image.h"
 
 #include <iostream>
 
@@ -13,12 +12,14 @@ Image::Image(std::size_t width, std::size_t height)
     m_bytes = new unsigned char[3 * m_width * m_height];
 }
 
-Image::Image(const unsigned char* data, std::size_t width, std::size_t height)
-    : m_width(width), m_height(height) {
-    m_bytes = new unsigned char[3 * m_width * m_height];
-    for (std::size_t i = 0; i < 3 * m_width * m_height; ++i) {
-        m_bytes[i] = data[i];
-    }
+Image::Image(const std::string& filename) {
+    // TODO check valid filename
+    int x, y, n;
+    unsigned char* data = stbi_load(filename.c_str(), &x, &y, &n, 0);
+
+    m_bytes = data;
+    m_width = x;
+    m_height = y;
 }
 
 Image::~Image() {
@@ -110,5 +111,16 @@ std::array<unsigned char, 3> Image::pixel_color(
     for (std::size_t idx = 0; idx < 3; ++idx) {
         result[idx] = m_bytes[starting_byte + idx];
     }
+    return result;
+}
+
+Vec Image::pixel_color_vec(std::size_t i, std::size_t j) const {
+    std::array<unsigned char, 3> color_arr = pixel_color(i, j);
+    Vec result;
+    for (int k = 0; k < 3; ++k) {
+        result[k]
+            = Utils::clamp(static_cast<double>(color_arr[k]) / 255.0, 0.0, 1.0);
+    }
+
     return result;
 }

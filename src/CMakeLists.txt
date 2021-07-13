@@ -35,7 +35,8 @@ set(PROJECT_SOURCES
         textures/checkeredtexture.cpp
         textures/flatcolortexture.h
         textures/flatcolortexture.cpp
-
+        textures/imagetexture.h
+        textures/imagetexture.cpp
         boundingbox.h
         boundingbox.cpp
         camera.h
