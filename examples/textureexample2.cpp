@@ -1,6 +1,7 @@
 #include "camera.h"
 #include "image.h"
 #include "materials/diffusematerial.h"
+#include "math/transform.h"
 #include "raytracer.h"
 #include "readfile.h"
 #include "scene.h"
@@ -29,10 +30,13 @@ int main() {
     auto sphere_material = std::make_shared<DiffuseMaterial>(
         std::make_shared<ImageTexture>(texture_file));
 
-    Scene scene(
-        { std::make_shared<Sphere>(Vec(0.0, 0.0, 0.0), 0.5, sphere_material),
-            std::make_shared<Sphere>(
-                Vec(0.0, -100.5, -1.0), 100.0, ground_material) });
+    Mat4 tx = Transform::rotate(20.0, Vec(1.0, 0.0, 0.0))
+        * Transform::rotate(180.0, Vec(0.0, 1.0, 0.0));
+
+    Scene scene({ std::make_shared<Sphere>(
+                      Vec(0.0, 0.0, 0.0), 0.5, sphere_material, tx),
+        std::make_shared<Sphere>(
+            Vec(0.0, -100.5, -1.0), 100.0, ground_material) });
 
     Raytracer raytracer(50, 100);
     // Raytracer raytracer(5);

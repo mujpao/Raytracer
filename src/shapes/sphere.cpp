@@ -66,7 +66,7 @@ bool Sphere::intersect(const Ray& ray, double t_min, double t_max,
     }
 
     intersection_info.material = m_material;
-    intersection_info.uv = get_uv(intersection_info.normal);
+    intersection_info.uv = get_uv(untransformed_normal);
 
     return true;
 }
