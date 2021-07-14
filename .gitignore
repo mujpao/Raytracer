@@ -348,3 +348,4 @@ build/
 *.a
 *.o
 raytracer
+!resources/**

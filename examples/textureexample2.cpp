@@ -17,7 +17,7 @@ int main() {
 
     std::filesystem::path path(__FILE__);
     std::string texture_file = std::string(path.parent_path().parent_path())
-        + "/images/earthmap.jpg";
+        + "/resources/earthmap.jpg";
 
     int width = 400;
     double aspect = 16.0 / 9.0;
