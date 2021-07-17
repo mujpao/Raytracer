@@ -30,13 +30,16 @@ set(PROJECT_SOURCES
         shapes/triangle.h
         shapes/triangle.cpp
 
-        textures/texture.h
         textures/checkeredtexture.h
         textures/checkeredtexture.cpp
         textures/flatcolortexture.h
         textures/flatcolortexture.cpp
         textures/imagetexture.h
         textures/imagetexture.cpp
+        textures/perlintexture.h
+        textures/perlintexture.cpp
+        textures/texture.h
+
         boundingbox.h
         boundingbox.cpp
         camera.h

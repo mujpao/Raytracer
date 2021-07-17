@@ -1,6 +1,8 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
+class Vec;
+
 class Texture {
 public:
     virtual ~Texture() = default;

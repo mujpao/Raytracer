@@ -38,6 +38,8 @@ namespace Utils {
     Vec min_vec(const Vec& a, const Vec& b);
     Vec max_vec(const Vec& a, const Vec& b);
 
+    double lerp(double a, double b, double t);
+
 } // namespace Utils
 
 #endif

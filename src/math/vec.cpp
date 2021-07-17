@@ -21,7 +21,10 @@ Vec::Vec(double x, double y, double z, double w) {
     m_data[3] = w;
 }
 
-double& Vec::operator[](int idx) { return m_data[idx]; }
+double& Vec::operator[](int idx) {
+    // TODO exceptions, change to std::size_t?
+    return m_data[idx];
+}
 
 double Vec::operator[](int idx) const { return m_data[idx]; }
 
@@ -113,11 +116,7 @@ Vec Vec::to_point(const Vec& v) { return Vec(v.x(), v.y(), v.z(), 1.0); }
 
 Vec Vec::to_vec(const Vec& v) { return Vec(v.x(), v.y(), v.z(), 0.0); }
 
-double Vec::dist(const Vec& a, const Vec& b) {
-    return length(a - b);
-    // return std::sqrt(std::pow(a.x() - b.x(), 2) + std::pow(a.y() - b.y(), 2)
-    // + std::pow(a.z() - b.z(), 2));
-}
+double Vec::dist(const Vec& a, const Vec& b) { return length(a - b); }
 
 double Vec::length_squared(const Vec& v) {
     return std::pow(v.x(), 2) + std::pow(v.y(), 2) + std::pow(v.z(), 2);

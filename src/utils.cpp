@@ -81,4 +81,6 @@ namespace Utils {
             std::max(a[2], b[2]), 1.0);
     }
 
+    double lerp(double a, double b, double t) { return (b - a) * t + a; }
+
 } // namespace Utils
