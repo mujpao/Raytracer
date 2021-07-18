@@ -3,6 +3,8 @@ set(PROJECT_SOURCES
         materials/dielectricmaterial.cpp
         materials/diffusematerial.h
         materials/diffusematerial.cpp
+        materials/lightmaterial.h
+        materials/lightmaterial.cpp
         materials/material.h
         materials/metalmaterial.h
         materials/metalmaterial.cpp
