@@ -23,6 +23,8 @@ set(PROJECT_SOURCES
         shapes/abstractshape.h
         shapes/boundingboxnode.h
         shapes/boundingboxnode.cpp
+        shapes/rect.h
+        shapes/rect.cpp
         shapes/shape.h
         shapes/shape.cpp
         shapes/shapelist.h

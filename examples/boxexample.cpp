@@ -1,0 +1,34 @@
+#include "camera.h"
+#include "image.h"
+#include "materials/diffusematerial.h"
+#include "raytracer.h"
+#include "readfile.h"
+#include "scene.h"
+#include "shapes/rect.h"
+
+int main() {
+    std::string outfile("boxexample.png");
+
+    int width = 400;
+    double aspect = 16.0 / 9.0;
+    Camera camera(Vec(0.0, 0.0, 4.0), Vec(0.0, 0.0, 0.0), Vec(0.0, 1.0, 0.0),
+        30.0, aspect);
+
+    auto rect_material = std::make_shared<DiffuseMaterial>(Vec(1.0, 0.0, 0.0));
+
+    Vec p1(-1.0, -1.0, 0.0);
+    Vec p2(1.0, -1.0, 0.0);
+    Vec p3(1.0, 1.0, 0.0);
+    Vec p4(-1.0, 1.0, 0.0);
+
+    Scene scene({ std::make_shared<Rect>(p1, p2, p3, p4, rect_material) });
+
+    // Raytracer raytracer(50, 100);
+    Raytracer raytracer(5, 10);
+    raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
+
+    Image image = raytracer.raytrace(camera, scene, width, aspect, true);
+    image.save(outfile);
+
+    return 0;
+}
