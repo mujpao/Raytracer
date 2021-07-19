@@ -18,6 +18,8 @@ add_subdirectory(src)
 
 add_subdirectory(examples)
 
+enable_testing(true)
+
 add_subdirectory(tests)
 
 add_executable(RayTracer

@@ -1,4 +1,3 @@
-#define BOOST_TEST_MODULE TestShapes
 #include <boost/test/unit_test.hpp>
 
 #include "intersectioninfo.h"
@@ -17,7 +16,7 @@ struct F {
     std::shared_ptr<Material> material;
 };
 
-BOOST_FIXTURE_TEST_SUITE(suite1, F)
+BOOST_FIXTURE_TEST_SUITE(test_shapes, F)
 
 BOOST_AUTO_TEST_CASE(
     test_intersect_sphere, *utf::tolerance(TestUtils::TOLERANCE)) {

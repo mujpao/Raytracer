@@ -1,8 +1,9 @@
-#define BOOST_TEST_MODULE TestBoundingBox
 #include <boost/test/unit_test.hpp>
 
 #include "boundingbox.h"
 #include "ray.h"
+
+BOOST_AUTO_TEST_SUITE(test_bounding_box)
 
 BOOST_AUTO_TEST_CASE(test_min_max) {
     BoundingBox b1(Vec(-1.0, -2.0, -3.0, 1.0), Vec(1.0, 2.0, 3.0, 1.0));
@@ -48,3 +49,5 @@ BOOST_AUTO_TEST_CASE(test_not_intersect_2d_plane) {
 
     BOOST_REQUIRE_EQUAL(box.intersect(r, 0.0, 10.0), false);
 }
+
+BOOST_AUTO_TEST_SUITE_END()

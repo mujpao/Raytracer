@@ -1,8 +1,9 @@
-#define BOOST_TEST_MODULE TestImage
 #include <boost/test/unit_test.hpp>
 
 #include "image.h"
 #include "math/vec.h"
+
+BOOST_AUTO_TEST_SUITE(test_image)
 
 BOOST_AUTO_TEST_CASE(test_copy) {
     const unsigned char red[] = { 255, 0, 0 };
@@ -109,3 +110,5 @@ BOOST_AUTO_TEST_CASE(test_move) {
     BOOST_REQUIRE_EQUAL(d.pixel_color(3, 3)[1], red[1]);
     BOOST_REQUIRE_EQUAL(d.pixel_color(3, 3)[2], red[2]);
 }
+
+BOOST_AUTO_TEST_SUITE_END()

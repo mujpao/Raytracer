@@ -64,6 +64,8 @@ private:
     std::string m_scene_name;
 };
 
+BOOST_AUTO_TEST_SUITE(test_render_scene)
+
 BOOST_AUTO_TEST_CASE(test_render_scene1_camera1) {
     CompareImagesFixture f("scene1-camera1");
 }
@@ -109,3 +111,5 @@ BOOST_AUTO_TEST_CASE(test_render_scene4_emission) {
 BOOST_AUTO_TEST_CASE(test_render_scene4_specular) {
     CompareImagesFixture f("scene4-specular", ".png", 0.01);
 }
+
+BOOST_AUTO_TEST_SUITE_END()

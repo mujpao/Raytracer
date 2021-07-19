@@ -1,4 +1,3 @@
-#define BOOST_TEST_MODULE TestTransform
 #include <boost/test/unit_test.hpp>
 
 #include "math/mat4.h"
@@ -10,6 +9,8 @@
 #include <cmath>
 
 namespace utf = boost::unit_test;
+
+BOOST_AUTO_TEST_SUITE(test_transform)
 
 BOOST_AUTO_TEST_CASE(test_rotate, *utf::tolerance(TestUtils::TOLERANCE)) {
     Mat4 rotated1 = Transform::rotate(90.0, Vec(1.0, 0.0, 0.0));
@@ -471,3 +472,5 @@ BOOST_AUTO_TEST_CASE(test_is_small) {
     v[2] = b;
     BOOST_REQUIRE_EQUAL(Utils::is_small(v), true);
 }
+
+BOOST_AUTO_TEST_SUITE_END()

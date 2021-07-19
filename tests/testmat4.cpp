@@ -1,4 +1,3 @@
-#define BOOST_TEST_MODULE TestMat3
 #include <boost/test/unit_test.hpp>
 
 #include "math/mat3.h"
@@ -8,6 +7,8 @@
 #include "testutils.h"
 
 namespace utf = boost::unit_test;
+
+BOOST_AUTO_TEST_SUITE(test_mat4)
 
 BOOST_AUTO_TEST_CASE(test_constructors, *utf::tolerance(TestUtils::TOLERANCE)) {
     double m[4][4] = { 1.0, 2.0, 3.0, 0.0, 4.0, 5.0, 6.0, 0.0, 7.0, 8.0, 9.0,
@@ -370,3 +371,5 @@ BOOST_AUTO_TEST_CASE(test_assign, *utf::tolerance(TestUtils::TOLERANCE)) {
 
     BOOST_REQUIRE_EQUAL(b, a);
 }
+
+BOOST_AUTO_TEST_SUITE_END()

@@ -1,4 +1,3 @@
-#define BOOST_TEST_MODULE TestVec
 #include <boost/test/unit_test.hpp>
 
 #include "math/vec.h"
@@ -7,6 +6,8 @@
 #include <cmath>
 
 namespace utf = boost::unit_test;
+
+BOOST_AUTO_TEST_SUITE(test_vec)
 
 BOOST_AUTO_TEST_CASE(test_constructors, *utf::tolerance(TestUtils::TOLERANCE)) {
     Vec v1(1.0, 2.0, 3.0);
@@ -149,3 +150,5 @@ BOOST_AUTO_TEST_CASE(test_length, *utf::tolerance(TestUtils::TOLERANCE)) {
     BOOST_TEST(Vec::length_squared(a) == 14.0);
     BOOST_TEST(Vec::length(a) == std::sqrt(14.0));
 }
+
+BOOST_AUTO_TEST_SUITE_END()
