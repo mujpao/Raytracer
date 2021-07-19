@@ -1,31 +1,68 @@
 #include "camera.h"
 #include "image.h"
 #include "materials/diffusematerial.h"
+#include "materials/lightmaterial.h"
+#include "math/transform.h"
 #include "raytracer.h"
 #include "readfile.h"
 #include "scene.h"
 #include "shapes/rect.h"
 
 int main() {
+    // Cornell box
     std::string outfile("boxexample.png");
 
-    int width = 400;
-    double aspect = 16.0 / 9.0;
-    Camera camera(Vec(0.0, 0.0, 4.0), Vec(0.0, 0.0, 0.0), Vec(0.0, 1.0, 0.0),
-        30.0, aspect);
+    int width = 600;
+    double aspect = 1.0;
+    Camera camera(Vec(278.0, 273.0, -800.0), Vec(278.0, 273.0, 0.0),
+        Vec(0.0, 1.0, 0.0), 40.0, aspect);
 
-    auto rect_material = std::make_shared<DiffuseMaterial>(Vec(1.0, 0.0, 0.0));
+    auto red = std::make_shared<DiffuseMaterial>(Vec(0.65, 0.05, 0.05));
+    auto white = std::make_shared<DiffuseMaterial>(Vec(0.73, 0.73, 0.73));
+    auto green = std::make_shared<DiffuseMaterial>(Vec(0.12, 0.45, 0.15));
+    auto light_color = std::make_shared<LightMaterial>(Vec(15.0, 15.0, 15.0));
 
-    Vec p1(-1.0, -1.0, 0.0);
-    Vec p2(1.0, -1.0, 0.0);
-    Vec p3(1.0, 1.0, 0.0);
-    Vec p4(-1.0, 1.0, 0.0);
+    Vec p1(552.8, 0.0, 0.0);
+    Vec p2(0.0, 0.0, 0.0);
+    Vec p3(0.0, 0.0, 559.2);
+    Vec p4(549.6, 0.0, 559.2);
+    auto floor = std::make_shared<Rect>(p1, p2, p3, p4, white);
 
-    Scene scene({ std::make_shared<Rect>(p1, p2, p3, p4, rect_material) });
+    p1 = Vec(343.0, 548.8, 227.0);
+    p2 = Vec(343.0, 548.8, 332.0);
+    p3 = Vec(213.0, 548.8, 332.0);
+    p4 = Vec(213.0, 548.8, 227.0);
+    auto light = std::make_shared<Rect>(p1, p2, p3, p4, light_color);
 
-    // Raytracer raytracer(50, 100);
-    Raytracer raytracer(5, 10);
-    raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
+    p1 = Vec(556.0, 548.8, 0.0);
+    p2 = Vec(556.0, 548.8, 559.2);
+    p3 = Vec(0.0, 548.8, 559.2);
+    p4 = Vec(0.0, 548.8, 0.0);
+    auto ceiling = std::make_shared<Rect>(p1, p2, p3, p4, white);
+
+    p1 = Vec(549.6, 0.0, 559.2);
+    p2 = Vec(0.0, 0.0, 559.2);
+    p3 = Vec(0.0, 548.8, 559.2);
+    p4 = Vec(556.0, 548.8, 559.2);
+    auto back = std::make_shared<Rect>(p1, p2, p3, p4, white);
+
+    p1 = Vec(0.0, 0.0, 559.2);
+    p2 = Vec(0.0, 0.0, 0.0);
+    p3 = Vec(0.0, 548.8, 0.0);
+    p4 = Vec(0.0, 548.8, 559.2);
+    auto right = std::make_shared<Rect>(p1, p2, p3, p4, green);
+
+    p1 = Vec(552.8, 0.0, 0.0);
+    p2 = Vec(549.6, 0.0, 559.2);
+    p3 = Vec(556.0, 548.8, 559.2);
+    p4 = Vec(556.0, 548.8, 0.0);
+    auto left = std::make_shared<Rect>(p1, p2, p3, p4, red);
+
+    Scene scene({ floor, light, ceiling, back, right, left });
+
+    Raytracer raytracer(50, 200);
+    // Raytracer raytracer(5, 10);
+    // raytracer.set_background_color(Vec(0.1, 0.1, 0.1));
 
     Image image = raytracer.raytrace(camera, scene, width, aspect, true);
     image.save(outfile);

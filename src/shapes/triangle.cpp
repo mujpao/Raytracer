@@ -7,10 +7,10 @@
 
 Triangle::Triangle(const Vec& p1, const Vec& p2, const Vec& p3,
     std::shared_ptr<Material> material, const Mat4& transform)
-    : Shape(std::move(material)), m_v1(transform * p1), m_v2(transform * p2),
-      m_v3(transform * p3) {
-    m_box = BoundingBox(Utils::min_vec(Utils::min_vec(p1, p2), p3),
-        Utils::max_vec(Utils::max_vec(p1, p2), p3));
+    : Shape(std::move(material)), m_v1(transform * Vec::to_point(p1)),
+      m_v2(transform * Vec::to_point(p2)), m_v3(transform * Vec::to_point(p3)) {
+    m_box = BoundingBox(Utils::min_vec(Utils::min_vec(m_v1, m_v2), m_v3),
+        Utils::max_vec(Utils::max_vec(m_v1, m_v2), m_v3));
 }
 
 bool Triangle::intersect(const Ray& ray, double t_min, double t_max,
@@ -45,6 +45,7 @@ bool Triangle::intersect(const Ray& ray, double t_min, double t_max,
     intersection_info.normal = n;
     intersection_info.material = m_material;
     intersection_info.t_hit = t;
+
     return true;
 }
 
