@@ -55,7 +55,7 @@ void BoundingBoxNode::build_tree(
     }
 
     int axis = Utils::random_int(0, 2);
-    std::cout << "axis: " << axis << std::endl;
+    // std::cout << "axis: " << axis << std::endl;
     auto comp = [axis](const auto& a, const auto& b) {
         return a->box().min()[axis] < b->box().min()[axis];
     };

@@ -15,7 +15,13 @@ public:
 
 private:
     Vec barycentric(const Vec& p) const;
+
     Vec m_v1, m_v2, m_v3;
+
+    Vec m_normal;
+    double m_p_dot_n;
+    double m_d00, m_d01, m_d11;
+    double m_denom_inv;
 };
 
 #endif

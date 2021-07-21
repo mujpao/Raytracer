@@ -11,21 +11,28 @@ Triangle::Triangle(const Vec& p1, const Vec& p2, const Vec& p3,
       m_v2(transform * Vec::to_point(p2)), m_v3(transform * Vec::to_point(p3)) {
     m_box = BoundingBox(Utils::min_vec(Utils::min_vec(m_v1, m_v2), m_v3),
         Utils::max_vec(Utils::max_vec(m_v1, m_v2), m_v3));
+
+    m_normal = Vec::normalize(Transform::cross(m_v2 - m_v1, m_v3 - m_v1));
+    m_p_dot_n = Transform::dot(m_v1, m_normal);
+
+    Vec a = m_v2 - m_v1;
+    Vec b = m_v3 - m_v1;
+
+    m_d00 = Transform::dot(a, a);
+    m_d01 = Transform::dot(a, b);
+    m_d11 = Transform::dot(b, b);
+
+    m_denom_inv = 1.0 / (m_d00 * m_d11 - m_d01 * m_d01);
 }
 
 bool Triangle::intersect(const Ray& ray, double t_min, double t_max,
     IntersectionInfo& intersection_info) const {
-    Vec a = m_v1;
-    Vec b = m_v2;
-    Vec c = m_v3;
 
-    Vec n = Vec::normalize(Transform::cross(b - a, c - a));
-
-    double denom = Transform::dot(ray.direction(), n);
+    double denom = Transform::dot(ray.direction(), m_normal);
     if (denom == 0)
         return false;
 
-    double t = (Transform::dot(a, n) - Transform::dot(ray.origin(), n)) / denom;
+    double t = (m_p_dot_n - Transform::dot(ray.origin(), m_normal)) / denom;
 
     if (t < t_min || t > t_max) {
         return false;
@@ -42,7 +49,7 @@ bool Triangle::intersect(const Ray& ray, double t_min, double t_max,
     }
 
     intersection_info.position = position;
-    intersection_info.normal = n;
+    intersection_info.normal = m_normal;
     intersection_info.material = m_material;
     intersection_info.t_hit = t;
 
@@ -53,15 +60,12 @@ Vec Triangle::barycentric(const Vec& p) const {
     Vec a = m_v2 - m_v1;
     Vec b = m_v3 - m_v1;
     Vec c = p - m_v1;
-    double d00 = Transform::dot(a, a);
-    double d01 = Transform::dot(a, b);
-    double d11 = Transform::dot(b, b);
+
     double d20 = Transform::dot(c, a);
     double d21 = Transform::dot(c, b);
-    double denom = d00 * d11 - d01 * d01;
 
-    double v = (d11 * d20 - d01 * d21) / denom;
-    double w = (d00 * d21 - d01 * d20) / denom;
+    double v = (m_d11 * d20 - m_d01 * d21) * m_denom_inv;
+    double w = (m_d00 * d21 - m_d01 * d20) * m_denom_inv;
     double u = 1.0 - v - w;
 
     return Vec(u, v, w);
