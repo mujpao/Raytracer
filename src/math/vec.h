@@ -9,8 +9,8 @@ public:
     Vec(double x, double y, double z);
     Vec(double x, double y, double z, double w);
 
-    double& operator[](int idx);
-    double operator[](int idx) const;
+    double& operator[](std::size_t idx);
+    double operator[](std::size_t idx) const;
 
     inline double x() const { return m_data[0]; }
     inline double y() const { return m_data[1]; }
@@ -53,11 +53,11 @@ private:
     double m_data[4];
 };
 
-inline double& Vec::operator[](int idx) {
+inline double& Vec::operator[](std::size_t idx) {
     // TODO exceptions, change to std::size_t?
     return m_data[idx];
 }
 
-inline double Vec::operator[](int idx) const { return m_data[idx]; }
+inline double Vec::operator[](std::size_t idx) const { return m_data[idx]; }
 
 #endif

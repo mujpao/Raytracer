@@ -21,17 +21,8 @@ Vec::Vec(double x, double y, double z, double w) {
     m_data[3] = w;
 }
 
-// double& Vec::operator[](int idx) {
-//     // TODO exceptions, change to std::size_t?
-//     return m_data[idx];
-// }
-
-// double Vec::operator[](int idx) const { return m_data[idx]; }
-
 Vec Vec::normalize(const Vec& v) {
-    double mag = std::sqrt(std::pow(v.m_data[0], 2) + std::pow(v.m_data[1], 2)
-        + std::pow(v.m_data[2], 2));
-    Vec result = v / mag;
+    Vec result = v / length(v);
     return result;
 }
 
@@ -119,7 +110,7 @@ Vec Vec::to_vec(const Vec& v) { return Vec(v.x(), v.y(), v.z(), 0.0); }
 double Vec::dist(const Vec& a, const Vec& b) { return length(a - b); }
 
 double Vec::length_squared(const Vec& v) {
-    return std::pow(v.x(), 2) + std::pow(v.y(), 2) + std::pow(v.z(), 2);
+    return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
 }
 
 double Vec::length(const Vec& v) { return std::sqrt(length_squared(v)); }
