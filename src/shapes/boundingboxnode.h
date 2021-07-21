@@ -20,13 +20,18 @@ public:
     bool intersect(const Ray& ray, double t_min, double t_max,
         IntersectionInfo& intersection_info) const override;
 
-    std::shared_ptr<AbstractShape> left;
-    std::shared_ptr<AbstractShape> right;
+    std::shared_ptr<AbstractShape> m_left;
+    std::shared_ptr<AbstractShape> m_right;
 
-    // friend std::ostream& operator<<(std::ostream& os, const BoundingBoxNode&
-    // b);
+    friend std::ostream& operator<<(std::ostream& os, const BoundingBoxNode& b);
 
 private:
+    std::string str(int depth = 0) const;
+
+    std::string str_leaf(int depth, const BoundingBox& b) const;
+
+    std::string calc_spaces(int depth) const;
+
     void build_tree(std::vector<std::shared_ptr<AbstractShape>>& shapes,
         std::size_t start, std::size_t end);
 

@@ -59,38 +59,47 @@ int main() {
     p4 = Vec(556.0, 548.8, 0.0);
     auto left = std::make_shared<Rect>(p1, p2, p3, p4, red);
 
-    auto short_block = std::make_shared<
-        ShapeList>(std::vector<std::shared_ptr<AbstractShape>>{
-        std::make_shared<Rect>(Vec(130.0, 165.0, 65.0), Vec(82.0, 165.0, 225.0),
-            Vec(240.0, 165.0, 272.0), Vec(290.0, 165.0, 114.0), white),
-        std::make_shared<Rect>(Vec(290.0, 0.0, 114.0), Vec(290.0, 165.0, 114.0),
-            Vec(240.0, 165.0, 272.0), Vec(240.0, 0.0, 272.0), white),
-        std::make_shared<Rect>(Vec(130.0, 0.0, 65.0), Vec(130.0, 165.0, 65.0),
-            Vec(290.0, 165.0, 114.0), Vec(290.0, 0.0, 114.0), white),
-        std::make_shared<Rect>(Vec(82.0, 0.0, 225.0), Vec(82.0, 165.0, 225.0),
-            Vec(130.0, 165.0, 65.0), Vec(130.0, 0.0, 65.0), white),
-        std::make_shared<Rect>(Vec(240.0, 0.0, 272.0), Vec(240.0, 165.0, 272.0),
-            Vec(82.0, 165.0, 225.0), Vec(82.0, 0.0, 225.0), white) });
+    // auto short_block = std::make_shared<
+    //     ShapeList>(std::vector<std::shared_ptr<AbstractShape>>{
+    //     std::make_shared<Rect>(Vec(130.0, 165.0, 65.0), Vec(82.0, 165.0,
+    //     225.0),
+    //         Vec(240.0, 165.0, 272.0), Vec(290.0, 165.0, 114.0), white),
+    //     std::make_shared<Rect>(Vec(290.0, 0.0, 114.0), Vec(290.0, 165.0,
+    //     114.0),
+    //         Vec(240.0, 165.0, 272.0), Vec(240.0, 0.0, 272.0), white),
+    //     std::make_shared<Rect>(Vec(130.0, 0.0, 65.0), Vec(130.0,
+    //     165.0, 65.0),
+    //         Vec(290.0, 165.0, 114.0), Vec(290.0, 0.0, 114.0), white),
+    //     std::make_shared<Rect>(Vec(82.0, 0.0, 225.0), Vec(82.0, 165.0,
+    //     225.0),
+    //         Vec(130.0, 165.0, 65.0), Vec(130.0, 0.0, 65.0), white),
+    //     std::make_shared<Rect>(Vec(240.0, 0.0, 272.0), Vec(240.0, 165.0,
+    //     272.0),
+    //         Vec(82.0, 165.0, 225.0), Vec(82.0, 0.0, 225.0), white) });
 
-    auto tall_block = std::make_shared<
-        ShapeList>(std::vector<std::shared_ptr<AbstractShape>>{
-        std::make_shared<Rect>(Vec(423.0, 330.0, 247.0),
-            Vec(265.0, 330.0, 296.0), Vec(314.0, 330.0, 456.0),
-            Vec(472.0, 330.0, 406.0), white),
-        std::make_shared<Rect>(Vec(423.0, 0.0, 247.0), Vec(423.0, 330.0, 247.0),
-            Vec(472.0, 330.0, 406.0), Vec(472.0, 0.0, 406.0), white),
-        std::make_shared<Rect>(Vec(472.0, 0.0, 406.0), Vec(472.0, 330.0, 406.0),
-            Vec(314.0, 330.0, 456.0), Vec(314.0, 0.0, 456.0), white),
-        std::make_shared<Rect>(Vec(314.0, 0.0, 456.0), Vec(314.0, 330.0, 456.0),
-            Vec(265.0, 330.0, 296.0), Vec(265.0, 0.0, 296.0), white),
-        std::make_shared<Rect>(Vec(265.0, 0.0, 296.0), Vec(265.0, 330.0, 296.0),
-            Vec(423.0, 330.0, 247.0), Vec(423.0, 0.0, 247.0), white) });
+    // auto tall_block = std::make_shared<
+    //     ShapeList>(std::vector<std::shared_ptr<AbstractShape>>{
+    //     std::make_shared<Rect>(Vec(423.0, 330.0, 247.0),
+    //         Vec(265.0, 330.0, 296.0), Vec(314.0, 330.0, 456.0),
+    //         Vec(472.0, 330.0, 406.0), white),
+    //     std::make_shared<Rect>(Vec(423.0, 0.0, 247.0), Vec(423.0, 330.0,
+    //     247.0),
+    //         Vec(472.0, 330.0, 406.0), Vec(472.0, 0.0, 406.0), white),
+    //     std::make_shared<Rect>(Vec(472.0, 0.0, 406.0), Vec(472.0, 330.0,
+    //     406.0),
+    //         Vec(314.0, 330.0, 456.0), Vec(314.0, 0.0, 456.0), white),
+    //     std::make_shared<Rect>(Vec(314.0, 0.0, 456.0), Vec(314.0, 330.0,
+    //     456.0),
+    //         Vec(265.0, 330.0, 296.0), Vec(265.0, 0.0, 296.0), white),
+    //     std::make_shared<Rect>(Vec(265.0, 0.0, 296.0), Vec(265.0, 330.0,
+    //     296.0),
+    //         Vec(423.0, 330.0, 247.0), Vec(423.0, 0.0, 247.0), white) });
 
-    Scene scene(
-        { floor, light, ceiling, back, right, left, short_block, tall_block });
+    Scene scene({ floor, light, ceiling, back, right,
+        left /*, short_block, tall_block */ });
 
-    Raytracer raytracer(50, 200);
-    // Raytracer raytracer(5, 10);
+    // Raytracer raytracer(50, 200);
+    Raytracer raytracer(5, 10);
     // raytracer.set_background_color(Vec(0.1, 0.1, 0.1));
 
     Image image = raytracer.raytrace(camera, scene, width, aspect, true);

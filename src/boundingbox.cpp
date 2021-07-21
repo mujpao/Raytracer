@@ -4,6 +4,7 @@
 #include "utils.h"
 
 #include <algorithm>
+#include <iostream>
 
 BoundingBox::BoundingBox(const Vec& p1, const Vec& p2)
     : m_min(Utils::min_vec(p1, p2)), m_max(Utils::max_vec(p1, p2)) {}
@@ -39,4 +40,9 @@ BoundingBox BoundingBox::combine(
     const BoundingBox& left, const BoundingBox& right) {
     return BoundingBox(Utils::min_vec(left.min(), right.min()),
         Utils::max_vec(left.max(), right.max()));
+}
+
+std::ostream& operator<<(std::ostream& os, const BoundingBox& b) {
+    os << "<min: " << b.min() << ", max: " << b.max() << '>';
+    return os;
 }

@@ -23,8 +23,6 @@ bool Scene::intersect(
 
     return m_root->intersect(
         ray, Utils::RAY_HIT_TOLERANCE, Utils::T_MAX, closest_hit_info);
-    // return m_shapes->intersect(
-    //     ray, Utils::RAY_HIT_TOLERANCE, Utils::T_MAX, closest_hit_info);
 }
 
 void Scene::add_light(std::shared_ptr<Light> light) {
@@ -33,5 +31,5 @@ void Scene::add_light(std::shared_ptr<Light> light) {
 
 void Scene::build_tree() {
     m_root.reset(new BoundingBoxNode(m_shapes));
-    // std::cout << *m_root << '\n'; // TODO remove
+    // std::cout << '\n' << *m_root << std::endl;
 }

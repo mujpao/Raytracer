@@ -18,6 +18,8 @@ public:
     static BoundingBox combine(
         const BoundingBox& left, const BoundingBox& right);
 
+    friend std::ostream& operator<<(std::ostream& os, const BoundingBox& b);
+
 private:
     Vec m_min;
     Vec m_max;
