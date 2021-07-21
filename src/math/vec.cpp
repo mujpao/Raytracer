@@ -21,12 +21,12 @@ Vec::Vec(double x, double y, double z, double w) {
     m_data[3] = w;
 }
 
-double& Vec::operator[](int idx) {
-    // TODO exceptions, change to std::size_t?
-    return m_data[idx];
-}
+// double& Vec::operator[](int idx) {
+//     // TODO exceptions, change to std::size_t?
+//     return m_data[idx];
+// }
 
-double Vec::operator[](int idx) const { return m_data[idx]; }
+// double Vec::operator[](int idx) const { return m_data[idx]; }
 
 Vec Vec::normalize(const Vec& v) {
     double mag = std::sqrt(std::pow(v.m_data[0], 2) + std::pow(v.m_data[1], 2)

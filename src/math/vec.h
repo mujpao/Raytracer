@@ -53,4 +53,11 @@ private:
     double m_data[4];
 };
 
+inline double& Vec::operator[](int idx) {
+    // TODO exceptions, change to std::size_t?
+    return m_data[idx];
+}
+
+inline double Vec::operator[](int idx) const { return m_data[idx]; }
+
 #endif

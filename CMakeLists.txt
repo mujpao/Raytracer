@@ -10,7 +10,7 @@ add_library(CompilerFlags INTERFACE)
 set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU>")
 set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
 target_compile_options(CompilerFlags INTERFACE
-  "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wnon-virtual-dtor;-pedantic>>"
+  "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-g;-Wall;-Wextra;-Wshadow;-Wnon-virtual-dtor;-pedantic>>"
   "$<${msvc_cxx}:$<BUILD_INTERFACE:/permissive-;/W4;/w14640>>"
 )
 
