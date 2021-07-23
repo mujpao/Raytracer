@@ -2,7 +2,11 @@ project(Examples LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-SET(EXAMPLE_LIBRARIES RayTracerSrc CompilerFlags)
+find_package(assimp REQUIRED)
+
+SET(EXAMPLE_LIBRARIES RayTracerSrc CompilerFlags ${ASSIMP_LIBRARY_DIRS}/${ASSIMP_LIBRARIES})
+
+#message("assimp libraries: " ${ASSIMP_LIBRARY_DIRS}/${ASSIMP_LIBRARIES})
 
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR})
 set(CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
@@ -21,3 +25,4 @@ make_example(textureexample1 textureexample1.cpp)
 make_example(textureexample2 textureexample2.cpp)
 make_example(perlintextureexample perlintextureexample.cpp)
 make_example(boxexample boxexample.cpp)
+make_example(importexample importexample.cpp)
