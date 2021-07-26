@@ -50,6 +50,8 @@ set(PROJECT_SOURCES
         camera.cpp
         image.h
         image.cpp
+        importer.h
+        importer.cpp
         intersectioninfo.h
         light.h
         light.cpp

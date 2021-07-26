@@ -48,6 +48,8 @@ bool Triangle::intersect(const Ray& ray, double t_min, double t_max,
         }
     }
 
+    // TODO texture coordinates
+
     intersection_info.position = position;
     intersection_info.normal = m_normal;
     intersection_info.material = m_material;

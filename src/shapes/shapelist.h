@@ -20,6 +20,8 @@ public:
 
     void add(std::shared_ptr<AbstractShape> shape);
 
+    // TODO isempty()
+
 private:
     std::vector<std::shared_ptr<AbstractShape>> m_shapes;
 };

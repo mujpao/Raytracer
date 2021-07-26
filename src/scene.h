@@ -31,7 +31,7 @@ public:
 
     void add_light(std::shared_ptr<Light> light);
 
-    // void add_shape(std::shared_ptr<Shape> shape);
+    // void add_shape(std::shared_ptr<Shape> shape); // TODO
 
 private:
     void build_tree();
