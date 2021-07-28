@@ -67,6 +67,8 @@ set(PROJECT_SOURCES
         scene.cpp
         utils.h
         utils.cpp
+        vertex.h
+        vertex.cpp
 )
 
 add_library(RayTracerSrc STATIC ${PROJECT_SOURCES})
