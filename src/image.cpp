@@ -12,8 +12,10 @@ Image::Image(std::size_t width, std::size_t height)
     m_bytes = new unsigned char[3 * m_width * m_height];
 }
 
-Image::Image(const std::string& filename) {
+Image::Image(const std::string& filename, bool flip_y) {
     // TODO check valid filename
+    stbi_set_flip_vertically_on_load(flip_y);
+
     int x, y, n;
     unsigned char* data = stbi_load(filename.c_str(), &x, &y, &n, 0);
 

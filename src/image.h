@@ -10,7 +10,7 @@ class Image {
 public:
     Image(std::size_t width, std::size_t height);
 
-    Image(const std::string& filename);
+    Image(const std::string& filename, bool flip_y = false);
 
     virtual ~Image();
 

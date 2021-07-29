@@ -4,6 +4,7 @@
 #include "math/mat4.h"
 
 #include <memory>
+#include <vector>
 
 #include <assimp/matrix4x4.h>
 
@@ -19,7 +20,8 @@ public:
     Importer();
 
     // Imports mesh data from file
-    std::shared_ptr<ShapeList> read_objects(const std::string& filename);
+    std::shared_ptr<ShapeList> read_objects(
+        const std::string& directory, const std::string& filename);
 
     // Reads data from file, including lights and cameras if possible, and
     // constructs a scene
@@ -35,6 +37,7 @@ private:
 
     std::shared_ptr<ShapeList> m_shapes;
     std::shared_ptr<Material> m_default_material;
+    std::vector<std::shared_ptr<Material>> m_materials;
 
     const aiScene* m_ai_scene = nullptr;
 };

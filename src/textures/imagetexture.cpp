@@ -6,8 +6,8 @@
 ImageTexture::ImageTexture(std::shared_ptr<Image> image)
     : m_image(std::move(image)) {}
 
-ImageTexture::ImageTexture(const std::string& filename)
-    : m_image(std::make_shared<Image>(filename)) {}
+ImageTexture::ImageTexture(const std::string& filename, bool flip_y)
+    : m_image(std::make_shared<Image>(filename, flip_y)) {}
 
 Vec ImageTexture::sample(double u, double v, const Vec&) const {
     std::size_t i = (1.0 - Utils::clamp(v, 0.0, 1.0)) * (m_image->height() - 1);
