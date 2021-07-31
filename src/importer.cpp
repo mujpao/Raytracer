@@ -38,8 +38,6 @@ std::shared_ptr<ShapeList> Importer::read_objects(
             m_ai_scene->mMaterials[i]->GetTexture(
                 aiTextureType_DIFFUSE, 0, &str);
 
-            std::cout << str.C_Str() << std::endl;
-
             std::shared_ptr<Texture> texture
                 = std::make_shared<ImageTexture>(directory + str.C_Str(), true);
 
@@ -47,6 +45,26 @@ std::shared_ptr<ShapeList> Importer::read_objects(
 
         } else {
             m_materials.push_back(m_default_material);
+        }
+
+        if (m_ai_scene->mMaterials[i]->GetTextureCount(aiTextureType_NORMALS)
+            > 0) {
+            aiString str;
+            m_ai_scene->mMaterials[i]->GetTexture(
+                aiTextureType_NORMALS, 0, &str);
+
+            int n = m_ai_scene->mMaterials[i]->GetTextureCount(
+                aiTextureType_NORMALS);
+
+            std::cout << "normal maps: " << n << std::endl;
+
+            std::cout << str.C_Str() << std::endl;
+
+            m_normal_maps.push_back(
+                std::make_shared<ImageTexture>(directory + str.C_Str(), true));
+
+        } else {
+            m_normal_maps.push_back(nullptr);
         }
     }
 
@@ -70,6 +88,10 @@ void Importer::process_node(const aiNode* node, const Mat4& parent_tx) {
 
 void Importer::process_mesh(const aiMesh* mesh, const Mat4& tx) {
 
+    std::cout << "HasTangentsAndBitangents(): "
+              << mesh->HasTangentsAndBitangents() << std::endl;
+    std::cout << "HasNormals(): " << mesh->HasNormals() << '\n';
+
     for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
         std::array<Vec, 3> positions;
         std::array<std::pair<double, double>, 3> texcoords;
@@ -89,14 +111,37 @@ void Importer::process_mesh(const aiMesh* mesh, const Mat4& tx) {
             }
         }
 
-        m_shapes->add(
-            std::make_shared<Triangle>(Vertex{ positions[0], texcoords[0] },
-                Vertex{ positions[1], texcoords[1] },
-                Vertex{ positions[2], texcoords[2] },
-                m_materials[mesh->mMaterialIndex], tx));
-    }
+        if (m_normal_maps[mesh->mMaterialIndex]) {
+            Vec e1 = positions[1] - positions[0];
+            Vec e2 = positions[2] - positions[1];
+            double du1 = texcoords[1].first - texcoords[0].first;
+            double dv1 = texcoords[1].second - texcoords[0].second;
+            double du2 = texcoords[2].first - texcoords[1].first;
+            double dv2 = texcoords[2].second - texcoords[1].second;
 
-    // std::cout << mesh->HasNormals() << '\n';
+            double inv_det = 1.0 / (du1 * dv2 - du2 * dv1);
+            Vec tangent;
+            for (unsigned int j = 0; j < 3; ++j) {
+                tangent[j] = inv_det * (dv2 * e1[j] - dv1 * e2[j]);
+            }
+
+            tangent = Vec::normalize(tangent);
+
+            m_shapes->add(
+                std::make_shared<Triangle>(Vertex{ positions[0], texcoords[0] },
+                    Vertex{ positions[1], texcoords[1] },
+                    Vertex{ positions[2], texcoords[2] },
+                    m_materials[mesh->mMaterialIndex], tx, true, tangent,
+                    m_normal_maps[mesh->mMaterialIndex]));
+        } else {
+
+            m_shapes->add(
+                std::make_shared<Triangle>(Vertex{ positions[0], texcoords[0] },
+                    Vertex{ positions[1], texcoords[1] },
+                    Vertex{ positions[2], texcoords[2] },
+                    m_materials[mesh->mMaterialIndex], tx));
+        }
+    }
 }
 
 Mat4 Importer::ai_mat_to_mat4(const aiMatrix4x4& tx) {

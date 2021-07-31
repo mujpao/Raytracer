@@ -14,6 +14,7 @@ class aiScene;
 class aiNode;
 class aiMesh;
 class Material;
+class Texture;
 
 class Importer {
 public:
@@ -38,6 +39,7 @@ private:
     std::shared_ptr<ShapeList> m_shapes;
     std::shared_ptr<Material> m_default_material;
     std::vector<std::shared_ptr<Material>> m_materials;
+    std::vector<std::shared_ptr<Texture>> m_normal_maps;
 
     const aiScene* m_ai_scene = nullptr;
 };
