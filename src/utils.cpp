@@ -14,7 +14,9 @@ namespace Utils {
         return lhs > rhs || is_equal(lhs, rhs);
     }
 
-    double deg2rad(double degrees) { return degrees * (PI / 180.0); }
+    double deg2rad(double degrees) { return degrees * PI / 180.0; }
+
+    double rad2deg(double rad) { return rad * 180.0 / PI; }
 
     int random_int(int min, int max) { return rand() % (max - min + 1) + min; }
 

@@ -1,22 +1,87 @@
 #include "importer.h"
 
 #include "materials/diffusematerial.h"
+#include "scene.h"
 #include "shapes/shapelist.h"
 #include "shapes/triangle.h"
 #include "textures/imagetexture.h"
+#include "utils.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
 #include <iostream>
+#include <queue>
 
 Importer::Importer()
     : m_shapes(std::make_shared<ShapeList>()),
       m_default_material(
           std::make_shared<DiffuseMaterial>(Vec(0.5, 0.5, 0.5))) {}
 
-std::shared_ptr<ShapeList> Importer::read_objects(
+// std::shared_ptr<ShapeList> Importer::read_objects(
+//     const std::string& directory, const std::string& filename) {
+// Assimp::Importer importer;
+
+// m_ai_scene = importer.ReadFile(directory + filename,
+//     aiProcess_Triangulate | aiProcess_GenSmoothNormals |
+//     aiProcess_FlipUVs
+//         | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
+
+// if (!m_ai_scene) {
+//     std::cout << "can't read scene" << std::endl;
+//     return nullptr;
+// }
+
+// for (unsigned int i = 0; i < m_ai_scene->mNumMaterials; ++i) {
+
+//     if (m_ai_scene->mMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE)
+//         > 0) {
+//         // Just support one diffuse texture for now
+//         aiString str;
+//         m_ai_scene->mMaterials[i]->GetTexture(
+//             aiTextureType_DIFFUSE, 0, &str);
+
+//         std::shared_ptr<Texture> texture
+//             = std::make_shared<ImageTexture>(directory + str.C_Str(),
+//             true);
+
+//         m_materials.push_back(std::make_shared<DiffuseMaterial>(texture));
+
+//     } else {
+//         m_materials.push_back(m_default_material);
+//     }
+
+//     if (m_ai_scene->mMaterials[i]->GetTextureCount(aiTextureType_NORMALS)
+//         > 0) {
+//         aiString str;
+//         m_ai_scene->mMaterials[i]->GetTexture(
+//             aiTextureType_NORMALS, 0, &str);
+
+//         int n = m_ai_scene->mMaterials[i]->GetTextureCount(
+//             aiTextureType_NORMALS);
+
+//         std::cout << "normal maps: " << n << std::endl;
+
+//         std::cout << str.C_Str() << std::endl;
+
+//         m_normal_maps.push_back(
+//             std::make_shared<ImageTexture>(directory + str.C_Str(),
+//             true));
+
+//     } else {
+//         m_normal_maps.push_back(nullptr);
+//     }
+// }
+
+// process_node(m_ai_scene->mRootNode);
+
+//     Scene scene = read_file(directory, filename);
+
+//     return scene.shapes();
+// }
+
+Scene Importer::read_file(
     const std::string& directory, const std::string& filename) {
     Assimp::Importer importer;
 
@@ -26,7 +91,7 @@ std::shared_ptr<ShapeList> Importer::read_objects(
 
     if (!m_ai_scene) {
         std::cout << "can't read scene" << std::endl;
-        return nullptr;
+        return Scene();
     }
 
     for (unsigned int i = 0; i < m_ai_scene->mNumMaterials; ++i) {
@@ -70,7 +135,9 @@ std::shared_ptr<ShapeList> Importer::read_objects(
 
     process_node(m_ai_scene->mRootNode);
 
-    return m_shapes;
+    // TODO lights
+
+    return Scene(m_shapes, std::vector<std::shared_ptr<Light>>(), get_camera());
 }
 
 void Importer::process_node(const aiNode* node, const Mat4& parent_tx) {
@@ -144,13 +211,64 @@ void Importer::process_mesh(const aiMesh* mesh, const Mat4& tx) {
     }
 }
 
-Mat4 Importer::ai_mat_to_mat4(const aiMatrix4x4& tx) {
+Camera Importer::get_camera() const {
+    if (m_ai_scene->mNumCameras == 0) {
+        std::cout << "No camera found in scene.\n";
+        return Camera();
+    }
 
+    const aiCamera* camera = m_ai_scene->mCameras[0];
+    aiString camera_name = camera->mName;
+
+    std::queue<std::pair<const aiNode*, aiMatrix4x4>> q;
+    q.push({ m_ai_scene->mRootNode, m_ai_scene->mRootNode->mTransformation });
+
+    while (!q.empty()) {
+        const aiNode* node = q.front().first;
+        aiMatrix4x4 tx = q.front().second;
+        q.pop();
+
+        if (node->mName == camera_name) {
+            Mat4 transform = ai_mat_to_mat4(tx);
+            Vec eye
+                = transform * Vec::to_point(ai_vec_to_vec(camera->mPosition));
+            Vec center = eye
+                + Vec::to_point(
+                    transform * Vec::to_vec(ai_vec_to_vec(camera->mLookAt)));
+            Vec up = transform * Vec::to_vec(ai_vec_to_vec(camera->mUp));
+
+            double aspect = 16.0 / 9.0;
+            double fovy = Utils::rad2deg(
+                2.0 * std::atan(std::tan(camera->mHorizontalFOV) / aspect));
+
+            return Camera(eye, center, up, fovy, aspect);
+        }
+
+        for (unsigned int i = 0; i < node->mNumChildren; ++i) {
+            q.push({ node->mChildren[i],
+                tx * node->mChildren[i]->mTransformation });
+        }
+    }
+
+    std::cout << "No camera found in scene.\n";
+    return Camera();
+}
+
+Mat4 Importer::ai_mat_to_mat4(const aiMatrix4x4& tx) {
     Mat4 result;
     for (unsigned int i = 0; i < 4; ++i) {
         for (unsigned int j = 0; j < 4; ++j) {
             result(i, j) = tx[i][j];
         }
+    }
+
+    return result;
+}
+
+Vec Importer::ai_vec_to_vec(const aiVector3D& v) {
+    Vec result;
+    for (unsigned int i = 0; i < 3; ++i) {
+        result[i] = v[i];
     }
 
     return result;

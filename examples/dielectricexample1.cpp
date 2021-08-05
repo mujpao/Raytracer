@@ -62,7 +62,7 @@ int main() {
     // Ray r(Vec(0.0, 0.0, 1.0, 1.0), Vec(0.0, 0.0, -1.0)); // for debugging
     // raytracer.trace(r, scene, 50);
 
-    Image image = raytracer.raytrace(camera, scene, width, aspect, true);
+    Image image = raytracer.raytrace(scene, camera, width, true);
     image.save(outfile);
 
     return 0;

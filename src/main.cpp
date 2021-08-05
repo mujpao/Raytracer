@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
         double aspect;
         readfile(argv[i], camera, scene, width, aspect, max_depth, outfile);
         Raytracer r(max_depth);
-        Image image = r.raytrace(camera, scene, width, aspect);
+        Image image = r.raytrace(scene, camera, width);
         image.save(outfile);
     }
 

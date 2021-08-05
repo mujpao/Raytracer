@@ -15,6 +15,7 @@ namespace Utils {
     bool is_gt_equal(double lhs, double rhs);
 
     double deg2rad(double degrees);
+    double rad2deg(double rad);
 
     // In range [min, max]
     int random_int(int min = 0, int max = 1);

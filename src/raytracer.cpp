@@ -16,10 +16,10 @@ Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
     : m_max_depth(max_depth), m_num_samples(num_samples),
       m_normals_only(normals_only) {}
 
-Image Raytracer::raytrace(const Camera& camera, const Scene& scene,
-    const std::size_t width, double aspect, bool gamma_corrected) {
+Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
+    const std::size_t width, bool gamma_corrected) {
 
-    const std::size_t height = width / aspect;
+    const std::size_t height = width / camera.aspect();
 
     Image image(width, height);
 

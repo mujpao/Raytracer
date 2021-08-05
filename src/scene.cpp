@@ -7,19 +7,18 @@
 #include "utils.h"
 
 Scene::Scene(const std::vector<std::shared_ptr<AbstractShape>>& shapes,
-    const std::vector<std::shared_ptr<Light>>& lights)
-    : m_shapes(std::make_shared<ShapeList>(shapes)), m_lights(lights) {
-    build_tree();
-}
+    const std::vector<std::shared_ptr<Light>>& lights, const Camera& camera)
+    : Scene(std::make_shared<ShapeList>(shapes), lights, camera) {}
 
 Scene::Scene(std::shared_ptr<ShapeList> shape_list,
-    const std::vector<std::shared_ptr<Light>>& lights)
-    : m_shapes(std::move(shape_list)), m_lights(lights) {
+    const std::vector<std::shared_ptr<Light>>& lights, const Camera& camera)
+    : m_shapes(std::move(shape_list)), m_lights(lights), m_camera(camera) {
     build_tree();
 }
 
 bool Scene::intersect(
     const Ray& ray, IntersectionInfo& closest_hit_info) const {
+    // TODO clean up
 
     // return m_shapes->intersect(
     //     ray, Utils::RAY_HIT_TOLERANCE, Utils::T_MAX, closest_hit_info);

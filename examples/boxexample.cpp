@@ -93,7 +93,7 @@ int main() {
     Raytracer raytracer(5, 10);
     // raytracer.set_background_color(Vec(0.1, 0.1, 0.1));
 
-    Image image = raytracer.raytrace(camera, scene, width, aspect, true);
+    Image image = raytracer.raytrace(scene, camera, width, true);
     image.save(outfile);
 
     return 0;
