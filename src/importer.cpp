@@ -1,6 +1,7 @@
 #include "importer.h"
 
 #include "materials/diffusematerial.h"
+#include "materials/phongmaterial.h"
 #include "scene.h"
 #include "shapes/shapelist.h"
 #include "shapes/triangle.h"
@@ -83,6 +84,10 @@ Importer::Importer()
 
 Scene Importer::read_file(
     const std::string& directory, const std::string& filename) {
+
+    m_directory = directory;
+    m_filename = filename;
+
     Assimp::Importer importer;
 
     m_ai_scene = importer.ReadFile(directory + filename,
@@ -95,36 +100,13 @@ Scene Importer::read_file(
     }
 
     for (unsigned int i = 0; i < m_ai_scene->mNumMaterials; ++i) {
+        const aiMaterial* material = m_ai_scene->mMaterials[i];
 
-        if (m_ai_scene->mMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE)
-            > 0) {
-            // Just support one diffuse texture for now
+        read_diffuse_material(material);
+
+        if (material->GetTextureCount(aiTextureType_NORMALS) > 0) {
             aiString str;
-            m_ai_scene->mMaterials[i]->GetTexture(
-                aiTextureType_DIFFUSE, 0, &str);
-
-            std::shared_ptr<Texture> texture
-                = std::make_shared<ImageTexture>(directory + str.C_Str(), true);
-
-            m_materials.push_back(std::make_shared<DiffuseMaterial>(texture));
-
-        } else {
-            m_materials.push_back(m_default_material);
-        }
-
-        if (m_ai_scene->mMaterials[i]->GetTextureCount(aiTextureType_NORMALS)
-            > 0) {
-            aiString str;
-            m_ai_scene->mMaterials[i]->GetTexture(
-                aiTextureType_NORMALS, 0, &str);
-
-            int n = m_ai_scene->mMaterials[i]->GetTextureCount(
-                aiTextureType_NORMALS);
-
-            std::cout << "normal maps: " << n << std::endl;
-
-            std::cout << str.C_Str() << std::endl;
-
+            material->GetTexture(aiTextureType_NORMALS, 0, &str);
             m_normal_maps.push_back(
                 std::make_shared<ImageTexture>(directory + str.C_Str(), true));
 
@@ -208,6 +190,22 @@ void Importer::process_mesh(const aiMesh* mesh, const Mat4& tx) {
                     Vertex{ positions[2], texcoords[2] },
                     m_materials[mesh->mMaterialIndex], tx));
         }
+    }
+}
+
+void Importer::read_diffuse_material(const aiMaterial* material) {
+    if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+        // Just support one diffuse texture for now
+        aiString str;
+        material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
+
+        std::shared_ptr<Texture> texture
+            = std::make_shared<ImageTexture>(m_directory + str.C_Str(), true);
+
+        m_materials.push_back(std::make_shared<DiffuseMaterial>(texture));
+
+    } else {
+        m_materials.push_back(m_default_material);
     }
 }
 

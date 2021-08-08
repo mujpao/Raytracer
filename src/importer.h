@@ -13,6 +13,7 @@ class Scene;
 class ShapeList;
 class aiScene;
 class aiNode;
+class aiMaterial;
 class aiMesh;
 class Material;
 class Texture;
@@ -34,6 +35,8 @@ private:
 
     void process_mesh(const aiMesh* mesh, const Mat4& tx = Mat4(1.0));
 
+    void read_diffuse_material(const aiMaterial* material);
+
     Camera get_camera() const;
 
     static Mat4 ai_mat_to_mat4(const aiMatrix4x4& tx);
@@ -46,6 +49,8 @@ private:
     std::vector<std::shared_ptr<Texture>> m_normal_maps;
 
     const aiScene* m_ai_scene = nullptr;
+
+    std::string m_directory, m_filename;
 };
 
 #endif

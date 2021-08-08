@@ -11,6 +11,15 @@
 
 PhongMaterial::PhongMaterial(const Vec& ambient, const Vec& diffuse,
     const Vec& specular, double shininess, const Vec& emission)
+    : m_ambient(std::make_shared<FlatColorTexture>(ambient)),
+      m_diffuse(std::make_shared<FlatColorTexture>(diffuse)),
+      m_specular(std::make_shared<FlatColorTexture>(specular)),
+      m_emission(std::make_shared<FlatColorTexture>(emission)),
+      m_shininess(shininess) {}
+
+PhongMaterial::PhongMaterial(std::shared_ptr<Texture> ambient,
+    std::shared_ptr<Texture> diffuse, std::shared_ptr<Texture> specular,
+    double shininess, std::shared_ptr<Texture> emission)
     : m_ambient(ambient), m_diffuse(diffuse), m_specular(specular),
       m_emission(emission), m_shininess(shininess) {}
 
@@ -18,13 +27,17 @@ bool PhongMaterial::calc_scattered_ray(const Ray& ray,
     const IntersectionInfo& hit_info, Vec& atten_factor, Ray& scattered) const {
     Vec reflected_dir = Transform::reflect(ray.direction(), hit_info.normal);
     scattered = Ray(hit_info.position, reflected_dir);
-    atten_factor = m_specular;
+    atten_factor = m_specular->sample(
+        hit_info.uv.first, hit_info.uv.second, hit_info.position);
     return true;
 }
 
 Vec PhongMaterial::base_shade(const Ray& ray, const IntersectionInfo& hit_info,
     const Scene& scene) const {
-    Vec color = m_ambient + m_emission;
+    Vec color = m_ambient->sample(
+                    hit_info.uv.first, hit_info.uv.second, hit_info.position)
+        + m_emission->sample(
+            hit_info.uv.first, hit_info.uv.second, hit_info.position);
     for (const auto& light : scene.lights()) {
         if (auto dir_light = dynamic_cast<DirectionalLight*>(light.get())) {
             color += calc_lighting(*dir_light, ray.origin(), scene, hit_info);
@@ -36,13 +49,18 @@ Vec PhongMaterial::base_shade(const Ray& ray, const IntersectionInfo& hit_info,
 }
 
 Vec PhongMaterial::compute_light(double visibility, const Vec& light_color,
-    const Vec& direction, const Vec& normal, const Vec& half) const {
-    double ndotl = Transform::dot(direction, normal);
-    double hdotn = Transform::dot(half, normal);
+    const Vec& direction, const Vec& half,
+    const IntersectionInfo& hit_info) const {
+    double ndotl = Transform::dot(direction, hit_info.normal);
+    double hdotn = Transform::dot(half, hit_info.normal);
 
     Vec result = visibility * light_color
-        * (m_diffuse * std::max(ndotl, 0.0)
-            + m_specular * std::pow(std::max(hdotn, 0.0), m_shininess));
+        * (m_diffuse->sample(
+               hit_info.uv.first, hit_info.uv.second, hit_info.position)
+                * std::max(ndotl, 0.0)
+            + m_specular->sample(
+                  hit_info.uv.first, hit_info.uv.second, hit_info.position)
+                * std::pow(std::max(hdotn, 0.0), m_shininess));
     return result;
 }
 
@@ -70,7 +88,7 @@ Vec PhongMaterial::calc_lighting(const PointLight& point_light, const Vec& eye,
     Vec half = Vec::normalize(dir + eyedirn);
 
     return compute_light(
-        visibility, atten_light_color, dir, intersection_info.normal, half);
+        visibility, atten_light_color, dir, half, intersection_info);
 }
 
 Vec PhongMaterial::calc_lighting(const DirectionalLight& dir_light,
@@ -93,5 +111,5 @@ Vec PhongMaterial::calc_lighting(const DirectionalLight& dir_light,
     Vec half = Vec::normalize(normalized_dir + eyedirn);
 
     return compute_light(visibility, dir_light.light_color(), normalized_dir,
-        intersection_info.normal, half);
+        half, intersection_info);
 }
