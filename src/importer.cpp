@@ -8,7 +8,6 @@
 #include "textures/imagetexture.h"
 #include "utils.h"
 
-#include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
@@ -20,83 +19,21 @@ Importer::Importer()
       m_default_material(
           std::make_shared<DiffuseMaterial>(Vec(0.5, 0.5, 0.5))) {}
 
-// std::shared_ptr<ShapeList> Importer::read_objects(
-//     const std::string& directory, const std::string& filename) {
-// Assimp::Importer importer;
-
-// m_ai_scene = importer.ReadFile(directory + filename,
-//     aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-//     aiProcess_FlipUVs
-//         | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
-
-// if (!m_ai_scene) {
-//     std::cout << "can't read scene" << std::endl;
-//     return nullptr;
-// }
-
-// for (unsigned int i = 0; i < m_ai_scene->mNumMaterials; ++i) {
-
-//     if (m_ai_scene->mMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE)
-//         > 0) {
-//         // Just support one diffuse texture for now
-//         aiString str;
-//         m_ai_scene->mMaterials[i]->GetTexture(
-//             aiTextureType_DIFFUSE, 0, &str);
-
-//         std::shared_ptr<Texture> texture
-//             = std::make_shared<ImageTexture>(directory + str.C_Str(),
-//             true);
-
-//         m_materials.push_back(std::make_shared<DiffuseMaterial>(texture));
-
-//     } else {
-//         m_materials.push_back(m_default_material);
-//     }
-
-//     if (m_ai_scene->mMaterials[i]->GetTextureCount(aiTextureType_NORMALS)
-//         > 0) {
-//         aiString str;
-//         m_ai_scene->mMaterials[i]->GetTexture(
-//             aiTextureType_NORMALS, 0, &str);
-
-//         int n = m_ai_scene->mMaterials[i]->GetTextureCount(
-//             aiTextureType_NORMALS);
-
-//         std::cout << "normal maps: " << n << std::endl;
-
-//         std::cout << str.C_Str() << std::endl;
-
-//         m_normal_maps.push_back(
-//             std::make_shared<ImageTexture>(directory + str.C_Str(),
-//             true));
-
-//     } else {
-//         m_normal_maps.push_back(nullptr);
-//     }
-// }
-
-// process_node(m_ai_scene->mRootNode);
-
-//     Scene scene = read_file(directory, filename);
-
-//     return scene.shapes();
-// }
-
-Scene Importer::read_file(
+std::shared_ptr<ShapeList> Importer::read_objects(
     const std::string& directory, const std::string& filename) {
+    std::cout << "Reading objects from file: " << directory + filename
+              << std::endl;
 
     m_directory = directory;
     m_filename = filename;
 
-    Assimp::Importer importer;
-
-    m_ai_scene = importer.ReadFile(directory + filename,
+    m_ai_scene = m_importer.ReadFile(directory + filename,
         aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs
             | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
 
     if (!m_ai_scene) {
         std::cout << "can't read scene" << std::endl;
-        return Scene();
+        return nullptr;
     }
 
     for (unsigned int i = 0; i < m_ai_scene->mNumMaterials; ++i) {
@@ -117,6 +54,16 @@ Scene Importer::read_file(
 
     process_node(m_ai_scene->mRootNode);
 
+    return m_shapes;
+}
+
+Scene Importer::read_file(
+    const std::string& directory, const std::string& filename) {
+    std::cout << "Reading scene from file: " << directory + filename
+              << std::endl;
+
+    read_objects(directory, filename);
+
     // TODO lights
 
     return Scene(m_shapes, std::vector<std::shared_ptr<Light>>(), get_camera());
@@ -136,10 +83,6 @@ void Importer::process_node(const aiNode* node, const Mat4& parent_tx) {
 }
 
 void Importer::process_mesh(const aiMesh* mesh, const Mat4& tx) {
-
-    std::cout << "HasTangentsAndBitangents(): "
-              << mesh->HasTangentsAndBitangents() << std::endl;
-    std::cout << "HasNormals(): " << mesh->HasNormals() << '\n';
 
     for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
         std::array<Vec, 3> positions;

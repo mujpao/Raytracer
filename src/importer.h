@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 
+#include <assimp/Importer.hpp>
 #include <assimp/matrix4x4.h>
 
 class Scene;
@@ -23,11 +24,10 @@ public:
     Importer();
 
     // Import mesh data from file
-    // std::shared_ptr<ShapeList> read_objects(
-    //     const std::string& directory, const std::string& filename);
+    std::shared_ptr<ShapeList> read_objects(
+        const std::string& directory, const std::string& filename);
 
-    // Read data from file, including lights and cameras if possible, and
-    // constructs a scene
+    // Read scene data from file, including lights and cameras if possible
     Scene read_file(const std::string& directory, const std::string& filename);
 
 private:
@@ -41,6 +41,8 @@ private:
 
     static Mat4 ai_mat_to_mat4(const aiMatrix4x4& tx);
     static Vec ai_vec_to_vec(const aiVector3D& v);
+
+    Assimp::Importer m_importer;
 
     std::shared_ptr<ShapeList> m_shapes;
 
