@@ -21,11 +21,9 @@ Triangle::Triangle(const Vertex& v0, const Vertex& v1, const Vertex& v2,
         vertex.set_position(transform * vertex.position());
     }
 
-    m_box = BoundingBox(Utils::min_vec(Utils::min_vec(m_vertices[0].position(),
-                                           m_vertices[1].position()),
-                            m_vertices[2].position()),
-        Utils::max_vec(
-            Utils::max_vec(m_vertices[0].position(), m_vertices[1].position()),
+    m_box = BoundingBox(Utils::min_vec(m_vertices[0].position(),
+                            m_vertices[1].position(), m_vertices[2].position()),
+        Utils::max_vec(m_vertices[0].position(), m_vertices[1].position(),
             m_vertices[2].position()));
 
     m_normal = Vec::normalize(

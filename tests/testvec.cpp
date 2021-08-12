@@ -2,6 +2,7 @@
 
 #include "math/vec.h"
 #include "testutils.h"
+#include "utils.h"
 
 #include <cmath>
 
@@ -149,6 +150,24 @@ BOOST_AUTO_TEST_CASE(test_length, *utf::tolerance(TestUtils::TOLERANCE)) {
     Vec a(1.0, 2.0, 3.0);
     BOOST_TEST(Vec::length_squared(a) == 14.0);
     BOOST_TEST(Vec::length(a) == std::sqrt(14.0));
+}
+
+BOOST_AUTO_TEST_CASE(test_min_vec, *utf::tolerance(TestUtils::TOLERANCE)) {
+    Vec a(1.0, 2.0, 9.0);
+    Vec b(7.0, 8.0, 6.0);
+    Vec c(10.0, 5.0, 3.0);
+
+    BOOST_REQUIRE_EQUAL(Utils::min_vec(a, b), Vec(1.0, 2.0, 6.0, 1.0));
+    BOOST_REQUIRE_EQUAL(Utils::min_vec(a, b, c), Vec(1.0, 2.0, 3.0, 1.0));
+}
+
+BOOST_AUTO_TEST_CASE(test_max_vec, *utf::tolerance(TestUtils::TOLERANCE)) {
+    Vec a(1.0, 2.0, 9.0);
+    Vec b(7.0, 8.0, 6.0);
+    Vec c(10.0, 5.0, 3.0);
+
+    BOOST_REQUIRE_EQUAL(Utils::max_vec(a, b), Vec(7.0, 8.0, 9.0, 1.0));
+    BOOST_REQUIRE_EQUAL(Utils::max_vec(a, b, c), Vec(10.0, 8.0, 9.0, 1.0));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

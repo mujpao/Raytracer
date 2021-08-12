@@ -1,7 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-class Vec;
+#include "math/vec.h"
 
 namespace Utils {
     const double RAY_HIT_TOLERANCE = 0.001;
@@ -35,9 +35,27 @@ namespace Utils {
     bool is_small(double value);
     bool is_small(const Vec& v);
 
-    // Take min/max x/y/z values of a and b
+    // Compute component-wise min/max of a and b, set w coordinate to 1.0
     Vec min_vec(const Vec& a, const Vec& b);
     Vec max_vec(const Vec& a, const Vec& b);
+
+    template<typename T, typename... Ts>
+    Vec min_vec(const T& a, const T& b, const Ts&... ts) {
+        const Vec m = min_vec(a, b);
+        if constexpr (sizeof...(ts) > 0) {
+            return min_vec(m, ts...);
+        }
+        return m;
+    }
+
+    template<typename T, typename... Ts>
+    Vec max_vec(const T& a, const T& b, const Ts&... ts) {
+        const Vec m = max_vec(a, b);
+        if constexpr (sizeof...(ts) > 0) {
+            return max_vec(m, ts...);
+        }
+        return m;
+    }
 
     double lerp(double a, double b, double t);
 
