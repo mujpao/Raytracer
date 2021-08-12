@@ -39,8 +39,8 @@ namespace Utils {
     Vec min_vec(const Vec& a, const Vec& b);
     Vec max_vec(const Vec& a, const Vec& b);
 
-    template<typename T, typename... Ts>
-    Vec min_vec(const T& a, const T& b, const Ts&... ts) {
+    template<typename... Ts>
+    Vec min_vec(const Vec& a, const Vec& b, const Ts&... ts) {
         const Vec m = min_vec(a, b);
         if constexpr (sizeof...(ts) > 0) {
             return min_vec(m, ts...);
@@ -48,8 +48,8 @@ namespace Utils {
         return m;
     }
 
-    template<typename T, typename... Ts>
-    Vec max_vec(const T& a, const T& b, const Ts&... ts) {
+    template<typename... Ts>
+    Vec max_vec(const Vec& a, const Vec& b, const Ts&... ts) {
         const Vec m = max_vec(a, b);
         if constexpr (sizeof...(ts) > 0) {
             return max_vec(m, ts...);
