@@ -89,8 +89,8 @@ int main() {
     Scene scene(
         { floor, light, ceiling, back, right, left, short_block, tall_block });
 
-    // Raytracer raytracer(50, 200);
-    Raytracer raytracer(5, 10);
+    Raytracer raytracer(50, 200);
+    // Raytracer raytracer(5, 10);
     // raytracer.set_background_color(Vec(0.1, 0.1, 0.1));
 
     Image image = raytracer.raytrace(scene, camera, width, true);
