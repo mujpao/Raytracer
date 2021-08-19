@@ -56,7 +56,7 @@ bool Sphere::intersect(const Ray& ray, double t_min, double t_max,
     intersection_info.t_hit = t;
 
     Vec untransformed_point = r2.evaluate(t);
-    Vec untransformed_normal = untransformed_point - m_center;
+    Vec untransformed_normal = Vec::normalize(untransformed_point - m_center);
 
     intersection_info.position = m_transformation * untransformed_point;
     intersection_info.normal
