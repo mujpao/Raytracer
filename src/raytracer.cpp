@@ -23,7 +23,9 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
 
     Image image(width, height);
 
-    std::cout << "Tracing scene (" << width << "x" << height << ")" << '\n';
+    std::cout << "Tracing scene (" << width << "x" << height
+              << " px, depth=" << m_max_depth << ", samples=" << m_num_samples
+              << ")" << '\n';
 
     m_progress_indicator.start();
 
