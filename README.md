@@ -26,7 +26,24 @@ A basic raytracer supporting diffuse, metal, and dielectric materials, textures,
 - CMake 3.16.0
 - C++17
 
-TODO
+## Install Assimp
+- Download [Assimp](https://github.com/assimp/assimp/releases/tag/v5.0.1)
+- Build/install Assimp
+    ```cd assimp
+    cmake CMakeLists.txt
+    cmake --build .
+    cmake --install .
+    ```
+
+## Build
+```
+git clone https://github.com/mujpao/Raytracer.git
+cd Raytracer
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
 
 # TODO
 - [ ] Physically-based materials/lights
