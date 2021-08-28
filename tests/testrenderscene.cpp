@@ -94,22 +94,4 @@ BOOST_AUTO_TEST_CASE(test_render_scene2_camera3) {
     CompareImagesFixture f("scene2-camera3");
 }
 
-BOOST_AUTO_TEST_CASE(test_render_scene3) { CompareImagesFixture f("scene3"); }
-
-BOOST_AUTO_TEST_CASE(test_render_scene4_ambient) {
-    CompareImagesFixture f("scene4-ambient", ".png", 0.01);
-}
-
-BOOST_AUTO_TEST_CASE(test_render_scene4_diffuse) {
-    CompareImagesFixture f("scene4-diffuse", ".png", 0.01);
-}
-
-BOOST_AUTO_TEST_CASE(test_render_scene4_emission) {
-    CompareImagesFixture f("scene4-emission", ".png", 0.01);
-}
-
-BOOST_AUTO_TEST_CASE(test_render_scene4_specular) {
-    CompareImagesFixture f("scene4-specular", ".png", 0.01);
-}
-
 BOOST_AUTO_TEST_SUITE_END()
