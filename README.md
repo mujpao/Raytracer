@@ -17,8 +17,13 @@ A basic raytracer supporting diffuse, metal, and dielectric materials, textures,
 - Bounding volume hierarchy
 
 # Example Renders
+![cornell box](resources/examplerenders/boxexample.png)
 
-# Demo
+Cornell box with 600 samples per pixel
+
+![cornell box](resources/examplerenders/importexample.png)
+
+Imported owl model from [https://sketchfab.com/3d-models/owl-zun-wine-vessel-13th-12th-century-bce-ca77ae1351ca4b1c9a7d403e09e1c4af](https://sketchfab.com/3d-models/owl-zun-wine-vessel-13th-12th-century-bce-ca77ae1351ca4b1c9a7d403e09e1c4af)
 
 # Build Instructions
 
@@ -46,6 +51,8 @@ cmake --build .
 ```
 
 # TODO
+- [ ] Support different image formats
+- [ ] Multithreading
 - [ ] Physically-based materials/lights
 - [ ] Read lights from file
 - [ ] Environment maps
@@ -56,3 +63,4 @@ cmake --build .
 - [stb image libraries](https://github.com/nothings/stb)
 - [Scratchapixel](https://www.scratchapixel.com/)
 - [Assimp](https://github.com/assimp/assimp)
+- [Learn OpenGL](https://learnopengl.com/)
