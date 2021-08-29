@@ -18,10 +18,9 @@
 int main() {
     // Model from:
     // https://sketchfab.com/3d-models/owl-zun-wine-vessel-13th-12th-century-bce-ca77ae1351ca4b1c9a7d403e09e1c4af
-
     std::string file("owl_zun.gltf");
-    std::string dir("/home/mujpao/Documents/3d/"
-                    "owl_zun/");
+    std::string dir(
+        std::filesystem::path(__FILE__).parent_path().string() + "/owl_zun/");
 
     Importer importer;
 
