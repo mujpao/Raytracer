@@ -23,8 +23,8 @@ int main() {
     std::shared_ptr<ShapeList> shape_list = std::make_shared<ShapeList>();
 
     auto material_ground
-        = std::make_shared<DiffuseMaterial>(Vec(0.8, 0.8, 0.0));
-    auto material_left = std::make_shared<DiffuseMaterial>(Vec(0.1, 0.2, 0.5));
+        = std::make_shared<DiffuseMaterial>(Vec(0.3, 0.3, 0.6));
+    auto material_left = std::make_shared<DiffuseMaterial>(Vec(0.1, 0.5, 0.2));
     auto material_right = std::make_shared<DiffuseMaterial>(Vec(0.7, 0.1, 0.1));
 
     auto material_glass = std::make_shared<DielectricMaterial>(1.5);
@@ -34,13 +34,13 @@ int main() {
     shape_list->add(std::make_shared<Sphere>(
         Vec(0.0, -100.5, -1.0), 100.0, material_ground));
     shape_list->add(
-        std::make_shared<Sphere>(Vec(-1.0, 0.0, -1.0), 0.5, material_left));
+        std::make_shared<Sphere>(Vec(-0.75, 0.0, -2.5), 0.5, material_left));
     shape_list->add(
-        std::make_shared<Sphere>(Vec(1.0, 0.0, -1.0), 0.5, material_right));
+        std::make_shared<Sphere>(Vec(0.75, 0.0, -2.5), 0.5, material_right));
 
     Scene scene(shape_list);
 
-    Raytracer raytracer(50, 100);
+    Raytracer raytracer(50, 200);
     // Raytracer raytracer(5); // debugging
 
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));

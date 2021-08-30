@@ -17,13 +17,22 @@ A basic raytracer supporting diffuse, metal, and dielectric materials, textures,
 - Bounding volume hierarchy
 
 # Example Renders
+
+<img src="resources/examplerenders/randomspherescene.png" alt="random sphere scene" width="600">
+
+Random sphere scene from [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
+
 ![cornell box](resources/examplerenders/boxexample.png)
 
 Cornell box with 600 samples per pixel
 
-![cornell box](resources/examplerenders/importexample.png)
+![owl model](resources/examplerenders/importexample.png)
 
-Imported owl model from [https://sketchfab.com/3d-models/owl-zun-wine-vessel-13th-12th-century-bce-ca77ae1351ca4b1c9a7d403e09e1c4af](https://sketchfab.com/3d-models/owl-zun-wine-vessel-13th-12th-century-bce-ca77ae1351ca4b1c9a7d403e09e1c4af)
+Imported [owl model](https://sketchfab.com/3d-models/owl-zun-wine-vessel-13th-12th-century-bce-ca77ae1351ca4b1c9a7d403e09e1c4af)
+
+![dielectric example](resources/examplerenders/dielectricexample2.png)
+
+Dielectric and diffuse materials
 
 # Build Instructions
 
