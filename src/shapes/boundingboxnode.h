@@ -4,6 +4,7 @@
 #include "shapes/abstractshape.h"
 
 #include <memory>
+#include <string>
 #include <vector>
 
 class ShapeList;

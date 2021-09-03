@@ -122,8 +122,8 @@ MarbleTexture::MarbleTexture(double scale, double freq, double amp,
 Vec MarbleTexture::sample(double, double, const Vec& p) const {
 
     double noise = 0.5
-        * (std::sin((95.0 * p[0] + 10.0 * std::abs(calc_noise(p))) * 2 * M_PI
-               * m_scale)
+        * (std::sin((95.0 * p[0] + 10.0 * std::abs(calc_noise(p))) * 2
+               * Utils::PI * m_scale)
             + 1.0);
     return Vec(1.0, 1.0, 1.0) * noise;
 }

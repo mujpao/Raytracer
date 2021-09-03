@@ -10,7 +10,7 @@ class AbstractShape;
 class ShapeList;
 class Light;
 class Ray;
-class IntersectionInfo;
+struct IntersectionInfo;
 class BoundingBoxNode;
 
 class Scene {

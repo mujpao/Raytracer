@@ -1,19 +1,12 @@
-project(Examples LANGUAGES CXX)
-
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-find_package(assimp REQUIRED)
-
-SET(EXAMPLE_LIBRARIES RayTracerSrc CompilerFlags ${ASSIMP_LIBRARY_DIRS}/${ASSIMP_LIBRARIES})
-
-#message("assimp libraries: " ${ASSIMP_LIBRARY_DIRS}/${ASSIMP_LIBRARIES})
-
-set(SOURCE_DIR ${CMAKE_SOURCE_DIR})
-set(CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+SET(EXAMPLE_LIBRARIES RayTracerSrc)
 
 function(make_example name file)
-    add_executable(${name} ${file})
-    target_link_libraries(${name} PRIVATE ${EXAMPLE_LIBRARIES})
+  add_executable(${name} ${file})
+  target_include_directories(${name}
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+  )
+  target_link_libraries(${name} PRIVATE ${EXAMPLE_LIBRARIES})
+  target_compile_options(${name} PRIVATE ${DEFAULT_COMPILE_OPTIONS})
 endfunction(make_example)
 
 make_example(diffuseexample diffuseexample.cpp)

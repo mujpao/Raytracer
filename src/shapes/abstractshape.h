@@ -3,7 +3,7 @@
 
 #include "boundingbox.h"
 
-class IntersectionInfo;
+struct IntersectionInfo;
 class Ray;
 
 class AbstractShape {

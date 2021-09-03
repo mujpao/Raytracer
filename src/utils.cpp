@@ -2,6 +2,7 @@
 
 #include "math/vec.h"
 
+#include <algorithm>
 #include <cmath>
 #include <stdlib.h>
 

@@ -5,6 +5,7 @@
 #include "textures/texture.h"
 
 #include <memory>
+#include <string>
 
 class Image;
 

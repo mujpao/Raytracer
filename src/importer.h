@@ -12,10 +12,10 @@
 
 class Scene;
 class ShapeList;
-class aiScene;
-class aiNode;
-class aiMaterial;
-class aiMesh;
+struct aiScene;
+struct aiNode;
+struct aiMaterial;
+struct aiMesh;
 class Material;
 class Texture;
 

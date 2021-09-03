@@ -5,6 +5,8 @@
 #include "shapes/shape.h"
 #include "vertex.h"
 
+#include <array>
+
 class Texture;
 
 class Triangle : public Shape {

@@ -4,7 +4,7 @@
 #include "math/vec.h"
 
 class Ray;
-class IntersectionInfo;
+struct IntersectionInfo;
 class Scene;
 
 class Material {

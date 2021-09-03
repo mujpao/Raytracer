@@ -5,25 +5,30 @@ project(RayTracer VERSION 0.0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_library(CompilerFlags INTERFACE)
+option(RT_BUILD_TESTS "Build tests for Raytracer" ON)
 
-set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU>")
-set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
-target_compile_options(CompilerFlags INTERFACE
-  "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-g;-Wall;-Wextra;-Wshadow;-Wnon-virtual-dtor;-pedantic>>"
-  "$<${msvc_cxx}:$<BUILD_INTERFACE:/permissive-;/W4;/w14640>>"
-)
+if(MSVC)
+  set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
+      /permissive-
+      /W4
+      /w14640
+    )
+else()
+  enable_language(C)
+  set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
+      -g
+      -Wall
+      -Wextra
+      -Wshadow
+      -Wnon-virtual-dtor
+      -pedantic
+    )
+endif()
 
 add_subdirectory(src)
-
 add_subdirectory(examples)
 
-enable_testing(true)
-
-add_subdirectory(tests)
-
-add_executable(RayTracer
-    src/main.cpp
-)
-
-target_link_libraries(RayTracer PRIVATE CompilerFlags RayTracerSrc)
+if(RT_BUILD_TESTS)
+  enable_testing(true)
+  add_subdirectory(tests)
+endif()

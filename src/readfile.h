@@ -3,6 +3,7 @@
 
 #include <iosfwd>
 #include <stack>
+#include <string>
 
 class Mat4;
 class Camera;

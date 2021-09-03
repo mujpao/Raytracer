@@ -16,7 +16,7 @@ int main() {
     std::string outfile("textureexample2.png");
 
     std::filesystem::path path(__FILE__);
-    std::string texture_file = std::string(path.parent_path().parent_path())
+    std::string texture_file = std::string(path.parent_path().parent_path().string())
         + "/resources/earthmap.jpg";
 
     int width = 400;
