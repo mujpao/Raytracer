@@ -4,7 +4,6 @@
 #include "materials/lightmaterial.h"
 #include "math/transform.h"
 #include "raytracer.h"
-#include "readfile.h"
 #include "scene.h"
 #include "shapes/rect.h"
 #include "shapes/shapelist.h"

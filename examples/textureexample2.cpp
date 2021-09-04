@@ -3,7 +3,6 @@
 #include "materials/diffusematerial.h"
 #include "math/transform.h"
 #include "raytracer.h"
-#include "readfile.h"
 #include "scene.h"
 #include "shapes/sphere.h"
 #include "textures/checkeredtexture.h"
@@ -16,7 +15,8 @@ int main() {
     std::string outfile("textureexample2.png");
 
     std::filesystem::path path(__FILE__);
-    std::string texture_file = std::string(path.parent_path().parent_path().string())
+    std::string texture_file
+        = std::string(path.parent_path().parent_path().string())
         + "/resources/earthmap.jpg";
 
     int width = 400;

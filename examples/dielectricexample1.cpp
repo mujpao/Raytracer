@@ -4,7 +4,6 @@
 #include "materials/diffusematerial.h"
 #include "materials/metalmaterial.h"
 #include "raytracer.h"
-#include "readfile.h"
 #include "scene.h"
 #include "shapes/shapelist.h"
 #include "shapes/sphere.h"

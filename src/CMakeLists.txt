@@ -61,8 +61,6 @@ set(PROJECT_SOURCES
   ray.cpp
   raytracer.h
   raytracer.cpp
-  readfile.h
-  readfile.cpp
   scene.h
   scene.cpp
   utils.h

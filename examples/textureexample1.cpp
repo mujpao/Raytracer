@@ -3,7 +3,6 @@
 #include "materials/diffusematerial.h"
 #include "materials/lightmaterial.h"
 #include "raytracer.h"
-#include "readfile.h"
 #include "scene.h"
 #include "shapes/sphere.h"
 #include "textures/checkeredtexture.h"
