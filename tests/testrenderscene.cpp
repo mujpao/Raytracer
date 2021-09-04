@@ -69,9 +69,8 @@ BOOST_AUTO_TEST_CASE(test_render_scene1) {
             std::make_shared<PointLight>(
                 Vec(1.0, 0.0, 0.0), Vec(0.5, 0.5, 0.5), Vec(4.0, 0.0, 4.0)) });
 
-    std::string dir
-        = std::filesystem::path(__FILE__).parent_path().parent_path().string()
-        + "/scenes/testscenes/";
+    std::string dir = std::filesystem::path(__FILE__).parent_path().string()
+        + "/testscenes/";
 
     std::array<std::string, 4> filenames{ "scene1-camera1.jpg",
         "scene1-camera2.jpg", "scene1-camera3.jpg", "scene1-camera4.jpg" };
@@ -169,9 +168,8 @@ BOOST_AUTO_TEST_CASE(test_render_scene2) {
         std::make_shared<Sphere>(Vec(0.5, 0.5, -1.0), sphere_rad, sphere_mat),
     });
 
-    std::string dir
-        = std::filesystem::path(__FILE__).parent_path().parent_path().string()
-        + "/scenes/testscenes/";
+    std::string dir = std::filesystem::path(__FILE__).parent_path().string()
+        + "/testscenes/";
 
     std::array<std::string, 3> filenames{ "scene2-camera1.jpg",
         "scene2-camera2.jpg", "scene2-camera3.jpg" };

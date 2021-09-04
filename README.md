@@ -39,15 +39,8 @@ Dielectric and diffuse materials
 ## Requires
 - CMake 3.16.0
 - C++17
-
-## Install Assimp
-- Download [Assimp](https://github.com/assimp/assimp/releases/tag/v5.0.1)
-- Build/install Assimp
-    ```cd assimp
-    cmake CMakeLists.txt
-    cmake --build .
-    cmake --install .
-    ```
+- [Assimp](https://github.com/assimp/assimp)
+- Boost Test (Set CMake option `RT_BUILD_TESTS` to `OFF` to disable testing)
 
 ## Build
 ```
