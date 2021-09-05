@@ -12,12 +12,13 @@
 
 class Scene;
 class ShapeList;
+class Material;
+class Texture;
+
 struct aiScene;
 struct aiNode;
 struct aiMaterial;
 struct aiMesh;
-class Material;
-class Texture;
 
 class Importer {
 public:

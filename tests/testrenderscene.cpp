@@ -4,9 +4,13 @@
 #include "camera.h"
 #include "image.h"
 #include "light.h"
+#include "materials/diffusematerial.h"
+#include "materials/lightmaterial.h"
 #include "materials/phongmaterial.h"
 #include "raytracer.h"
 #include "scene.h"
+#include "shapes/rect.h"
+#include "shapes/shapelist.h"
 #include "shapes/sphere.h"
 #include "shapes/triangle.h"
 
@@ -181,6 +185,35 @@ BOOST_AUTO_TEST_CASE(test_render_scene2) {
         Image compare_to(dir + filenames[i]);
         compare_images(rendered_image, compare_to);
     }
+}
+
+BOOST_AUTO_TEST_CASE(test_render_diffuse_scene) {
+    int width = 400;
+    double aspect = 16.0 / 9.0;
+    Camera camera(Vec(0.0, 0.0, 1.0), Vec(0.0, 0.0, 0.0), Vec(0.0, 1.0, 0.0),
+        45.0, aspect);
+
+    auto diffuse_material
+        = std::make_shared<DiffuseMaterial>(Vec(0.5, 0.5, 0.5));
+
+    Scene scene(
+        { std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, diffuse_material),
+            std::make_shared<Sphere>(
+                Vec(0.0, -100.5, -1.0), 100.0, diffuse_material) });
+
+    Raytracer raytracer(50, 100);
+    raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
+
+    std::string dir = std::filesystem::path(__FILE__).parent_path().string()
+        + "/testscenes/";
+
+    std::string filename("diffusescene.png");
+
+    Image rendered_image = raytracer.raytrace(scene, camera, width, true);
+    rendered_image.save(filename);
+
+    Image compare_to(dir + filename);
+    compare_images(rendered_image, compare_to);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
