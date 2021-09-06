@@ -85,12 +85,7 @@ Mat4& Mat4::operator*=(const Mat4& rhs) {
         }
     }
 
-    // TODO copy constructor?
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 4; ++j) {
-            m_data[i][j] = result.m_data[i][j];
-        }
-    }
+    *this = result;
     return *this;
 }
 

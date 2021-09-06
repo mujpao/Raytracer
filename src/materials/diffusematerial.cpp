@@ -21,7 +21,7 @@ bool DiffuseMaterial::calc_scattered_ray(const Ray&,
     }
 
     scattered = Ray(hit_info.position, scatter_dir);
-    atten_factor = m_albedo->sample(hit_info.uv.first, hit_info.uv.second,
-        hit_info.position); // TODO Position or normal?
+    atten_factor = m_albedo->sample(
+        hit_info.uv.first, hit_info.uv.second, hit_info.position);
     return true;
 }

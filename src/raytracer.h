@@ -20,7 +20,6 @@ public:
     // black.
     void set_background_color(const Vec& color);
 
-    // todo
     Vec trace(const Ray& r, const Scene& scene, int depth);
 
 private:

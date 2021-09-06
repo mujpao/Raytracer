@@ -8,7 +8,6 @@ public:
     Mat3(double m[3][3]);
     Mat3(double val); // sets diagonal to value
     Mat3(); // initializes all elements to 0
-    // todo should it initialize to identity matrix?
 
     // TODO type of idx?
     double& operator()(unsigned int i, unsigned int j);

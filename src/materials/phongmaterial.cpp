@@ -77,8 +77,7 @@ Vec PhongMaterial::calc_lighting(const PointLight& point_light, const Vec& eye,
     double visibility;
     IntersectionInfo shadow_hit_info;
     if (scene.intersect(ray, shadow_hit_info)
-        && Vec::dist(shadow_hit_info.position, point_light.position())
-            < dist) // TODO what if light is between objects?
+        && Vec::dist(shadow_hit_info.position, point_light.position()) < dist)
         visibility = 0.0;
     else
         visibility = 1.0;

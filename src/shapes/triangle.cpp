@@ -30,8 +30,7 @@ Triangle::Triangle(const Vertex& v0, const Vertex& v1, const Vertex& v2,
         Transform::cross(m_vertices[1].position() - m_vertices[0].position(),
             m_vertices[2].position() - m_vertices[0].position()));
 
-    m_p_dot_n = Transform::dot(
-        m_vertices[0].position(), m_normal); // TODO unnecessary?
+    m_p_dot_n = Transform::dot(m_vertices[0].position(), m_normal);
 
     Vec a = m_vertices[1].position() - m_vertices[0].position();
     Vec b = m_vertices[2].position() - m_vertices[0].position();
