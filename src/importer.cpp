@@ -111,7 +111,13 @@ void Importer::process_mesh(const aiMesh* mesh, const Mat4& tx) {
             double du2 = texcoords[2].first - texcoords[1].first;
             double dv2 = texcoords[2].second - texcoords[1].second;
 
+            if (Utils::is_small(du1 * dv2 - du2 * dv1)) {
+                du1 = dv2 = 1.0;
+                du2 = dv1 = 0.0;
+            }
+
             double inv_det = 1.0 / (du1 * dv2 - du2 * dv1);
+
             Vec tangent;
             for (unsigned int j = 0; j < 3; ++j) {
                 tangent[j] = inv_det * (dv2 * e1[j] - dv1 * e2[j]);
