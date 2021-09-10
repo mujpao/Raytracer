@@ -22,25 +22,38 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
 
     const std::size_t height = width / camera.aspect();
 
-    Image image(width, height);
-
     std::cout << "Tracing scene (" << width << "x" << height
               << " px, depth=" << m_max_depth << ", samples=" << m_num_samples
               << ")" << '\n';
 
     // m_progress_indicator.start();
 
-    // auto start_time = std::chrono::steady_clock::now();
+    auto start_time = std::chrono::steady_clock::now();
 
-    std::vector<std::vector<Vec>> colors
-        = trace_rows(0, height, scene, camera, width, height);
+    std::vector<std::vector<Vec>> colors(
+        height, std::vector<Vec>(width, Vec()));
 
-    // auto end_time = std::chrono::steady_clock::now();
+    int num_threads = 4;
+    std::vector<int> sums(num_threads, 0);
+    std::vector<std::thread> threads;
+    for (int i = 0; i < num_threads; ++i) {
+        threads.push_back(std::thread([&, i]() {
+            trace_rows(static_cast<double>(i * height) / num_threads,
+                static_cast<double>((i + 1) * height) / num_threads, scene,
+                camera, width, height, colors);
+        }));
+    }
 
-    // std::chrono::duration<double> duration = end_time - start_time;
+    for (auto& thread : threads)
+        thread.join();
 
-    // std::cout << "Finished in " << duration.count() << "s\n";
+    auto end_time = std::chrono::steady_clock::now();
 
+    std::chrono::duration<double> duration = end_time - start_time;
+
+    std::cout << "Finished in " << duration.count() << "s\n";
+
+    Image image(width, height);
     for (std::size_t i = 0; i < height; ++i) {
         for (std::size_t j = 0; j < width; ++j) {
             image.set_pixel_color(
@@ -51,12 +64,9 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
     return image;
 }
 
-std::vector<std::vector<Vec>> Raytracer::trace_rows(std::size_t start,
-    std::size_t end, const Scene& scene, const Camera& camera,
-    std::size_t width, std::size_t height) const {
-
-    std::vector<std::vector<Vec>> colors(
-        height, std::vector<Vec>(width, Vec()));
+void Raytracer::trace_rows(std::size_t start, std::size_t end,
+    const Scene& scene, const Camera& camera, std::size_t width,
+    std::size_t height, std::vector<std::vector<Vec>>& colors) const {
 
     for (std::size_t i = start; i < end; ++i) {
         for (std::size_t j = 0; j < width; ++j) {
@@ -82,8 +92,6 @@ std::vector<std::vector<Vec>> Raytracer::trace_rows(std::size_t start,
 
         // m_progress_indicator.increment(1.0 / height);
     }
-
-    return colors;
 }
 
 Vec Raytracer::trace(const Ray& r, const Scene& scene, int depth) const {

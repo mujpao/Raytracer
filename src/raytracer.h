@@ -22,9 +22,9 @@ public:
     // black.
     void set_background_color(const Vec& color) { m_background_color = color; }
 
-    std::vector<std::vector<Vec>> trace_rows(std::size_t start, std::size_t end,
-        const Scene& scene, const Camera& camera, std::size_t width,
-        std::size_t height) const;
+    void trace_rows(std::size_t start, std::size_t end, const Scene& scene,
+        const Camera& camera, std::size_t width, std::size_t height,
+        std::vector<std::vector<Vec>>& colors) const;
 
     Vec trace(const Ray& r, const Scene& scene, int depth) const;
 

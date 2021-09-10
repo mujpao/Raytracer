@@ -77,6 +77,9 @@ target_include_directories(RayTracerSrc
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+find_package(Threads REQUIRED)
+target_link_libraries(RayTracerSrc PRIVATE Threads::Threads)
+
 if(MSVC)
   target_link_libraries(RayTracerSrc PUBLIC assimp::assimp)
 else()

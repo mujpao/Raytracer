@@ -413,6 +413,7 @@ BOOST_AUTO_TEST_CASE(test_random_double2, *utf::tolerance(0.1)) {
 }
 
 BOOST_AUTO_TEST_CASE(test_random_int, *utf::tolerance(0.1)) {
+    // TODO
     int n = 100;
     double sum = 0.0;
     for (int i = 0; i < n; ++i) {
