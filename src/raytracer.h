@@ -4,6 +4,8 @@
 #include "math/vec.h"
 #include "progressindicator.h"
 
+#include <vector>
+
 class Image;
 class Camera;
 class Scene;
@@ -14,13 +16,17 @@ public:
     Raytracer(int max_depth, int num_samples = 1, bool normals_only = false);
 
     Image raytrace(const Scene& scene, const Camera& camera,
-        const std::size_t width, bool gamma_corrected = false);
+        const std::size_t width, bool gamma_corrected = false) const;
 
     // Determines color of pixels where ray does not hit an object. Default is
     // black.
-    void set_background_color(const Vec& color);
+    void set_background_color(const Vec& color) { m_background_color = color; }
 
-    Vec trace(const Ray& r, const Scene& scene, int depth);
+    std::vector<std::vector<Vec>> trace_rows(std::size_t start, std::size_t end,
+        const Scene& scene, const Camera& camera, std::size_t width,
+        std::size_t height) const;
+
+    Vec trace(const Ray& r, const Scene& scene, int depth) const;
 
 private:
     int m_max_depth;

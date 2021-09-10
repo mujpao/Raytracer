@@ -11,13 +11,14 @@
 
 #include <chrono>
 #include <iostream>
+#include <thread>
 
 Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
     : m_max_depth(max_depth), m_num_samples(num_samples),
       m_normals_only(normals_only) {}
 
 Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
-    const std::size_t width, bool gamma_corrected) {
+    const std::size_t width, bool gamma_corrected) const {
 
     const std::size_t height = width / camera.aspect();
 
@@ -27,54 +28,65 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
               << " px, depth=" << m_max_depth << ", samples=" << m_num_samples
               << ")" << '\n';
 
-    m_progress_indicator.start();
+    // m_progress_indicator.start();
 
-    auto start_time = std::chrono::steady_clock::now();
+    // auto start_time = std::chrono::steady_clock::now();
+
+    std::vector<std::vector<Vec>> colors
+        = trace_rows(0, height, scene, camera, width, height);
+
+    // auto end_time = std::chrono::steady_clock::now();
+
+    // std::chrono::duration<double> duration = end_time - start_time;
+
+    // std::cout << "Finished in " << duration.count() << "s\n";
 
     for (std::size_t i = 0; i < height; ++i) {
         for (std::size_t j = 0; j < width; ++j) {
-            Vec color;
+            image.set_pixel_color(
+                i, j, Utils::clamp(colors[i][j], 0.0, 1.0), gamma_corrected);
+        }
+    }
+
+    return image;
+}
+
+std::vector<std::vector<Vec>> Raytracer::trace_rows(std::size_t start,
+    std::size_t end, const Scene& scene, const Camera& camera,
+    std::size_t width, std::size_t height) const {
+
+    std::vector<std::vector<Vec>> colors(
+        height, std::vector<Vec>(width, Vec()));
+
+    for (std::size_t i = start; i < end; ++i) {
+        for (std::size_t j = 0; j < width; ++j) {
             if (m_num_samples == 1) {
                 double u = static_cast<double>(j) / (width - 1);
                 double v = static_cast<double>(i) / (height - 1);
 
                 Ray ray = camera.get_ray(u, v);
-                color = trace(ray, scene, m_max_depth);
-
+                colors[i][j] = trace(ray, scene, m_max_depth);
             } else {
                 for (int k = 0; k < m_num_samples; ++k) {
-                    double u = (j + Utils::random_double(0.0, 1.0))
-                        / (image.width() - 1);
-                    double v = (i + Utils::random_double(0.0, 1.0))
-                        / (image.height() - 1);
+                    double u
+                        = (j + Utils::random_double(0.0, 1.0)) / (width - 1);
+                    double v
+                        = (i + Utils::random_double(0.0, 1.0)) / (height - 1);
 
                     Ray ray = camera.get_ray(u, v);
-                    color += trace(ray, scene, m_max_depth);
+                    colors[i][j] += trace(ray, scene, m_max_depth);
                 }
-                color /= m_num_samples;
+                colors[i][j] /= m_num_samples;
             }
-
-            image.set_pixel_color(
-                i, j, Utils::clamp(color, 0.0, 1.0), gamma_corrected);
         }
 
-        m_progress_indicator.increment(1.0 / height);
+        // m_progress_indicator.increment(1.0 / height);
     }
 
-    auto end_time = std::chrono::steady_clock::now();
-
-    std::chrono::duration<double> duration = end_time - start_time;
-
-    std::cout << "Finished in " << duration.count() << "s\n";
-
-    return image;
+    return colors;
 }
 
-void Raytracer::set_background_color(const Vec& color) {
-    m_background_color = color;
-}
-
-Vec Raytracer::trace(const Ray& r, const Scene& scene, int depth) {
+Vec Raytracer::trace(const Ray& r, const Scene& scene, int depth) const {
     if (depth < 1)
         return m_background_color;
 
