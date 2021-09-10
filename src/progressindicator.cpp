@@ -11,6 +11,8 @@ ProgressIndicator::ProgressIndicator(double increment_interval)
 void ProgressIndicator::start() const { std::cout << "[" << std::flush; }
 
 void ProgressIndicator::increment(double percentage) {
+    const std::lock_guard<std::mutex> lock(m_mtx);
+
     double pct_before = m_percent_finished;
     m_percent_finished = std::min(m_percent_finished + percentage, 1.0);
     if (std::floor(m_percent_finished / m_increment_interval)
@@ -22,7 +24,4 @@ void ProgressIndicator::increment(double percentage) {
     }
 }
 
-void ProgressIndicator::finish() const {
-    std::cout << "] 100%" << std::endl;
-    ;
-}
+void ProgressIndicator::finish() const { std::cout << "] 100%" << std::endl; }

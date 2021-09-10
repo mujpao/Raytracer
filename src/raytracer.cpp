@@ -18,7 +18,7 @@ Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
       m_normals_only(normals_only) {}
 
 Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
-    const std::size_t width, bool gamma_corrected) const {
+    const std::size_t width, bool gamma_corrected) {
 
     const std::size_t height = width / camera.aspect();
 
@@ -26,7 +26,7 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
               << " px, depth=" << m_max_depth << ", samples=" << m_num_samples
               << ")" << '\n';
 
-    // m_progress_indicator.start();
+    m_progress_indicator.start();
 
     auto start_time = std::chrono::steady_clock::now();
 
@@ -48,9 +48,7 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
         thread.join();
 
     auto end_time = std::chrono::steady_clock::now();
-
     std::chrono::duration<double> duration = end_time - start_time;
-
     std::cout << "Finished in " << duration.count() << "s\n";
 
     Image image(width, height);
@@ -66,7 +64,7 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
 
 void Raytracer::trace_row(std::size_t row, const Scene& scene,
     const Camera& camera, std::size_t width, std::size_t height,
-    std::vector<std::vector<Vec>>& colors) const {
+    std::vector<std::vector<Vec>>& colors) {
     for (std::size_t j = 0; j < width; ++j) {
         if (m_num_samples == 1) {
             double u = static_cast<double>(j) / (width - 1);
@@ -87,7 +85,7 @@ void Raytracer::trace_row(std::size_t row, const Scene& scene,
         }
     }
 
-    // m_progress_indicator.increment(1.0 / height);
+    m_progress_indicator.increment(1.0 / height);
 }
 
 Vec Raytracer::trace(const Ray& r, const Scene& scene, int depth) const {

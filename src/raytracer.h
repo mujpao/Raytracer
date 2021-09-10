@@ -16,7 +16,7 @@ public:
     Raytracer(int max_depth, int num_samples = 1, bool normals_only = false);
 
     Image raytrace(const Scene& scene, const Camera& camera,
-        const std::size_t width, bool gamma_corrected = false) const;
+        const std::size_t width, bool gamma_corrected = false);
 
     // Determines color of pixels where ray does not hit an object. Default is
     // black.
@@ -24,7 +24,7 @@ public:
 
     void trace_row(std::size_t row, const Scene& scene, const Camera& camera,
         std::size_t width, std::size_t height,
-        std::vector<std::vector<Vec>>& colors) const;
+        std::vector<std::vector<Vec>>& colors);
 
     Vec trace(const Ray& r, const Scene& scene, int depth) const;
 
