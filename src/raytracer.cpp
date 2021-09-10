@@ -38,9 +38,9 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
     std::vector<std::thread> threads;
     for (int i = 0; i < num_threads; ++i) {
         threads.push_back(std::thread([&, i]() {
-            trace_rows(static_cast<double>(i * height) / num_threads,
-                static_cast<double>((i + 1) * height) / num_threads, scene,
-                camera, width, height, colors);
+            for (std::size_t j = i; j < height; j += num_threads) {
+                trace_row(j, scene, camera, width, height, colors);
+            }
         }));
     }
 
@@ -64,34 +64,30 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
     return image;
 }
 
-void Raytracer::trace_rows(std::size_t start, std::size_t end,
-    const Scene& scene, const Camera& camera, std::size_t width,
-    std::size_t height, std::vector<std::vector<Vec>>& colors) const {
+void Raytracer::trace_row(std::size_t row, const Scene& scene,
+    const Camera& camera, std::size_t width, std::size_t height,
+    std::vector<std::vector<Vec>>& colors) const {
+    for (std::size_t j = 0; j < width; ++j) {
+        if (m_num_samples == 1) {
+            double u = static_cast<double>(j) / (width - 1);
+            double v = static_cast<double>(row) / (height - 1);
 
-    for (std::size_t i = start; i < end; ++i) {
-        for (std::size_t j = 0; j < width; ++j) {
-            if (m_num_samples == 1) {
-                double u = static_cast<double>(j) / (width - 1);
-                double v = static_cast<double>(i) / (height - 1);
+            Ray ray = camera.get_ray(u, v);
+            colors[row][j] = trace(ray, scene, m_max_depth);
+        } else {
+            for (int k = 0; k < m_num_samples; ++k) {
+                double u = (j + Utils::random_double(0.0, 1.0)) / (width - 1);
+                double v
+                    = (row + Utils::random_double(0.0, 1.0)) / (height - 1);
 
                 Ray ray = camera.get_ray(u, v);
-                colors[i][j] = trace(ray, scene, m_max_depth);
-            } else {
-                for (int k = 0; k < m_num_samples; ++k) {
-                    double u
-                        = (j + Utils::random_double(0.0, 1.0)) / (width - 1);
-                    double v
-                        = (i + Utils::random_double(0.0, 1.0)) / (height - 1);
-
-                    Ray ray = camera.get_ray(u, v);
-                    colors[i][j] += trace(ray, scene, m_max_depth);
-                }
-                colors[i][j] /= m_num_samples;
+                colors[row][j] += trace(ray, scene, m_max_depth);
             }
+            colors[row][j] /= m_num_samples;
         }
-
-        // m_progress_indicator.increment(1.0 / height);
     }
+
+    // m_progress_indicator.increment(1.0 / height);
 }
 
 Vec Raytracer::trace(const Ray& r, const Scene& scene, int depth) const {
