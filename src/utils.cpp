@@ -6,10 +6,8 @@
 #include <cmath>
 
 namespace Utils {
-    const int MAX_RANDOM = 2147483647;
     thread_local std::random_device rd;
     thread_local std::mt19937 gen(rd());
-    thread_local std::uniform_int_distribution<> distrib(0, MAX_RANDOM);
 
     bool is_equal(double lhs, double rhs) {
         return std::abs(lhs - rhs) < EPSILON;
@@ -24,11 +22,11 @@ namespace Utils {
     double rad2deg(double rad) { return rad * 180.0 / PI; }
 
     int random_int(int min, int max) {
-        return distrib(gen) % (max - min + 1) + min;
+        return std::uniform_int_distribution<>(min, max)(gen);
     }
 
     double random_double(double min, double max) {
-        return distrib(gen) * (max - min) / (MAX_RANDOM + 1.0) + min;
+        return std::uniform_real_distribution<>(min, max)(gen);
     }
 
     Vec random_vec(double min, double max) {

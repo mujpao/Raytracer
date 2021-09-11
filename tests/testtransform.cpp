@@ -384,7 +384,7 @@ BOOST_AUTO_TEST_CASE(test_refract2, *utf::tolerance(TestUtils::TOLERANCE)) {
     BOOST_TEST(1.0 * std::sin(theta1) == 1.5 * std::sin(theta2));
 }
 
-BOOST_AUTO_TEST_CASE(test_random_double1, *utf::tolerance(0.01)) {
+BOOST_AUTO_TEST_CASE(test_random_double1, *utf::tolerance(0.02)) {
     int n = 10000;
     double sum = 0.0;
     for (int i = 0; i < n; ++i) {
@@ -413,9 +413,9 @@ BOOST_AUTO_TEST_CASE(test_random_double2, *utf::tolerance(0.1)) {
 }
 
 BOOST_AUTO_TEST_CASE(test_random_int, *utf::tolerance(0.1)) {
-    // TODO
-    int n = 100;
+    int n = 1000;
     double sum = 0.0;
+
     for (int i = 0; i < n; ++i) {
         int num = Utils::random_int(0, 10);
         sum += num;
