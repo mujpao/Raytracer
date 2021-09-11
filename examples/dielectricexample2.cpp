@@ -40,24 +40,8 @@ int main() {
     Scene scene(shape_list);
 
     Raytracer raytracer(50, 200);
-    // Raytracer raytracer(5); // debugging
 
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
-
-    /************************************************************/
-    // Rays for debugging:
-
-    // Ray r(Vec(0.0, 0.0, 1.0, 1.0), Vec(0.0, 0.0, -1.0));
-    // Ray dirs:
-    // r1: <0, 0, -1>, r2: <0, 0, -1>, r3: <0, 0, -1>
-
-    // Ray r(Vec(0.0, 0.0, 1.0, 1.0), Vec(0.002, 0.1, -1.0));
-    // Ray dirs:
-    // r1: <.002, .1, -1>, r2: <0, -.04, -.999>, r3: <-.0, -.18, -.98>...
-
-    // raytracer.trace(r, scene, 50);
-
-    /************************************************************/
 
     Image image = raytracer.raytrace(scene, camera, width, true);
     image.save(outfile);

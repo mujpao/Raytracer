@@ -31,7 +31,6 @@ int main() {
     int width = 400;
 
     Raytracer raytracer(5, 200);
-    // Raytracer raytracer(5, 5);
 
     raytracer.set_background_color(Vec(0.4, 0.4, 0.4));
 

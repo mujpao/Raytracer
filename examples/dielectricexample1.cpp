@@ -54,12 +54,8 @@ int main() {
     Scene scene(shape_list);
 
     Raytracer raytracer(50, 100);
-    // Raytracer raytracer(5);
 
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
-
-    // Ray r(Vec(0.0, 0.0, 1.0, 1.0), Vec(0.0, 0.0, -1.0)); // for debugging
-    // raytracer.trace(r, scene, 50);
 
     Image image = raytracer.raytrace(scene, camera, width, true);
     image.save(outfile);

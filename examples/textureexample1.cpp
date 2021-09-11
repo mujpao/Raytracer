@@ -31,7 +31,6 @@ int main() {
         std::make_shared<Sphere>(Vec(0.0, 30.0, 0.0), 10.0, light_material) });
 
     Raytracer raytracer(50, 100);
-    // Raytracer raytracer(5, 10);
 
     Image image = raytracer.raytrace(scene, camera, width, true);
     image.save(outfile);

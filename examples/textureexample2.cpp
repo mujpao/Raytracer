@@ -39,7 +39,6 @@ int main() {
             Vec(0.0, -100.5, -1.0), 100.0, ground_material) });
 
     Raytracer raytracer(50, 100);
-    // Raytracer raytracer(5);
 
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
 

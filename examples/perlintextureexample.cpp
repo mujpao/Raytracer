@@ -14,9 +14,6 @@ int main() {
     Camera camera(Vec(-1.2, 0.3, 0.7), Vec(0.0, 0.0, 0.0), Vec(0.0, 1.0, 0.0),
         40.0, aspect);
 
-    // auto perlin_material1 = std::make_shared<DiffuseMaterial>(
-    //     std::make_shared<PerlinTexture>(6.0, 1.0, 5, 2.2, 0.4));
-
     auto perlin_material1 = std::make_shared<DiffuseMaterial>(
         std::make_shared<MarbleTexture>(0.05, 10.0, 1.0, 5, 2.0, 0.5));
 
@@ -29,7 +26,6 @@ int main() {
                 Vec(0.0, -100.5, -1.0), 100.0, perlin_material2) });
 
     Raytracer raytracer(50, 100);
-    // Raytracer raytracer(5);
 
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
 

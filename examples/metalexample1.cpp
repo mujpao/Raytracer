@@ -29,15 +29,6 @@ int main() {
         std::make_shared<Sphere>(Vec(-1.0, 0.0, -1.0), 0.5, material_left),
         std::make_shared<Sphere>(Vec(1.0, 0.0, -1.0), 0.5, material_right) });
 
-    // scene.objects.push_back(std::make_shared<Sphere>(
-    //     Vec(0.0, -100.5, -1.0), 100.0, material_ground));
-    // scene.objects.push_back(
-    //     std::make_shared<Sphere>(Vec(0.0, 0.0, -1.0), 0.5, material_center));
-    // scene.objects.push_back(
-    //     std::make_shared<Sphere>(Vec(-1.0, 0.0, -1.0), 0.5, material_left));
-    // scene.objects.push_back(
-    //     std::make_shared<Sphere>(Vec(1.0, 0.0, -1.0), 0.5, material_right));
-
     Raytracer raytracer(50, 100);
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
 

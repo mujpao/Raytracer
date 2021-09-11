@@ -13,8 +13,9 @@ A basic raytracer supporting diffuse, metal, and dielectric materials, textures,
     - Image textures
     - Perlin noise textures
     - Normal maps
-- Import camera and objects from file using Assimp (works best with .gltf files)
+- Import camera and objects from a file using Assimp (works best with .gltf files)
 - Bounding volume hierarchy
+- Multithreading
 
 # Example Renders
 
@@ -40,6 +41,7 @@ Dielectric and diffuse materials
 - CMake 3.16.0
 - C++17
 - [Assimp](https://github.com/assimp/assimp)
+    - [Build/Install Instructions](https://github.com/assimp/assimp/blob/master/Build.md)
 - Boost Test (Set CMake option `RT_BUILD_TESTS` to `OFF` to disable testing)
 
 ## Build
@@ -52,9 +54,11 @@ cmake ..
 cmake --build .
 ```
 
+# Usage
+See [examples](examples) folder.
+
 # TODO
 - [ ] Support different image formats
-- [ ] Multithreading
 - [ ] Physically-based materials/lights
 - [ ] Read lights from file
 - [ ] Environment maps

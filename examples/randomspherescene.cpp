@@ -71,10 +71,6 @@ int main() {
     const int samples_per_pixel = 500;
     const int max_depth = 50;
 
-    // const int image_width = 400;
-    // const int samples_per_pixel = 5;
-    // const int max_depth = 5;
-
     Scene scene = random_scene();
 
     Vec lookfrom(13, 2, 3);
@@ -87,7 +83,6 @@ int main() {
         lookfrom, lookat, vup, 20.0, aspect_ratio, aperture, dist_to_focus);
 
     Raytracer raytracer(max_depth, samples_per_pixel);
-    // Raytracer raytracer(5);
 
     raytracer.set_background_color(Vec(0.5, 0.7, 1.0));
 
