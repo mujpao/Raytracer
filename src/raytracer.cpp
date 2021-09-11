@@ -18,13 +18,13 @@ Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
       m_normals_only(normals_only) {}
 
 Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
-    const std::size_t width, bool gamma_corrected) {
+    const std::size_t width, bool gamma_corrected, int num_threads) {
 
     const std::size_t height = width / camera.aspect();
 
     std::cout << "Tracing scene (" << width << "x" << height
               << " px, depth=" << m_max_depth << ", samples=" << m_num_samples
-              << ")" << '\n';
+              << ", threads=" << num_threads << ")" << '\n';
 
     m_progress_indicator.start();
 
@@ -33,7 +33,6 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
     std::vector<std::vector<Vec>> colors(
         height, std::vector<Vec>(width, Vec()));
 
-    int num_threads = 4;
     std::vector<int> sums(num_threads, 0);
     std::vector<std::thread> threads;
     for (int i = 0; i < num_threads; ++i) {
