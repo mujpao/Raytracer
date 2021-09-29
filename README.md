@@ -17,7 +17,7 @@ A basic raytracer supporting diffuse, metal, and dielectric materials, textures,
 - Bounding volume hierarchy
 - Multithreading
 
-# Example Renders
+## Example Renders
 
 <img src="resources/examplerenders/randomspherescene.png" alt="random sphere scene" width="600">
 
@@ -35,16 +35,16 @@ Imported [owl model](https://sketchfab.com/3d-models/owl-zun-wine-vessel-13th-12
 
 Dielectric and diffuse materials
 
-# Build Instructions
+## Build Instructions
 
-## Requires
+### Requires
 - CMake 3.16.0
 - C++17
 - [Assimp](https://github.com/assimp/assimp)
     - [Build/Install Instructions](https://github.com/assimp/assimp/blob/master/Build.md)
 - Boost Test (Set CMake option `RT_BUILD_TESTS` to `OFF` to disable testing)
 
-## Build
+### Build
 ```
 git clone https://github.com/mujpao/Raytracer.git
 cd Raytracer
@@ -54,16 +54,16 @@ cmake ..
 cmake --build .
 ```
 
-# Usage
+## Usage
 See [examples](examples) folder.
 
-# TODO
+## TODO
 - [ ] Support different image formats
 - [ ] Physically-based materials/lights
 - [ ] Read lights from file
 - [ ] Environment maps
 
-# Resources
+## Resources
 - [Ray Tracing in One Weekend Series](https://raytracing.github.io/)
 - [edX Computer Graphics Course](https://www.edx.org/course/computer-graphics-2)
 - [stb image libraries](https://github.com/nothings/stb)
