@@ -7,10 +7,12 @@
 #include "math/transform.h"
 #include "ray.h"
 #include "scene.h"
+#include "threadpool.h"
 #include "utils.h"
 
 #include <chrono>
 #include <iostream>
+#include <queue>
 #include <thread>
 
 Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
@@ -18,7 +20,7 @@ Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
       m_normals_only(normals_only) {}
 
 Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
-    const std::size_t width, bool gamma_corrected, int num_threads) {
+    const std::size_t width, bool gamma_corrected, unsigned int num_threads) {
 
     const std::size_t height = width / camera.aspect();
 
@@ -33,18 +35,13 @@ Image Raytracer::raytrace(const Scene& scene, const Camera& camera,
     std::vector<std::vector<Vec>> colors(
         height, std::vector<Vec>(width, Vec()));
 
-    std::vector<int> sums(num_threads, 0);
-    std::vector<std::thread> threads;
-    for (int i = 0; i < num_threads; ++i) {
-        threads.push_back(std::thread([&, i]() {
-            for (std::size_t j = i; j < height; j += num_threads) {
-                trace_row(j, scene, camera, width, height, colors);
-            }
-        }));
+    ThreadPool pool(num_threads);
+    for (std::size_t i = 0; i < height; ++i) {
+        pool.execute(
+            [&, i]() { trace_row(i, scene, camera, width, height, colors); });
     }
 
-    for (auto& thread : threads)
-        thread.join();
+    pool.join();
 
     auto end_time = std::chrono::steady_clock::now();
     std::chrono::duration<double> duration = end_time - start_time;

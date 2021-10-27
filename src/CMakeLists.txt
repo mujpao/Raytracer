@@ -63,6 +63,8 @@ set(PROJECT_SOURCES
   raytracer.cpp
   scene.h
   scene.cpp
+  threadpool.h
+  threadpool.cpp
   utils.h
   utils.cpp
   vertex.h

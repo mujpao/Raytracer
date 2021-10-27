@@ -17,7 +17,7 @@ public:
 
     Image raytrace(const Scene& scene, const Camera& camera,
         const std::size_t width, bool gamma_corrected = false,
-        int num_threads = 4);
+        unsigned int num_threads = 4);
 
     // Determines color of pixels where ray does not hit an object. Default is
     // black.
