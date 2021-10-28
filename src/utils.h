@@ -3,8 +3,6 @@
 
 #include "math/vec.h"
 
-#include <random>
-
 namespace Utils {
     const double RAY_HIT_TOLERANCE = 0.001;
     const double PI = 3.14159265358979323846;

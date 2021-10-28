@@ -1,8 +1,5 @@
 #include "ray.h"
 
-#include "camera.h"
-#include "utils.h"
-
 #include <iostream>
 
 Ray::Ray(const Vec& origin, const Vec& direction)

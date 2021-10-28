@@ -2,13 +2,10 @@
 #include "image.h"
 #include "materials/dielectricmaterial.h"
 #include "materials/diffusematerial.h"
-#include "materials/metalmaterial.h"
 #include "raytracer.h"
 #include "scene.h"
 #include "shapes/shapelist.h"
 #include "shapes/sphere.h"
-
-#include "ray.h"
 
 int main() {
     std::string outfile("dielectricexample2.png");

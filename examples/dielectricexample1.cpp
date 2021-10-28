@@ -8,8 +8,6 @@
 #include "shapes/shapelist.h"
 #include "shapes/sphere.h"
 
-#include "ray.h"
-
 int main() {
     std::string outfile("dielectricexample1.png");
 

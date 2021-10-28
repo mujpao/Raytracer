@@ -1,8 +1,9 @@
 #ifndef SHAPELIST_H
 #define SHAPELIST_H
 
-#include "shapes/shape.h"
+#include "shapes/abstractshape.h"
 
+#include <memory>
 #include <vector>
 
 class ShapeList : public AbstractShape {

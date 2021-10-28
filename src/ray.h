@@ -3,8 +3,6 @@
 
 #include "math/vec.h"
 
-class Camera;
-
 class Ray {
 public:
     Ray() = default;

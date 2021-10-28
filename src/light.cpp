@@ -1,7 +1,5 @@
 #include "light.h"
 
-#include <cmath>
-
 Light::Light(const Vec& light_color) : m_light_color(light_color) {}
 
 PointLight::PointLight(
@@ -12,7 +10,7 @@ PointLight::PointLight(
 Vec PointLight::calc_attenuation(double distance) const {
     return light_color()
         / (m_atten_const + m_atten_lin * distance
-            + m_atten_quad * std::pow(distance, 2));
+            + m_atten_quad * distance * distance);
 }
 
 DirectionalLight::DirectionalLight(const Vec& light_color, const Vec& direction)

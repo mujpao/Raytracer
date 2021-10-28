@@ -9,7 +9,6 @@
 #include "textures/imagetexture.h"
 
 #include <filesystem>
-#include <iostream>
 
 int main() {
     std::string outfile("textureexample2.png");

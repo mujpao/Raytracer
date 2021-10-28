@@ -5,7 +5,6 @@
 #include "math/transform.h"
 #include "ray.h"
 #include "scene.h"
-#include "utils.h"
 
 #include <cmath>
 

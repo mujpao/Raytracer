@@ -5,12 +5,9 @@
 #include "image.h"
 #include "light.h"
 #include "materials/diffusematerial.h"
-#include "materials/lightmaterial.h"
 #include "materials/phongmaterial.h"
 #include "raytracer.h"
 #include "scene.h"
-#include "shapes/rect.h"
-#include "shapes/shapelist.h"
 #include "shapes/sphere.h"
 #include "shapes/triangle.h"
 

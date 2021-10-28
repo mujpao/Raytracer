@@ -4,7 +4,6 @@
 #include "image.h"
 #include "intersectioninfo.h"
 #include "materials/material.h"
-#include "math/transform.h"
 #include "ray.h"
 #include "scene.h"
 #include "threadpool.h"
@@ -12,8 +11,6 @@
 
 #include <chrono>
 #include <iostream>
-#include <queue>
-#include <thread>
 
 Raytracer::Raytracer(int max_depth, int num_samples, bool normals_only)
     : m_max_depth(max_depth), m_num_samples(num_samples),

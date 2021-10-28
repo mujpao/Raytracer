@@ -1,7 +1,6 @@
 #include "shapes/shapelist.h"
 
 #include "intersectioninfo.h"
-#include "utils.h"
 
 ShapeList::ShapeList(const std::vector<std::shared_ptr<AbstractShape>>& shapes)
     : m_shapes(shapes) {

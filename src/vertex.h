@@ -3,7 +3,7 @@
 
 #include "math/vec.h"
 
-#include <algorithm>
+#include <utility>
 
 class Vertex {
 public:

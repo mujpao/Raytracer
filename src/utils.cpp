@@ -3,7 +3,7 @@
 #include "math/vec.h"
 
 #include <algorithm>
-#include <cmath>
+#include <random>
 
 namespace Utils {
     thread_local std::random_device rd;

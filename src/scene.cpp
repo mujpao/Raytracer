@@ -1,7 +1,5 @@
 #include "scene.h"
 
-#include "intersectioninfo.h"
-#include "ray.h"
 #include "shapes/boundingboxnode.h"
 #include "shapes/shapelist.h"
 #include "utils.h"

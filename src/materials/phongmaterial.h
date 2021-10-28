@@ -9,7 +9,6 @@
 
 class PointLight;
 class DirectionalLight;
-class Texture;
 
 class PhongMaterial : public Material {
 public:

@@ -2,7 +2,6 @@
 #include "image.h"
 #include "materials/diffusematerial.h"
 #include "materials/lightmaterial.h"
-#include "math/transform.h"
 #include "raytracer.h"
 #include "scene.h"
 #include "shapes/rect.h"

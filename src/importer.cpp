@@ -1,7 +1,6 @@
 #include "importer.h"
 
 #include "materials/diffusematerial.h"
-#include "materials/phongmaterial.h"
 #include "scene.h"
 #include "shapes/shapelist.h"
 #include "shapes/triangle.h"
