@@ -17,8 +17,8 @@ public:
     Image(const Image& other);
     Image& operator=(const Image& other);
 
-    Image(Image&& other);
-    Image& operator=(Image&& other);
+    Image(Image&& other) noexcept;
+    Image& operator=(Image&& other) noexcept;
 
     inline std::size_t width() const { return m_width; }
     inline std::size_t height() const { return m_height; }

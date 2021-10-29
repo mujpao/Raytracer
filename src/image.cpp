@@ -55,8 +55,8 @@ Image& Image::operator=(const Image& other) {
     return *this;
 }
 
-Image::Image(Image&& other)
-    : m_width(std::move(other.m_width)), m_height(std::move(other.m_height)) {
+Image::Image(Image&& other) noexcept
+    : m_width(other.m_width), m_height(other.m_height) {
     m_bytes = other.m_bytes;
 
     other.m_bytes = 0;
@@ -64,15 +64,15 @@ Image::Image(Image&& other)
     other.m_height = 0;
 }
 
-Image& Image::operator=(Image&& other) {
+Image& Image::operator=(Image&& other) noexcept {
     if (this == &other)
         return *this;
 
     delete[] m_bytes;
 
     m_bytes = other.m_bytes;
-    m_width = std::move(other.m_width);
-    m_height = std::move(other.m_height);
+    m_width = other.m_width;
+    m_height = other.m_height;
 
     other.m_bytes = 0;
     other.m_width = 0;

@@ -9,7 +9,13 @@ class Scene;
 
 class Material {
 public:
+    Material() = default;
+
     virtual ~Material() = default;
+    Material(const Material&) = default;
+    Material(Material&&) = default;
+    Material& operator=(const Material&) = default;
+    Material& operator=(Material&&) = default;
 
     virtual bool calc_scattered_ray(const Ray& ray,
         const IntersectionInfo& hit_info, Vec& atten_factor,

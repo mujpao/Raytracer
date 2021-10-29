@@ -8,10 +8,14 @@ class Ray;
 
 class AbstractShape {
 public:
-    AbstractShape() : m_box(BoundingBox()) {}
+    AbstractShape() = default;
     AbstractShape(const BoundingBox& box) : m_box(box) {}
 
     virtual ~AbstractShape() = default;
+    AbstractShape(const AbstractShape&) = default;
+    AbstractShape(AbstractShape&&) = default;
+    AbstractShape& operator=(const AbstractShape&) = default;
+    AbstractShape& operator=(AbstractShape&&) = default;
 
     virtual bool intersect(const Ray& ray, double t_min, double t_max,
         IntersectionInfo& intersection_info) const = 0;

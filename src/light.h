@@ -6,7 +6,12 @@
 class Light {
 public:
     Light(const Vec& light_color);
+
     virtual ~Light() = default;
+    Light(const Light&) = default;
+    Light(Light&&) = default;
+    Light& operator=(const Light&) = default;
+    Light& operator=(Light&&) = default;
 
     inline const Vec& light_color() const { return m_light_color; }
 
