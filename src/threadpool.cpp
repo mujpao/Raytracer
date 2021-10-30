@@ -2,7 +2,7 @@
 
 ThreadPool::ThreadPool(unsigned int num_threads) {
     for (unsigned int i = 0; i < num_threads; ++i) {
-        m_threads.push_back(std::thread([this]() {
+        m_threads.emplace_back(std::thread([this]() {
             while (true) {
                 bool has_task = false;
                 std::function<void()> task;

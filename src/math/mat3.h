@@ -1,11 +1,12 @@
 #ifndef MAT3_H
 #define MAT3_H
 
+#include <array>
 #include <iosfwd>
 
 class Mat3 {
 public:
-    Mat3(double m[3][3]);
+    Mat3(const std::array<std::array<double, 3>, 3>& m);
     Mat3(double val); // sets diagonal to value
     Mat3(); // initializes all elements to 0
 
@@ -29,7 +30,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Mat3& m);
 
 private:
-    double m_data[3][3];
+    std::array<std::array<double, 3>, 3> m_data;
 };
 
 #endif

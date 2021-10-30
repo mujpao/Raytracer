@@ -19,8 +19,9 @@ PhongMaterial::PhongMaterial(const Vec& ambient, const Vec& diffuse,
 PhongMaterial::PhongMaterial(std::shared_ptr<Texture> ambient,
     std::shared_ptr<Texture> diffuse, std::shared_ptr<Texture> specular,
     double shininess, std::shared_ptr<Texture> emission)
-    : m_ambient(ambient), m_diffuse(diffuse), m_specular(specular),
-      m_emission(emission), m_shininess(shininess) {}
+    : m_ambient(std::move(ambient)), m_diffuse(std::move(diffuse)),
+      m_specular(std::move(specular)), m_emission(std::move(emission)),
+      m_shininess(std::move(shininess)) {}
 
 bool PhongMaterial::calc_scattered_ray(const Ray& ray,
     const IntersectionInfo& hit_info, Vec& atten_factor, Ray& scattered) const {

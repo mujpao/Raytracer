@@ -10,7 +10,7 @@ class ShapeList : public AbstractShape {
 public:
     ShapeList() = default;
 
-    ShapeList(const std::vector<std::shared_ptr<AbstractShape>>& shapes);
+    ShapeList(std::vector<std::shared_ptr<AbstractShape>> shapes);
 
     inline const std::vector<std::shared_ptr<AbstractShape>>& shapes() const {
         return m_shapes;

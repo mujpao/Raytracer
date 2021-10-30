@@ -4,13 +4,7 @@
 
 #include <iostream>
 
-Mat3::Mat3(double m[3][3]) {
-    int i, j;
-    for (i = 0; i < 3; ++i) {
-        for (j = 0; j < 3; ++j)
-            m_data[i][j] = m[i][j];
-    }
-}
+Mat3::Mat3(const std::array<std::array<double, 3>, 3>& m) : m_data(m) {}
 
 Mat3::Mat3(double val) {
     int i, j;

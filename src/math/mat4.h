@@ -1,6 +1,7 @@
 #ifndef MAT4_H
 #define MAT4_H
 
+#include <array>
 #include <iosfwd>
 
 class Vec;
@@ -9,7 +10,7 @@ class Ray;
 
 class Mat4 {
 public:
-    Mat4(double m[4][4]);
+    Mat4(const std::array<std::array<double, 4>, 4>& m);
     Mat4(double val); // sets diagonal to value, sets m[3][3] to 1.0
     Mat4(); // initializes all elements to 0
     Mat4(const Mat3& other); // initializes with 3x3 matrix, sets fourth row and
@@ -39,7 +40,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Mat4& m);
 
 private:
-    double m_data[4][4];
+    std::array<std::array<double, 4>, 4> m_data;
 };
 
 #endif

@@ -9,8 +9,9 @@ Scene::Scene(const std::vector<std::shared_ptr<AbstractShape>>& shapes,
     : Scene(std::make_shared<ShapeList>(shapes), lights, camera) {}
 
 Scene::Scene(std::shared_ptr<ShapeList> shape_list,
-    const std::vector<std::shared_ptr<Light>>& lights, const Camera& camera)
-    : m_shapes(std::move(shape_list)), m_lights(lights), m_camera(camera) {
+    std::vector<std::shared_ptr<Light>> lights, const Camera& camera)
+    : m_shapes(std::move(shape_list)), m_lights(std::move(lights)),
+      m_camera(camera) {
     build_tree();
 }
 

@@ -23,7 +23,7 @@ public:
         const Camera& camera = Camera());
 
     Scene(std::shared_ptr<ShapeList> shape_list,
-        const std::vector<std::shared_ptr<Light>>& lights
+        std::vector<std::shared_ptr<Light>> lights
         = std::vector<std::shared_ptr<Light>>(),
         const Camera& camera = Camera());
 

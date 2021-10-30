@@ -7,12 +7,7 @@
 
 #include <iostream>
 
-Mat4::Mat4(double m[4][4]) {
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 4; ++j)
-            m_data[i][j] = m[i][j];
-    }
-}
+Mat4::Mat4(const std::array<std::array<double, 4>, 4>& m) : m_data(m) {}
 
 Mat4::Mat4(double val) {
     for (int i = 0; i < 4; ++i) {

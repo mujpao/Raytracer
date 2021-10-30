@@ -1,6 +1,7 @@
 #ifndef VEC_H
 #define VEC_H
 
+#include <array>
 #include <iosfwd>
 
 class Vec {
@@ -50,7 +51,7 @@ public:
     static double length(const Vec& v);
 
 private:
-    double m_data[4];
+    std::array<double, 4> m_data;
 };
 
 inline double& Vec::operator[](std::size_t idx) {

@@ -26,7 +26,7 @@ Image::Image(const std::string& filename, bool flip_y) {
 
 Image::~Image() {
     delete[] m_bytes;
-    m_bytes = 0;
+    m_bytes = nullptr;
 }
 
 Image::Image(const Image& other)
@@ -59,7 +59,7 @@ Image::Image(Image&& other) noexcept
     : m_width(other.m_width), m_height(other.m_height) {
     m_bytes = other.m_bytes;
 
-    other.m_bytes = 0;
+    other.m_bytes = nullptr;
     other.m_width = 0;
     other.m_height = 0;
 }
@@ -74,7 +74,7 @@ Image& Image::operator=(Image&& other) noexcept {
     m_width = other.m_width;
     m_height = other.m_height;
 
-    other.m_bytes = 0;
+    other.m_bytes = nullptr;
     other.m_width = 0;
     other.m_height = 0;
 
@@ -91,7 +91,7 @@ void Image::set_pixel_color(
     std::size_t i, std::size_t j, const Vec& color, bool gamma_corrected) {
     // TODO check indices
 
-    unsigned char new_color[3];
+    std::array<unsigned char, 3> new_color;
     for (int k = 0; k < 3; ++k) {
         double col = gamma_corrected ? std::sqrt(color[k]) : color[k];
         col = Utils::clamp(col * 255.0, 0.0, 255.0);

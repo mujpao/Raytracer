@@ -8,7 +8,8 @@ namespace utf = boost::unit_test;
 BOOST_AUTO_TEST_SUITE(test_mat3)
 
 BOOST_AUTO_TEST_CASE(test_constructors, *utf::tolerance(TestUtils::TOLERANCE)) {
-    double m[3][3] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
+    std::array<std::array<double, 3>, 3> m
+        = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
 
     Mat3 m1(m);
 
@@ -82,8 +83,8 @@ BOOST_AUTO_TEST_CASE(test_subscript, *utf::tolerance(TestUtils::TOLERANCE)) {
 }
 
 BOOST_AUTO_TEST_CASE(test_add, *utf::tolerance(TestUtils::TOLERANCE)) {
-    double m[3][3] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
-
+    std::array<std::array<double, 3>, 3> m
+        = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
     Mat3 m1(m);
 
     Mat3 m2(1.0);
@@ -102,7 +103,8 @@ BOOST_AUTO_TEST_CASE(test_add, *utf::tolerance(TestUtils::TOLERANCE)) {
 }
 
 BOOST_AUTO_TEST_CASE(test_subtract, *utf::tolerance(TestUtils::TOLERANCE)) {
-    double m[3][3] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
+    std::array<std::array<double, 3>, 3> m
+        = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
 
     Mat3 m1(m);
 
@@ -123,7 +125,8 @@ BOOST_AUTO_TEST_CASE(test_subtract, *utf::tolerance(TestUtils::TOLERANCE)) {
 
 BOOST_AUTO_TEST_CASE(
     test_multiply_scalar1, *utf::tolerance(TestUtils::TOLERANCE)) {
-    double m[3][3] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
+    std::array<std::array<double, 3>, 3> m
+        = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
 
     Mat3 m1(m);
 
@@ -142,7 +145,8 @@ BOOST_AUTO_TEST_CASE(
 
 BOOST_AUTO_TEST_CASE(
     test_multiply_scalar2, *utf::tolerance(TestUtils::TOLERANCE)) {
-    double m[3][3] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
+    std::array<std::array<double, 3>, 3> m
+        = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
 
     Mat3 m1(m);
 
@@ -160,9 +164,10 @@ BOOST_AUTO_TEST_CASE(
 }
 
 BOOST_AUTO_TEST_CASE(test_assign, *utf::tolerance(TestUtils::TOLERANCE)) {
-    double m[3][3] = { 0.825466920404930, 0.675540312110681, 0.393762932838329,
-        0.155379413297363, 0.213957715996724, 0.431626169136190,
-        0.828444487793538, 0.129952582616658, 0.649443580557875 };
+    std::array<std::array<double, 3>, 3> m
+        = { 0.825466920404930, 0.675540312110681, 0.393762932838329,
+              0.155379413297363, 0.213957715996724, 0.431626169136190,
+              0.828444487793538, 0.129952582616658, 0.649443580557875 };
 
     Mat3 a(m);
     Mat3 b = a;

@@ -9,7 +9,7 @@ DiffuseMaterial::DiffuseMaterial(const Vec& albedo)
     : m_albedo(std::make_shared<FlatColorTexture>(albedo)) {}
 
 DiffuseMaterial::DiffuseMaterial(std::shared_ptr<Texture> albedo)
-    : m_albedo(albedo) {}
+    : m_albedo(std::move(albedo)) {}
 
 bool DiffuseMaterial::calc_scattered_ray(const Ray&,
     const IntersectionInfo& hit_info, Vec& atten_factor, Ray& scattered) const {

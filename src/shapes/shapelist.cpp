@@ -2,8 +2,8 @@
 
 #include "intersectioninfo.h"
 
-ShapeList::ShapeList(const std::vector<std::shared_ptr<AbstractShape>>& shapes)
-    : m_shapes(shapes) {
+ShapeList::ShapeList(std::vector<std::shared_ptr<AbstractShape>> shapes)
+    : m_shapes(std::move(shapes)) {
     m_box = m_shapes[0]->box();
     for (const auto& shape : m_shapes) {
         m_box = BoundingBox::combine(m_box, shape->box());

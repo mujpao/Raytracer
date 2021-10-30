@@ -17,7 +17,7 @@ CheckeredTexture::CheckeredTexture(
 
 CheckeredTexture::CheckeredTexture(std::shared_ptr<Texture> odd,
     std::shared_ptr<Texture> even, double amplitude)
-    : m_odd(odd), m_even(even), m_amplitude(amplitude) {}
+    : m_odd(std::move(odd)), m_even(std::move(even)), m_amplitude(amplitude) {}
 
 Vec CheckeredTexture::sample(double u, double v, const Vec& p) const {
     double parity = std::sin(m_amplitude * p[0]) * sin(m_amplitude * p[1])
